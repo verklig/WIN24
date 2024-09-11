@@ -34,7 +34,20 @@ body {
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-  font-size: 16px;
+  font-size: 14px;
+  color: var(--body-text-color);
+  background-color: var(--background-color);
+
+  h1,
+  h2 {
+    color: var(--heading-color);
+    font-weight: 800;
+  }
+
+  h3 {
+    color: var(--heading-color);
+    font-weight: 600;
+  }
 }
 
 .wrapper {
@@ -44,6 +57,7 @@ body {
 }
 
 .container {
+  max-width: 370px;
   width: 100%;
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
@@ -188,6 +202,63 @@ footer {
   }
 }
 
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 1fr;
+}
+
+#main {
+  background: radial-gradient(circle at bottom, #6365f11a 0%, #db46ef0d 40%, transparent 80%);
+
+  .btn-download {
+    width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background-color: var(--heading-color);
+    border: none;
+  }
+
+  .btn-discover-more {
+    color: var(--heading-color);
+    background-color: var(--background-color);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+  }
+
+  #btn-discover-more-container {
+    gap: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+}
+
+.title,
+.description {
+  text-align: center;
+
+  h1 {
+    font-size: 34px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  p {
+    font-size: 18px;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+}
+
 #brands {
   display: none;
   padding-top: 2rem;
@@ -217,6 +288,19 @@ footer {
 }
 
 @media(min-width: 768px) {
+  #main {
+    background: radial-gradient(circle at bottom, #6365f11a 10%, #db46ef0d 30%, transparent 50%);
+
+    .btn-download {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    #btn-download-container {
+      margin: 0 auto;
+    }
+  }
+
   .container {
     max-width: 720px;
   }
@@ -240,9 +324,11 @@ footer {
   }
 }
 
-
-
 @media(min-width: 1400px) {
+  #main {
+    background: radial-gradient(circle at bottom, #6365f11a 5%, #db46ef0d 20%, transparent 50%);
+  }
+
   .container {
     max-width: 1320px;
   }
