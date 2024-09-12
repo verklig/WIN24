@@ -48,6 +48,10 @@ body {
     color: var(--heading-color);
     font-weight: 600;
   }
+
+  p {
+    line-height: 28px;
+  }
 }
 
 .wrapper {
@@ -57,7 +61,7 @@ body {
 }
 
 .container {
-  max-width: 370px;
+  max-width: 390px;
   width: 100%;
   padding-left: var(--container-padding);
   padding-right: var(--container-padding);
@@ -163,6 +167,7 @@ a {
   color: var(--navigation-color);
   font-weight: 600;
 }
+
 .nav-link:hover {
   color: var(--primary-color);
 }
@@ -182,6 +187,10 @@ header .container {
 
 #auth-signin {
   display: none;
+}
+
+#auth-signin:hover {
+  background-color: var(--input-placeholder-color);
 }
 
 footer {
@@ -215,8 +224,40 @@ footer {
   grid-template-columns: 1fr;
 }
 
-#main {
-  background: radial-gradient(circle at bottom, #6365f11a 0%, #db46ef0d 40%, transparent 80%);
+#hero {
+  background: linear-gradient(0deg, rgba(99,102,241,0.1) 0%, rgba(218,70,239,0.05) 42%, rgba(241,244,253,0.07) 83%);
+
+  .title {
+    grid-area: title;
+    text-align: center;
+    font-size: 24px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .description {
+    text-align: center;
+    font-size: 18px;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  .grid {
+    grid-template-areas: "title"
+                         "content";
+  }
+
+  .br {
+    display: inline;
+  }
+
+  .content {
+    grid-area: content;
+  }
+
+  #downloads {
+    flex-direction: column;
+  }
 
   .btn-download {
     width: 100%;
@@ -227,6 +268,10 @@ footer {
     border: none;
   }
 
+  .btn-download:hover{
+    background-color: var(--primary-color);
+  }
+
   .btn-discover-more {
     color: var(--heading-color);
     background-color: var(--background-color);
@@ -235,27 +280,26 @@ footer {
     border-radius: 50%;
   }
 
-  #btn-discover-more-container {
+  .btn-discover-more:hover {
+    background-color: var(--input-placeholder-color);
+  }
+
+  #discover-more {
+    color: var(--body-text-color);
     gap: 1.5rem;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-  }
-}
-
-.title,
-.description {
-  text-align: center;
-
-  h1 {
-    font-size: 34px;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding: 1rem 0 2rem 0;
   }
 
-  p {
-    font-size: 18px;
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+  .images {
+    grid-area: images;
+    position: relative;
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  .container {
+    gap: 2rem;
   }
 }
 
@@ -288,16 +332,56 @@ footer {
 }
 
 @media(min-width: 768px) {
-  #main {
-    background: radial-gradient(circle at bottom, #6365f11a 10%, #db46ef0d 30%, transparent 50%);
+  #hero {
+    .title {
+      font-size: 30px;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .description {
+      text-align: left;
+    }
+
+    .grid {
+      grid-template-columns: 40% 60%;
+      grid-template-areas: "title title"
+                           "content images";
+    }
+
+    .br {
+      display: block;
+    }
 
     .btn-download {
       padding-left: 1rem;
       padding-right: 1rem;
     }
 
-    #btn-download-container {
-      margin: 0 auto;
+    .images {
+      display: block;
+
+      .img-back {
+        position: absolute;
+        z-index: 1;
+        bottom: 0;
+        right: 140px;
+        width: 60%;
+        height: auto;
+      }
+    
+      .img-front {
+        position: absolute;
+        z-index: 2;
+        bottom: 0;
+        right: 0;
+        width: 60%;
+        height: auto;
+      }
+    }
+
+    #discover-more {
+      justify-content: flex-start;
     }
   }
 
@@ -325,8 +409,43 @@ footer {
 }
 
 @media(min-width: 1400px) {
-  #main {
-    background: radial-gradient(circle at bottom, #6365f11a 5%, #db46ef0d 20%, transparent 50%);
+  #hero {
+    .title {
+      font-size: 36px;
+      margin-top: 6rem;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      text-align: left;
+    }
+
+    .description {
+      padding-top: 0;
+      padding-bottom: 3rem;
+    }
+
+    .grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas: "title images"
+                           "content images";
+    }
+
+    .img-back {
+      left: 34px;
+    }
+
+    #discover-more {
+      padding: 12rem 0 4rem 0;
+    }
+
+    .btn-download {
+      width: auto;
+      margin-right: 1rem;
+    }
+
+    #downloads {
+      flex-direction: row;
+      justify-content: flex-start;
+    }
   }
 
   .container {
