@@ -792,6 +792,7 @@ footer {
 
     .feedback-box {
       background-color: var(--white-color);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       width: 420px;
       height: 330px;
       border-radius: 8px;
