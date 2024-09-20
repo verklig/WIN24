@@ -456,6 +456,40 @@ footer {
   display: none;
 }
 
+#faq {
+  .title {
+    text-align: center;
+    padding: 0 2rem 1rem 2rem;
+  }
+
+  .description {
+    text-align: center;
+    padding: 0 2rem 3rem 2rem;
+  }
+
+  .list {
+    list-style: none;
+    border: 2px solid var(--background-color);
+    border-radius: 8px;
+
+    .list-item {
+      border-bottom: 2px solid var(--background-color);
+
+      h3 {
+        padding: 1rem 1rem 1rem 1rem;
+      }
+    }
+  }
+
+  .container {
+    padding: 3rem 1rem 3rem 1rem;
+  }
+
+  .btn-contact {
+    padding: 3rem 0 0 0;
+  }
+}
+
 @media(min-width: 768px) {
   #hero {
     .title {
@@ -719,12 +753,13 @@ footer {
     }
   
     .list {
+      list-style: none;
+
       .flex {
         justify-content: flex-start;
       }
   
       .list-item {
-        list-style: none;
         padding-top: 0.8rem;
       }
   
