@@ -472,12 +472,45 @@ footer {
     border: 2px solid var(--background-color);
     border-radius: 8px;
 
-    .list-item {
+    :not(:last-child) {
       border-bottom: 2px solid var(--background-color);
+    }
+
+    .list-item {
+      .grid {
+        grid-template-columns: 1fr auto;
+        justify-content: space-between;
+      }
 
       h3 {
-        padding: 1rem 1rem 1rem 1rem;
+        padding: 1rem 1.4rem 1rem 1.4rem;
+        font-size: 16px;
       }
+
+      p {
+        padding: 1rem 1.4rem 1rem 1.4rem;
+        font-size: 14px;
+      }
+    }
+
+    .btn-faq {
+      color: var(--heading-color);
+      background-color: var(--white-color);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 13px;
+    }
+
+    #btn-faq-1 {
+      color: var(--white-color);
+      background-color: var(--primary-color);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 13px;
     }
   }
 
@@ -486,7 +519,16 @@ footer {
   }
 
   .btn-contact {
-    padding: 3rem 0 0 0;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    font-size: 14px;
+    width: 160px;
+    height: 50px;
+    border-radius: 6px;
+  }
+
+  .btn-contact:hover {
+    background-color: var(--heading-color);
   }
 }
 
