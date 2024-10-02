@@ -22,7 +22,8 @@
     <header>
       <div class="container">
         <a href="index.html">
-          <img src="images/logotype.svg" alt="Silicon Logotype">
+          <img class="lightmode" src="images/logotype.svg" alt="Silicon Logotype">
+          <img class="darkmode" src="images/logotype_darkmode.svg" alt="Silicon Logotype">
         </a>
         <nav id="main-menu" class="navbar">
           <a href="#" class="nav-link">Features</a>
@@ -58,10 +59,12 @@
             </div>
             <div id="downloads" class="flex">
               <a href="#" class="btn-download flex">
-                <img src="images/appstore-light.svg" alt="App Store Download">
+                <img class="lightmode" src="images/appstore-light.svg" alt="App Store Download">
+                <img class="darkmode" src="images/appstore-dark.svg" alt="App Store Download">
               </a>
               <a href="#" class="btn-download flex">
-                <img src="images/googleplay-light.svg" alt="Google Play Download">
+                <img class="lightmode" src="images/googleplay-light.svg" alt="Google Play Download">
+                <img class="darkmode" src="images/googleplay-dark.svg" alt="Google Play Download">
               </a>
             </div>
             <div id="discover-more" class="container flex">
@@ -440,6 +443,7 @@
           </div>
         </div>
       </section>
+
       <section id="newsletter">
         <div class="container">
           <div class="newsletter-box">
@@ -456,7 +460,7 @@
                 <i class="fa-regular fa-envelope"></i>
               </div>
               <div>
-                <input type="email" id="email" name="email" placeholder="Your email">
+                <input type="email" id="email" name="email" placeholder="Your email" autocomplete="on">
               </div>
               <a href="#" class="btn-subscribe">
                 <span>Subscribe</span>
