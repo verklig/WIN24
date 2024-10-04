@@ -21,6 +21,16 @@
   --info-color: #4C82F7;
 
   --container-padding: 1rem;
+
+  /* darkmode colors */
+  --dm-iconbox-color: #12162a;
+  --dm-transparent70-color: #ffffffb3;
+  --dm-transparent24-color: #ffffff3d;
+  --dm-transparent18-color: #ffffff2e;
+  --dm-transparent05-color: #ffffff0d;
+  --dm-brand-background-color: #151822;
+  --dm-input-background-color: #191d27;
+  --dm-feedback-background-color: #1e212b;
 }
 
 * {
@@ -28,6 +38,168 @@
   padding: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+html {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --white-color: #0B0F19;
+  --background-color: #151822;
+  --secondary-color: #565973;
+  --div-border-color: #9397AD;
+  --forms-border-color: #B4B7C9;
+  --input-placeholder-color: #D4D7E5;
+  --muted-text-color: #E2E5F1;
+  --body-text-color: #EFF2FC;
+  --navigation-color: #F3F6FF;
+  --heading-color: #fff;
+
+  #auth-signin {
+    color: var(--heading-color);
+  }
+
+  .icon-box {
+    background-color: var(--dm-iconbox-color);
+  }
+
+  #darkmode-toggle-switch {
+    .label {
+      color: var(--dm-transparent24-color);
+    }
+
+    .round::before {
+      background-color: var(--heading-color);
+    }
+  }
+
+  .nav-link {
+    color: var(--dm-transparent70-color);
+  }
+
+  body {
+    p {
+      color: var(--dm-transparent70-color);
+    }
+
+    .darkmode {
+      display: block;
+    }
+
+    .lightmode {
+      display: none;
+    }
+  }
+
+  #hero {
+    span {
+      color: var(--dm-transparent70-color);
+    }
+
+    .btn-discover-more {
+      background-color: var(--dm-transparent05-color);
+    }
+  }
+
+  #brands {
+    .brand-box {
+      color: var(--dm-transparent18-color);
+      background-color: var(--dm-brand-background-color);
+      border-color: var(--dm-transparent18-color);
+    }
+  }
+
+  #learn-more {
+    .list {
+      color: var(--dm-transparent70-color);
+    }
+
+    .btn-learn-more {
+      color: var(--heading-color);
+    }
+  }
+
+  #feedback {
+    .quote {
+      color: var(--heading-color);
+    }
+
+    .feedback-box {
+      background-color: var(--dm-feedback-background-color);
+
+      .fa-regular {
+        color: var(--dm-transparent70-color);
+      }
+
+      span {
+        color: var(--dm-transparent70-color);
+      }
+    }
+  }
+
+  #faq {
+    .contact-box {
+      border-color: var(--dm-transparent18-color);
+    }
+
+    .btn-contact {
+      color: var(--heading-color);
+    }
+
+    .list {
+      background-color: var(--background-color);
+      border-color: var(--dm-feedback-background-color);
+      border-radius: 8px;
+      
+      .list-item {
+        border-color: var(--dm-feedback-background-color);
+      }
+
+      @media (min-width: 768px) {
+        li:first-child {
+          border: 1px solid var(--dm-transparent18-color);
+        }
+      }
+
+      .btn-faq {
+        background-color: var(--dm-feedback-background-color);
+      }
+
+      #btn-faq-1 {
+        color: var(--heading-color);
+      }
+    }
+  }
+
+  #newsletter {
+    .part-2 {
+      background-color: var(--dm-input-background-color);
+      border-color: var(--dm-transparent18-color);
+
+      .fa-envelope {
+        color: var(--dm-transparent24-color);
+      }
+
+      input {
+        color: var(--heading-color);
+      }
+
+      input::placeholder {
+        color: var(--dm-transparent24-color);
+      }
+
+      #email {
+        background-color: var(--dm-input-background-color);
+      }
+
+      span {
+        color: var(--heading-color);
+      }
+    }
+  }
 }
 
 body {
@@ -181,6 +353,13 @@ a {
   text-decoration: underline;
 }
 
+header {
+  position: relative;
+  background: transparent;
+  z-index: 2;
+  margin-bottom: -80px;
+}
+
 header .container {
   display: grid;
   align-items: center;
@@ -241,6 +420,9 @@ footer {
 }
 
 #hero {
+  position: relative;
+  z-index: 1;
+  padding-top: 80px;
   background: linear-gradient(0deg,
       rgba(99,102,241,0.1) 0%,
       rgba(218,70,239,0.05) 42%,
@@ -585,6 +767,7 @@ footer {
       font-size: 16px;
       border: none;
       outline: none;
+      width: 16ch;
     }
 
     .fa-envelope {
@@ -611,6 +794,18 @@ footer {
 }
 
 @media(min-width: 768px) {
+  .dark {
+    #faq {
+      .list {
+        background-color: var(--white-color);
+        
+        .list-item {
+          background-color: var(--background-color);
+        }
+      }
+    }
+  }
+
   #hero {
     .title {
       font-size: 30px;
@@ -1143,6 +1338,10 @@ footer {
 
     .part-2 {
       margin: 0 4rem 0 4rem;
+
+      #email {
+        width: 34ch;
+      }
     }
 
     .grid {
@@ -1173,149 +1372,5 @@ footer {
 
   footer {
     padding: 3rem 0 3rem 0;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --white-color: #0B0F19;
-    --background-color: #151822;
-    --secondary-color: #565973;
-    --div-border-color: #9397AD;
-    --forms-border-color: #B4B7C9;
-    --input-placeholder-color: #D4D7E5;
-    --muted-text-color: #E2E5F1;
-    --body-text-color: #EFF2FC;
-    --navigation-color: #F3F6FF;
-    --heading-color: #fff;
-  }
-
-  #auth-signin {
-    color: var(--heading-color);
-  }
-
-  .icon-box {
-    background-color: rgb(18, 22, 42);
-  }
-
-  #darkmode-toggle-switch {
-    .label {
-      color: rgba(255, 255, 255, 0.24);
-    }
-
-    .round::before {
-      background-color: var(--heading-color);
-    }
-  }
-
-  .nav-link {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  body {
-    p {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .darkmode {
-      display: block;
-    }
-
-    .lightmode {
-      display: none;
-    }
-  }
-
-  #hero {
-    span {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .btn-discover-more {
-      background-color: rgba(255, 255, 255, 0.05);
-    }
-  }
-
-  #brands {
-    .brand-box {
-      color: rgba(255, 255, 255, 0.18);
-      background-color: rgb(21, 24, 34);
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-  }
-
-  #learn-more {
-    .list {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .btn-learn-more {
-      color: var(--heading-color);
-    }
-  }
-
-  #feedback {
-    .quote {
-      color: var(--heading-color);
-    }
-
-    .feedback-box {
-      background-color: rgb(30, 33, 43);
-
-      .fa-regular {
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      span {
-        color: rgba(255, 255, 255, 0.7);
-      }
-    }
-  }
-
-  #faq {
-    .contact-box {
-      border-color: rgba(255, 255, 255, 0.18);
-    }
-
-    .list {
-      .list-item {
-        background-color: var(--background-color);
-      }
-
-      li:first-child {
-        border: 1px solid rgba(255, 255, 255, 0.18);
-      }
-
-      .btn-faq {
-        background-color: rgb(30, 33, 43);
-      }
-
-      #btn-faq-1 {
-        color: var(--heading-color);
-      }
-    }
-  }
-
-  #newsletter {
-    .part-2 {
-      background-color: rgb(25, 29, 39);
-      border-color: rgba(255, 255, 255, 0.18);
-
-      .fa-envelope {
-        color: rgba(255, 255, 255, 0.24);
-      }
-
-      input::placeholder {
-        color: rgba(255, 255, 255, 0.24);
-      }
-
-      #email {
-        background-color: rgb(25, 29, 39);
-      }
-
-      span {
-        color: var(--heading-color);
-      }
-    }
   }
 }
