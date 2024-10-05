@@ -3,7 +3,10 @@
 :root {
   --primary-color: #6366f1;
   --secondary-color: #EFF2FC; /* 200 */
-  --gradient-color: #D946EF;
+  --gradient-color: linear-gradient(0deg,
+                  rgba(99,102,241,0.1) 0%,
+                  rgba(218,70,239,0.05) 42%,
+                  rgba(241,244,253,0.07) 83%);
 
   --white-color: #fff;
   --background-color: #F3F6FF; /* 100 */
@@ -20,8 +23,6 @@
   --warning-color: #FFBA08;
   --info-color: #4C82F7;
 
-  --container-padding: 1rem;
-
   /* darkmode colors */
   --dm-iconbox-color: #12162a;
   --dm-transparent70-color: #ffffffb3;
@@ -31,9 +32,17 @@
   --dm-brand-background-color: #151822;
   --dm-input-background-color: #191d27;
   --dm-feedback-background-color: #1e212b;
+
+  --container-padding: 1rem;
 }
 
-* {
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    scroll-behavior: smooth;
+  }
+}
+
+*, *::before, *::after{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -423,10 +432,7 @@ footer {
   position: relative;
   z-index: 1;
   padding-top: 80px;
-  background: linear-gradient(0deg,
-      rgba(99,102,241,0.1) 0%,
-      rgba(218,70,239,0.05) 42%,
-      rgba(241,244,253,0.07) 83%);
+  background: var(--gradient-color);
 
   .title {
     grid-area: title;
