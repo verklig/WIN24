@@ -68,7 +68,11 @@ html {
   --heading-color: #fff;
 
   #auth-signin {
-    color: var(--heading-color);
+    color: var(--body-text-color);
+  }
+
+  .side-menu {
+    background-color: var(--white-color);
   }
 
   .icon-box {
@@ -271,13 +275,6 @@ a {
   text-decoration: none;
 }
 
-.btn-mobile {
-  background-color: transparent;
-  border: none;
-  font-size: 1.6rem;
-  color: var(--navigation-color);
-}
-
 .btn-toggle-switch {
   display: flex;
   align-items: center;
@@ -353,14 +350,38 @@ a {
   color: var(--navigation-color);
   font-weight: 600;
   transition: color 300ms ease-in-out;
+  padding-right: 2rem;
 }
 
 .nav-link:hover {
   color: var(--primary-color);
 }
 
-.nav-link:active {
-  text-decoration: underline;
+.btn-mobile {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.bar-1, .bar-2, .bar-3 {
+  background-color: var(--navigation-color);
+  width: 2rem;
+  height: 0.3rem;
+  margin: 6px 0;
+  border-radius: 4px;
+  transition: 300ms;
+}
+
+.open .bar-1 {
+  transform: translate(0, 0.67rem) rotate(-45deg);
+}
+
+.open .bar-2 {
+  opacity: 0;
+}
+
+.open .bar-3 {
+  transform: translate(0, -0.67rem) rotate(45deg);
 }
 
 header {
@@ -368,15 +389,47 @@ header {
   background: transparent;
   z-index: 2;
   margin-bottom: -80px;
-}
 
-header .container {
-  display: grid;
-  align-items: center;
-  grid-template-columns: 1fr auto auto;
-  gap: 2rem;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  .container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr auto auto;
+    gap: 2rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .side-menu {
+    position: absolute;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    opacity: 0;
+    width: auto;
+    height: auto;
+    right: 0;
+    top: 0;
+    margin-top: 5rem;
+    margin-right: 1rem;
+    padding: .5rem 0;
+    border-radius: 8px;
+    background-color: var(--background-color);
+    overflow-x: hidden;
+    transition: transform 300ms ease, opacity 300ms ease; 
+    z-index: 999;
+  
+    a {
+      padding: 1rem 2rem;
+      text-decoration: none;
+      font-size: 18px;
+      display: block;
+      transition: 300ms;
+    }
+  
+    &.open {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
 }
 
 #auth-signin {
@@ -516,7 +569,6 @@ footer {
 #brands {
   display: none;
   padding-top: 3rem;
-  padding-bottom: 4rem;
 
   .container {
     display: flex;
@@ -896,6 +948,8 @@ footer {
   }
 
   #app-features {
+    padding-top: 4rem;
+
     .title {
       font-size: 24px;
       margin-top: 0;
@@ -1099,7 +1153,6 @@ footer {
 
   #brands {
     padding-top: 5rem;
-    padding-bottom: 7rem;
 
     #brand-5,
     #brand-6 {
@@ -1108,6 +1161,8 @@ footer {
   }
 
   #app-features {
+    padding-top: 7rem;
+
     .title {
       font-size: 26px;
       display: block;
@@ -1396,6 +1451,10 @@ footer {
   header .container {
     grid-template-columns: auto 1fr auto auto;
     gap: 3rem;
+  }
+
+  .nav-link:active {
+    text-decoration: underline;
   }
 
   #auth-signin {

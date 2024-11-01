@@ -8,13 +8,12 @@ questions.forEach(question => {
       parent.classList.remove("open");
 
       return;
-    }
+    };
 
     document.querySelectorAll(".list-item").forEach(listItem => {
       listItem.classList.remove("open");
-    })
+    });
 
     parent.classList.toggle("open");
-  }
-  )
-})
+  });
+});
