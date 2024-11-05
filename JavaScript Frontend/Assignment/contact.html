@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" sizes="180x180" href="ico/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="ico/favicon-16x16.png">
+    <link rel="manifest" href="ico/site.webmanifest">
+    <link rel="mask-icon" href="ico/safari-pinned-tab.svg" color="#5bbad5">
+
+    <link rel="stylesheet" href="https://kit.fontawesome.com/a576612222.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/darkmode.js" defer></script>
+    <script src="js/accordion.js" defer></script>
+    <script src="js/mobile-menu.js" defer></script>
+    <title>Silicon</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div class="container">
+          <a href="index.html">
+            <img class="lightmode" src="images/logotype.svg" alt="Silicon Logotype">
+            <img class="darkmode" src="images/logotype_darkmode.svg" alt="Silicon Logotype">
+          </a>
+          <nav id="main-menu" class="navbar">
+            <a href="#app-features" class="nav-link">Features</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+          </nav>
+          <div id="darkmode-toggle-switch" class="btn-toggle-switch">
+            <span class="label">Dark Mode</span>
+            <label for="darkmode-switch" class="toggle-switch">
+              <input id="darkmode-switch" type="checkbox">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <a href="#" id="auth-signin">
+            <i class="fa-regular fa-user-large"></i>
+            <span>Sign in / up</span>
+          </a>
+          <button class="btn-mobile">
+              <div class="bar-1"></div>
+              <div class="bar-2"></div>
+              <div class="bar-3"></div>
+          </button>
+          <div class="side-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="#app-features" class="nav-link">Features</a>
+            <a href="contact.html" class="nav-link">Contact</a>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section id="contact">
+          <div class="container">
+            <div class="nav-extra flex">
+              <i class="fa-solid fa-house"></i>
+              <a href="index.html" class="nav-link">Homepage</a>
+              <i class="fa-regular fa-angles-right"></i>
+              <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="title">
+              <h1>Contact Us</h1>
+            </div>
+            <div class="contact-box grid">
+              <div class="icon-box flex">
+                <i class="fa-regular fa-envelope icon"></i>
+              </div>
+              <div>
+                <h2>Email Us</h2>
+                <p>Please feel free to drop us a line. We will respond as soon as possible.</p>
+                <a href="#">
+                  <span>Leave a message</span>
+                  <i class="fa-sharp fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+            <div class="contact-box grid">
+              <div class="icon-box flex">
+                <i class="fa-regular fa-users-medical icon"></i>
+              </div>
+              <div>
+                <h2>Careers</h2>
+                <p>Sit ac ipsum leo lorem magna nunc mattis maecenas non vestibulum.</p>
+                <a href="#">
+                  <span>Send an application</span>
+                  <i class="fa-sharp fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+            <div class="form">
+              <form action="">
+                <h2 class="title">Get Online Consultation</h2>
+                <div>
+                  <h3>Full name</h3>
+                  <input type="text" name="" id="">
+                </div>
+                <div>
+                  <h3>Email Address</h3>
+                  <input type="text" name="" id="">
+                </div>
+                <div>
+                  <h3>Specialist</h3>
+                  <div>
+                    <input type="text" name="" id="">
+                    <i class="fas fa-angle-down"></i>
+                  </div>
+                </div>
+                <button>
+                  <span>Make an appointment</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section id="information">
+          <div class="container grid">
+            <div class="map">
+              <img src="images/map.svg" alt="Map Over Locations">
+            </div>
+            <div class="directions">
+              <div class="directions-box">
+                <h2 class="title">Medical Center 1</h2>
+                <div class="direction-item">
+                  <i class="fa-regular fa-location-dot icon"></i>
+                  <span>4517 Washington Ave. Manchester, Kentucky 39495</span>
+                </div>
+                <div class="direction-item">
+                  <i class="fa-regular fa-phone-volume icon"></i>
+                  <span>(406) 555-0120</span>
+                </div>
+                <div class="direction-item">
+                  <i class="fa-regular fa-clock icon"></i>
+                  <span><b>Mon - Fri:</b> 9:00 am - 22:00 am</span><br>
+                  <span id="weekend"><b>Sat - Sun:</b> 9:00 am - 20:00 am</span>
+                </div>
+              </div>
+              <div class="directions-box">
+                <h2 class="title">Medical Center 2</h2>
+                <div class="direction-item">
+                  <i class="fa-regular fa-location-dot icon"></i>
+                  <span>2464 Royal Ln. Mesa, New Jersey 45463</span>
+                </div>
+                <div class="direction-item">
+                  <i class="fa-regular fa-phone-volume icon"></i>
+                  <span>(406) 544-0123</span>
+                </div>
+                <div class="direction-item">
+                  <i class="fa-regular fa-clock icon"></i>
+                  <span><b>Mon - Fri:</b> 9:00 am - 22:00 am</span><br>
+                  <span id="weekend"><b>Sat - Sun:</b> 9:00 am - 20:00 am</span>
+                </div>
+              </div>
+              <div class="socials">
+                <button class="icon-box">
+                  <i class="fa-brands fa-square-facebook"></i>
+                </button>
+                <button class="icon-box">
+                  <i class="fa-brands fa-twitter"></i>
+                </button>
+                <button class="icon-box">
+                  <i class="fa-brands fa-instagram"></i>
+                </button>
+                <button class="icon-box">
+                  <i class="fa-brands fa-youtube"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <div class="container">
+          <p class="copyright">© 2024 Silicon. All rights reserved.</p>
+          <p class="credit">Credit MadrasThemes</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

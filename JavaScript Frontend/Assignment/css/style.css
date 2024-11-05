@@ -50,6 +50,7 @@
 }
 
 html {
+  overflow-x: hidden;
   color-scheme: light;
 }
 
@@ -213,6 +214,12 @@ html {
       }
     }
   }
+
+  #contact {
+    .form {
+      background-color: var(--dm-iconbox-color);
+    }
+  }
 }
 
 body {
@@ -261,17 +268,6 @@ body {
 
 a {
   color: var(--primary-color);
-  text-decoration: none;
-}
-
-.btn-primary {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  border-radius: 8px;
-  padding: 12px 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-decoration: none;
 }
 
@@ -408,8 +404,7 @@ header {
     height: auto;
     right: 0;
     top: 0;
-    margin-top: 5rem;
-    margin-right: 1rem;
+    margin: 5rem 1rem 0 0;
     padding: .5rem 0;
     border-radius: 8px;
     background-color: var(--background-color);
@@ -433,8 +428,20 @@ header {
 }
 
 #auth-signin {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+  border-radius: 6px;
+  padding: 0.6rem 1.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
   display: none;
-  transition: background-color 300ms ease-in-out;
+  transition: background-color 300ms;
+
+  span {
+    padding-left: 0.5rem;
+  }
 }
 
 #auth-signin:hover {
@@ -885,6 +892,177 @@ footer {
     input::placeholder {
       color: var(--input-placeholder-color);
     }
+  }
+}
+
+#contact {
+  background-color: var(--background-color);
+  padding: 8rem 0 5rem 0;
+
+  .title {
+    padding: 2rem 0 4rem 0;
+    font-size: 26px;
+  }
+
+  .nav-extra.flex {
+    justify-content: start;
+  }
+
+  .grid {
+    grid-template-columns: auto 1fr;
+  }
+
+  .contact-box {
+    justify-content: start;
+    align-items: start;
+    margin-bottom: 3rem;
+  }
+
+  .icon-box {
+    background-color: var(--white-color);
+    border-radius: 50%;
+    margin-right: 1.8rem;
+    top: 0;
+
+    .icon {
+      color: var(--primary-color);
+      font-size: 24px;
+      padding: 0;
+    }
+  }
+
+  .form {
+    background-color: var(--white-color);
+    position: absolute;
+    width: 640px;
+    height: 720px;
+    top: 0;
+    padding: 3rem 4.5rem;
+    margin: 176px 0 0 648px;
+    border-radius: 6px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+    .title {
+      font-size: 32px;
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 0.4rem;
+    }
+
+    input {
+      width: 100%;
+      height: 50px;
+      font-size: 16px;
+      border: 1px solid var(--forms-border-color);
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      padding: 0 1rem;
+    }
+
+    button {
+      background-color: var(--primary-color);
+      width: 100%;
+      height: 50px;
+      margin-top: 6.5rem;
+      border-radius: 8px;
+      border: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 300ms;
+
+      span {
+        color: var(--white-color);
+        font-size: 16px;
+      }
+    }
+
+    button:hover {
+      background-color: var(--input-placeholder-color);
+    }
+
+    .fa-angle-down {
+      position: absolute;
+      font-size: 14px;
+      padding: 1.1rem;
+      right: 4.8rem;
+    }
+  }
+
+  .fa-angles-right {
+    font-size: 10px;
+  }
+
+  .fa-arrow-right {
+    padding-left: .8rem;
+  }
+
+  i, 
+  a {
+    padding-right: 0.7rem;
+  }
+
+  h2 {
+    padding-bottom: 1rem;
+  }
+
+  p {
+    padding-bottom: 1.6rem;
+    width: 20rem;
+  }
+
+  a {
+    font-weight: 600;
+  }
+}
+
+#information {
+  margin: 13rem 0;
+
+  .title {
+    margin-bottom: 2rem;
+  }
+
+  .directions-box {
+    margin-bottom: 3rem;
+
+    .direction-item {
+      margin-bottom: 1rem;
+    }
+  }
+
+  #weekend {
+    padding-left: 1.7rem;
+  }
+
+  .socials {
+    margin-top: 4rem;
+  }
+
+  .icon {
+    color: var(--primary-color);
+    padding-right: 0.5rem;
+  }
+
+  .icon-box {
+    color: var(--navigation-color);
+    font-size: 16px;
+    width: 45px;
+    height: 45px;
+    margin-right: .7rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 300ms;
+  }
+
+  .icon-box:hover {
+    background-color: var(--input-placeholder-color);
+  }
+
+  .grid {
+    grid-template-columns: 3fr 2fr;
   }
 }
 
