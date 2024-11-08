@@ -2,23 +2,38 @@ const btnMenu = document.querySelector(".btn-mobile");
 const sideMenu = document.querySelector(".side-menu");
 
 btnMenu.addEventListener("click", e => {
-  // if(sideMenu.classList.contains("open")) {
-  //   sideMenu.classList.remove("open");
+  if (sideMenu.classList.contains("open")) {
+    closeMenu();
+    setTimeout(() => {
+      hideMenu();
+    }, 300);
+  }
+  else {
+    sideMenu.id = "";
 
-  //   return;
-  // };
-
-  btnMenu.classList.toggle("open");
-  sideMenu.classList.toggle("open");
+    setTimeout(() => {
+      openMenu();
+    }, 1);
+  }
 });
 
 window.addEventListener("resize", e => {
   if (window.innerWidth >= 1400) {
     closeMenu();
+    hideMenu();
   }
 });
 
+function openMenu() {
+  sideMenu.classList.add("open");
+  btnMenu.classList.add("open");
+}
+
 function closeMenu() {
-  btnMenu.classList.remove("open");
   sideMenu.classList.remove("open");
+  btnMenu.classList.remove("open");
+}
+
+function hideMenu() {
+  sideMenu.id = "hidden";
 }
