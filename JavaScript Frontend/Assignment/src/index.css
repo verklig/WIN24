@@ -601,7 +601,7 @@ footer {
   }
 }
 
-#app-features {
+#features {
   .title {
     font-size: 20px;
     margin-top: 2rem;
@@ -1142,7 +1142,7 @@ footer {
     display: flex;
   }
 
-  #app-features {
+  #features {
     padding-top: 4rem;
 
     .title {
@@ -1243,7 +1243,18 @@ footer {
       }
 
       .contact-item {
-        padding-bottom: 0.5rem;
+        padding-bottom: 0.8rem;
+      }
+
+      .fa-comment-dots {
+        font-size: 28px;
+        color: var(--success-color);
+      }
+
+      .fa-phone-volume {
+        font-size: 24px;
+        padding-bottom: 4px;
+        color: var(--primary-color);
       }
 
       p {
@@ -1390,7 +1401,7 @@ footer {
     }
   }
 
-  #app-features {
+  #features {
     padding-top: 7rem;
 
     .title {
