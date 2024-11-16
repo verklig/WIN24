@@ -49,7 +49,7 @@ function LearnMore() {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default LearnMore;

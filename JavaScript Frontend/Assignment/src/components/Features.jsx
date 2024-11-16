@@ -75,7 +75,7 @@ function Features() {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default Features;

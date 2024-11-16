@@ -1,34 +1,24 @@
-import { useState } from 'react'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import Brands from './components/Brands'
-import Features from './components/Features'
-import HowItWorks from './components/HowItWorks'
-import LearnMore from './components/LearnMore'
-import Feedback from './components/Feedback'
-import Faq from './components/Faq'
-import Newsletter from './components/Newsletter'
-import Footer from './components/Footer'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Home from "./views/Home";
+import Contact from "./views/Contact";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div class="wrapper">
-      <Navbar />
-      <main>
-        <Hero />
-        <Brands />
-        <Features />
-        <HowItWorks />
-        <LearnMore />
-        <Feedback />
-        <Faq />
-        <Newsletter />
-      </main>
-      <Footer />
-    </div>
-  )
-}
+    <BrowserRouter>
+      <div className="wrapper">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  );
+};
 
-export default App
+export default App;

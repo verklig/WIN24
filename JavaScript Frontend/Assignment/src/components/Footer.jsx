@@ -6,7 +6,7 @@ function Footer() {
         <p className="credit">Credit MadrasThemes</p>
       </div>
     </footer>
-  )
-}
+  );
+};
 
 export default Footer;

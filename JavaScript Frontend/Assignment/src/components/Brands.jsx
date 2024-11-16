@@ -22,7 +22,7 @@ function Brands() {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default Brands;

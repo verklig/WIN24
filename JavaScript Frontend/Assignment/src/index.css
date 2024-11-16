@@ -178,7 +178,7 @@ a {
   color: var(--navigation-color);
   font-weight: 600;
   transition: color 300ms ease-in-out;
-  padding-right: 2rem;
+  margin-right: 2rem;
 }
 
 .nav-link:hover {
@@ -200,16 +200,18 @@ a {
   transition: 300ms;
 }
 
-.open .bar-1 {
-  transform: translate(0, 0.67rem) rotate(-45deg);
-}
+.open {
+  .bar-1 {
+    transform: translate(0, 0.68rem) rotate(-45deg);
+  }
 
-.open .bar-2 {
-  opacity: 0;
-}
+  .bar-2 {
+    opacity: 0;
+  }
 
-.open .bar-3 {
-  transform: translate(0, -0.67rem) rotate(45deg);
+  .bar-3 {
+    transform: translate(0, -0.68rem) rotate(45deg);
+  }
 }
 
 header {
@@ -222,6 +224,7 @@ header {
     display: grid;
     align-items: center;
     grid-template-columns: 1fr auto auto;
+    height: 80px;
     gap: 2rem;
     padding-top: 1rem;
     padding-bottom: 1rem;
@@ -246,6 +249,7 @@ header {
   
     a {
       padding: 1rem 2rem;
+      margin: 0;
       text-decoration: none;
       font-size: 18px;
       display: block;
@@ -322,7 +326,7 @@ footer {
   border-radius: 8px;
 }
 
-#hidden {
+.hidden {
   display: none;
 }
 
@@ -344,6 +348,16 @@ footer {
     color: var(--body-text-color);
   }
 
+  .open {
+    .bar-1 {
+      transform: translate(0, 0.65rem) rotate(-45deg);
+    }
+  
+    .bar-3 {
+      transform: translate(0, -0.65rem) rotate(45deg);
+    }
+  }
+
   .side-menu {
     background-color: var(--white-color);
   }
@@ -352,18 +366,22 @@ footer {
     background-color: var(--dm-iconbox-color);
   }
 
-  #darkmode-toggle-switch {
+  .btn-toggle-switch {
     .label {
       color: var(--dm-transparent24-color);
     }
+  }
 
-    .round::before {
-      background-color: var(--heading-color);
-    }
+  .toggle-switch input:checked + .slider:before {
+    background-color: var(--body-text-color);
   }
 
   .nav-link {
     color: var(--dm-transparent70-color);
+  }
+
+  .nav-link:hover {
+    color: var(--primary-color);
   }
 
   body {
@@ -487,7 +505,7 @@ footer {
     }
   }
 
-  #contact {
+  #contact-hero {
     .form {
       background-color: var(--dm-iconbox-color);
     }
@@ -540,6 +558,10 @@ footer {
     background-color: var(--heading-color);
     border: none;
     transition: background-color 300ms ease-in-out;
+
+    img {
+      height: 32px;
+    }
   }
 
   .btn-download:hover{
@@ -736,12 +758,11 @@ footer {
     }
 
     .list-item {
+      cursor: pointer;
       border-color: var(--background-color);
     }
 
     .question {
-      cursor: pointer;
-
       .grid {
         grid-template-columns: 1fr auto;
         justify-content: space-between;
@@ -886,6 +907,9 @@ footer {
       width: 100%;
       height: 100%;
       border-radius: 0 8px 8px 0;
+      border: none;
+      font: inherit;
+      cursor: pointer;
       transition: background-color 300ms ease-in-out;
     }
 
@@ -899,7 +923,7 @@ footer {
   }
 }
 
-#contact {
+#contact-hero {
   background-color: var(--background-color);
   padding: 8rem 0 38rem 0;
 
@@ -907,6 +931,13 @@ footer {
     padding: 2rem 0 4rem 0;
     font-size: 26px;
     text-align: center;
+  }
+
+  .nav-extra {
+    i, 
+    a {
+      margin-right: 0.7rem;
+    }
   }
 
   .nav-extra.flex {
@@ -949,7 +980,19 @@ footer {
 
     .title {
       font-size: 32px;
-      padding: 0 0 4rem 0;
+      padding: 0 0 2.5rem 0;
+    }
+
+    .validation-error {
+      color: var(--error-color);
+      display: block;
+      visibility: hidden;
+      height: 2rem;
+      font-size: 12px;
+
+      &:not(:empty) {
+        visibility: visible;
+      }
     }
 
     h3 {
@@ -958,6 +1001,21 @@ footer {
     }
 
     input {
+      width: 100%;
+      height: 50px;
+      font-size: 16px;
+      border: 1px solid var(--forms-border-color);
+      border-radius: 8px;
+      padding: 0 1rem;
+    }
+
+    select {
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: none;
+
       width: 100%;
       height: 50px;
       font-size: 16px;
@@ -1005,11 +1063,6 @@ footer {
     padding-left: .8rem;
   }
 
-  i, 
-  a {
-    padding-right: 0.7rem;
-  }
-
   h2 {
     padding-bottom: 1rem;
   }
@@ -1024,7 +1077,7 @@ footer {
   }
 }
 
-#information {
+#contact-info {
   margin: 8rem 0 5rem 0;
 
   .title {
@@ -1041,7 +1094,7 @@ footer {
   }
 
   #weekend {
-    padding-left: 1.7rem;
+    padding-left: 24px;
   }
 
   .socials {
@@ -1316,7 +1369,7 @@ footer {
     }
   }
 
-  #contact {
+  #contact-hero {
     padding: 8rem 0 8rem 0;
 
     .form {
@@ -1328,7 +1381,7 @@ footer {
     }
   }
 
-  #information {
+  #contact-info {
     margin: 10rem 0 5rem 0;
 
     .title {
@@ -1656,7 +1709,7 @@ footer {
 
   #newsletter {
     .part-1 {
-      margin-left: 5rem;
+      margin-left: 2rem;
       gap: 2rem;
 
       span {
@@ -1677,177 +1730,49 @@ footer {
     }
   }
 
-  #contact {
-    background-color: var(--background-color);
+  #contact-hero {
     padding: 8rem 0 5rem 0;
-  
-    .title {
-      padding: 2rem 0 4rem 0;
-      font-size: 26px;
+
+    .title.flex {
       justify-content: start;
-    }
-  
-    .nav-extra.flex {
-      justify-content: start;
-    }
-  
-    .grid {
-      grid-template-columns: auto 1fr;
-    }
-  
-    .contact-box {
-      justify-content: start;
-      align-items: start;
-      margin-bottom: 3rem;
-    }
-  
-    .icon-box {
-      background-color: var(--white-color);
-      border-radius: 50%;
-      margin-right: 1.8rem;
-      top: 0;
-  
-      .icon {
-        color: var(--primary-color);
-        font-size: 24px;
-        padding: 0;
-      }
     }
   
     .form {
-      background-color: var(--white-color);
-      position: absolute;
       width: 640px;
       height: 720px;
-      top: 0;
       padding: 3rem 4.5rem;
       margin: 176px 0 0 648px;
-      border-radius: 6px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  
+
       .title {
-        font-size: 32px;
+        text-align: start;
+        padding: 1.5rem 0 2.5rem 0;
       }
-  
-      h3 {
+
+      .validation-error {
         font-size: 16px;
-        margin-bottom: 0.4rem;
-      }
-  
-      input {
-        width: 100%;
-        height: 50px;
-        font-size: 16px;
-        border: 1px solid var(--forms-border-color);
-        border-radius: 8px;
-        margin-bottom: 1.5rem;
-        padding: 0 1rem;
       }
   
       button {
-        background-color: var(--primary-color);
-        width: 100%;
-        height: 50px;
-        margin-top: 6.5rem;
-        border-radius: 8px;
-        border: none;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        font-family: inherit;
-        transition: background-color 300ms;
-  
-        span {
-          color: var(--white-color);
-          font-size: 16px;
-        }
-      }
-  
-      button:hover {
-        background-color: var(--input-placeholder-color);
+        margin-top: 6.5rem;  
       }
   
       .fa-angle-down {
-        position: absolute;
-        font-size: 14px;
-        padding: 1.1rem;
         right: 4.8rem;
       }
     }
-  
-    .fa-angles-right {
-      font-size: 10px;
-    }
-  
-    .fa-arrow-right {
-      padding-left: .8rem;
-    }
-  
-    i, 
-    a {
-      padding-right: 0.7rem;
-    }
-  
-    h2 {
-      padding-bottom: 1rem;
-    }
-  
-    p {
-      padding-bottom: 1.6rem;
-      width: 20rem;
-    }
-  
-    a {
-      font-weight: 600;
-    }
   }
   
-  #information {
+  #contact-info {
     margin: 13rem 0;
-  
-    .title {
-      margin-bottom: 2rem;
-      text-align: start;
-    }
-  
-    .directions-box {
-      margin-bottom: 3rem;
-  
-      .direction-item {
-        margin-bottom: 1rem;
-      }
-    }
-
-    .map {
-      width: 636px;
-      height: 540px;
-    }
-  
-    #weekend {
-      padding-left: 1.7rem;
-    }
   
     .socials {
       justify-content: start;
       margin-top: 4rem;
     }
-  
-    .icon {
-      color: var(--primary-color);
-      padding-right: 0.5rem;
-    }
-  
-    .icon-box {
-      color: var(--navigation-color);
-      font-size: 16px;
-      width: 45px;
-      height: 45px;
-      border: none;
-      cursor: pointer;
-      transition: background-color 300ms;
-    }
-  
-    .icon-box:hover {
-      background-color: var(--input-placeholder-color);
+
+    .map {
+      width: 636px;
+      height: 540px;
     }
   
     .grid {
