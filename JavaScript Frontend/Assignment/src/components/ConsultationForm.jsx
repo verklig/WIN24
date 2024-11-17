@@ -21,7 +21,7 @@ function ConsultationForm() {
         <div className="form-group">
           <h3>Specialist</h3>
           <div>
-            <select type="text" name="specialist" value={formData.specialist} onChange={handleInputChange} required>
+            <select type="text" name="specialist" id="specialist" value={formData.specialist} onChange={handleInputChange} required>
               {options.map(option => (<option key={option.id} value={option.text}>{option.text}</option>))}
             </select>
             <i className="fas fa-angle-down"></i>

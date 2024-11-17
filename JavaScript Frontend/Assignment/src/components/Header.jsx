@@ -2,7 +2,7 @@ import { NavLink, Link } from "react-router-dom";
 import DarkmodeBtn from "./DarkmodeBtn";
 import MobileMenu from "./MobileMenu";
 
-function Navbar() {
+function Header() {
   return (
     <header>
       <div className="container">
@@ -25,4 +25,4 @@ function Navbar() {
   );
 };
 
-export default Navbar;
+export default Header;

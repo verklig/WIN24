@@ -8,7 +8,7 @@ function Hero() {
         <div className="content">
           <div className="description">
             <p>We offer you a new generation of the mobile banking.
-              <span className="br">Save, spend & manage money in your pocket.</span>
+              <span className="br"> Save, spend & manage money in your pocket.</span>
             </p>
           </div>
           <div id="downloads" className="flex">

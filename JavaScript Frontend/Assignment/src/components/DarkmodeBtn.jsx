@@ -20,13 +20,27 @@ function DarkmodeBtn() {
   useEffect(() => {
     const savedMode = localStorage.getItem("darkmode");
 
-    if (savedMode === "on") {
-      document.documentElement.classList.add("dark")
-      setIsDarkmode(true);
+    if (savedMode) {
+      if (savedMode === "on") {
+        document.documentElement.classList.add("dark")
+        setIsDarkmode(true);
+      }
+      else {
+        document.documentElement.classList.remove("dark")
+        setIsDarkmode(false);
+      }
     }
     else {
-      document.documentElement.classList.remove("dark")
-      setIsDarkmode(false);
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      
+      if (prefersDark) {
+        document.documentElement.classList.add("dark");
+        setIsDarkmode(true);
+      }
+      else {
+        document.documentElement.classList.remove("dark");
+        setIsDarkmode(false);
+      }
     }
   }, []);
   

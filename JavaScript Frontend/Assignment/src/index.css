@@ -454,11 +454,11 @@ footer {
     }
 
     .list {
+      background-color: var(--background-color);
       border-color: var(--dm-feedback-background-color);
       border-radius: 8px;
 
       .list-item {
-        background-color: var(--background-color);
         border-color: var(--dm-feedback-background-color);
       }
 
@@ -507,7 +507,27 @@ footer {
 
   #contact-hero {
     .form {
-      background-color: var(--dm-iconbox-color);
+      background-color: var(--dm-feedback-background-color);
+
+      input {
+        background-color: var(--background-color);
+        border: 1px solid var(--dm-transparent18-color);
+      }
+
+      select {
+        background-color: var(--background-color);
+        border: 1px solid var(--dm-transparent18-color);
+      }
+
+      button {
+        span {
+          color: var(--heading-color);
+        }
+      }
+    }
+    
+    .icon-box {
+      background-color: var(--heading-color);
     }
   }
 }
@@ -592,10 +612,6 @@ footer {
     grid-area: images;
     position: relative;
     display: none;
-  }
-
-  .container {
-    gap: 2rem;
   }
 }
 
@@ -750,16 +766,18 @@ footer {
 
   .list {
     list-style: none;
+    background-color: var(--white-color);
     border: 2px solid var(--background-color);
     border-radius: 8px;
 
     :not(:first-child) {
-      border-top: 2px solid var(--white-color);
+      border-top: 2px solid var(--background-color);
     }
 
     .list-item {
-      cursor: pointer;
+      background: transparent;
       border-color: var(--background-color);
+      cursor: pointer;
     }
 
     .question {
@@ -781,6 +799,7 @@ footer {
       transition: grid-template-rows 300ms;
       padding: 0 1.4rem;
       font-size: 14px;
+      border: none;
       
       .expandable {
         min-height: 0;
@@ -983,6 +1002,14 @@ footer {
       padding: 0 0 2.5rem 0;
     }
 
+    .fa-angle-down {
+      position: absolute;
+      font-size: 14px;
+      padding: 1.1rem;
+      right: 3.4rem;
+      pointer-events: none;
+    }
+
     .validation-error {
       color: var(--error-color);
       display: block;
@@ -1045,13 +1072,6 @@ footer {
 
     button:hover {
       background-color: var(--input-placeholder-color);
-    }
-
-    .fa-angle-down {
-      position: absolute;
-      font-size: 14px;
-      padding: 1.1rem;
-      right: 3.4rem;
     }
   }
 
@@ -1141,7 +1161,7 @@ footer {
     .title {
       font-size: 30px;
       margin-top: 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 4rem;
     }
 
     .description {
@@ -1424,6 +1444,10 @@ footer {
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "title images"
                            "content images";
+    }
+
+    .container {
+      gap: 2rem;
     }
 
     .img-back {
