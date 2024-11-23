@@ -1,0 +1,15 @@
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\bin\Debug\net9.0\ShoppingList.exe
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\bin\Debug\net9.0\ShoppingList.deps.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\bin\Debug\net9.0\ShoppingList.runtimeconfig.json
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\bin\Debug\net9.0\ShoppingList.dll
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\bin\Debug\net9.0\ShoppingList.pdb
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.GeneratedMSBuildEditorConfig.editorconfig
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.AssemblyInfoInputs.cache
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.AssemblyInfo.cs
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.csproj.CoreCompileInputs.cache
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.sourcelink.json
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.dll
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\refint\ShoppingList.dll
+c:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.pdb
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ShoppingList.genruntimeconfig.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\ShoppingList\ShoppingList\obj\Debug\net9.0\ref\ShoppingList.dll
