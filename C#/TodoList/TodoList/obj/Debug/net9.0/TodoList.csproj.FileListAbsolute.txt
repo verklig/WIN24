@@ -1,0 +1,15 @@
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.AssemblyInfoInputs.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.AssemblyInfo.cs
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.csproj.CoreCompileInputs.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.sourcelink.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\bin\Debug\net9.0\TodoList.exe
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\bin\Debug\net9.0\TodoList.deps.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\bin\Debug\net9.0\TodoList.runtimeconfig.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\bin\Debug\net9.0\TodoList.dll
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\bin\Debug\net9.0\TodoList.pdb
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.dll
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\refint\TodoList.dll
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.pdb
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\TodoList.genruntimeconfig.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\TodoList\TodoList\obj\Debug\net9.0\ref\TodoList.dll
