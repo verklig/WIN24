@@ -1,0 +1,15 @@
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\bin\Debug\net9.0\UserManager.exe
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\bin\Debug\net9.0\UserManager.deps.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\bin\Debug\net9.0\UserManager.runtimeconfig.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\bin\Debug\net9.0\UserManager.dll
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\bin\Debug\net9.0\UserManager.pdb
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.AssemblyInfoInputs.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.AssemblyInfo.cs
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.csproj.CoreCompileInputs.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.sourcelink.json
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.dll
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\refint\UserManager.dll
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.pdb
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\UserManager.genruntimeconfig.cache
+C:\Users\ericb\Desktop\programmering\git repos\WIN24\C#\UserManager\UserManager\obj\Debug\net9.0\ref\UserManager.dll
