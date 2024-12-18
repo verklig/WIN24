@@ -14,7 +14,7 @@ public class FileService : IFileService
 		_filePath = Path.Combine(_directoryPath, fileName);
 	}
 
-	public string GetContentFromFile()
+	public string GetTextFromFile()
 	{
 		if (File.Exists(_filePath)) 
 		{
@@ -24,7 +24,7 @@ public class FileService : IFileService
 		return null!;
 	}
 
-	public bool SaveContentToFile(string content)
+	public bool SaveTextToFile(string content)
 	{
 		try 
 		{

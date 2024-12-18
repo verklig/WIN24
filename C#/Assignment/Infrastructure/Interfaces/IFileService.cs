@@ -2,6 +2,6 @@ namespace Infrastructure.Interfaces;
 
 public interface IFileService
 {
-	bool SaveContentToFile(string content);
-	string GetContentFromFile();
+	bool SaveTextToFile(string content);
+	string GetTextFromFile();
 }

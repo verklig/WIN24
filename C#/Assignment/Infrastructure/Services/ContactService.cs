@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Infrastructure.Helpers;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -6,20 +7,35 @@ namespace Infrastructure.Services;
 
 public class ContactService : IContactService
 {
-	private readonly IFileService _fileService;
+	private readonly IContactRepository _ContactRepository;
 	private List<Contact> _contacts = [];
+	
+	public ContactService(IContactRepository contactRepository)
+	{
+		_ContactRepository = contactRepository;
+	}
 
 	public bool CreateContact(Contact contact)
 	{
-		contact.Id = IdGenerator.GenerateId();
-		
-		_contacts.Add(contact);
-
-		return true;
+		try
+		{
+			contact.Id = IdGenerator.GenerateId();
+			
+			_contacts.Add(contact);
+			
+			bool result = _ContactRepository.SaveContactsToFile(_contacts);
+			return result;
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex.Message);
+			return false;
+		}
 	}
 
 	public IEnumerable<Contact> GetAllContacts()
 	{
-		throw new NotImplementedException();
+		_contacts = _ContactRepository.GetContactsFromFile();
+		return _contacts;
 	}
 }
