@@ -8,12 +8,12 @@ namespace Infrastructure.Repositories;
 public class ContactRepository : IContactRepository
 {
 	private readonly IFileService _fileSerivice;
-	
-	public ContactRepository(IFileService fileService) 
+
+	public ContactRepository(IFileService fileService)
 	{
 		_fileSerivice = fileService;
 	}
-	
+
 	public bool SaveContactsToFile(List<Contact> list)
 	{
 		try
@@ -28,12 +28,12 @@ public class ContactRepository : IContactRepository
 			return false;
 		}
 	}
-	
+
 	public List<Contact> GetContactsFromFile()
 	{
 		List<Contact> list = new();
-		
-		try 
+
+		try
 		{
 			string json = _fileSerivice.GetTextFromFile();
 			if (!string.IsNullOrEmpty(json))
@@ -45,7 +45,7 @@ public class ContactRepository : IContactRepository
 		{
 			Debug.WriteLine(ex.Message);
 		}
-		
+
 		return [];
 	}
 }

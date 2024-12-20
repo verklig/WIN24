@@ -16,23 +16,23 @@ public class FileService : IFileService
 
 	public string GetTextFromFile()
 	{
-		if (File.Exists(_filePath)) 
+		if (File.Exists(_filePath))
 		{
 			return File.ReadAllText(_filePath);
 		}
-		
+
 		return null!;
 	}
 
 	public bool SaveTextToFile(string content)
 	{
-		try 
+		try
 		{
 			if (!Directory.Exists(_directoryPath))
 			{
 				Directory.CreateDirectory(_directoryPath);
 			}
-			
+
 			File.WriteAllText(_filePath, content);
 			return true;
 		}

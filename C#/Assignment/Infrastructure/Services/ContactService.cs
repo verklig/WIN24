@@ -9,7 +9,7 @@ public class ContactService : IContactService
 {
 	private readonly IContactRepository _ContactRepository;
 	private List<Contact> _contacts = [];
-	
+
 	public ContactService(IContactRepository contactRepository)
 	{
 		_ContactRepository = contactRepository;
@@ -20,10 +20,10 @@ public class ContactService : IContactService
 		try
 		{
 			contact.Id = IdGenerator.GenerateId();
-			
+
 			_contacts.Add(contact);
-			
-			bool result = _ContactRepository.SaveContactsToFile(_contacts);
+
+			bool result = SaveContacts();
 			return result;
 		}
 		catch (Exception ex)
@@ -33,9 +33,13 @@ public class ContactService : IContactService
 		}
 	}
 
+	public bool SaveContacts()
+	{
+		return _ContactRepository.SaveContactsToFile(_contacts);
+	}
+
 	public IEnumerable<Contact> GetAllContacts()
 	{
-		_contacts = _ContactRepository.GetContactsFromFile();
-		return _contacts;
+		return _contacts = _ContactRepository.GetContactsFromFile();
 	}
 }
