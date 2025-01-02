@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Infrastructure.Factories;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -55,26 +56,13 @@ public class MenuDialog
 
 		Console.WriteLine("Adding Contact\n");
 
-		Console.Write("First Name: ");
-		contact.FirstName = Console.ReadLine()!.Trim();
-
-		Console.Write("Last Name: ");
-		contact.LastName = Console.ReadLine()!.Trim();
-
-		Console.Write("Email: ");
-		contact.Email = Console.ReadLine()!.Trim();
-
-		Console.Write("Phone Number: ");
-		contact.PhoneNumber = Console.ReadLine()!.Trim();
-
-		Console.Write("Street: ");
-		contact.Street = Console.ReadLine()!.Trim();
-
-		Console.Write("Postal Code: ");
-		contact.PostalCode = Console.ReadLine()!.Trim();
-
-		Console.Write("Locality: ");
-		contact.Locality = Console.ReadLine()!.Trim();
+		contact.FirstName = PromptAndValidateInput("First Name: ", nameof(contact.FirstName));
+		contact.LastName = PromptAndValidateInput("Last name: ", nameof(contact.LastName));
+		contact.Email = PromptAndValidateInput("Email: ", nameof(contact.Email));
+		contact.PhoneNumber = PromptAndValidateInput("Phone number: ", nameof(contact.PhoneNumber));
+		contact.Street = PromptAndValidateInput("Street: ", nameof(contact.Street));
+		contact.PostalCode = PromptAndValidateInput("Postal code: ", nameof(contact.PostalCode));
+		contact.Locality = PromptAndValidateInput("Town/city: ", nameof(contact.Locality));
 
 		_contactService.CreateContact(contact);
 		Console.WriteLine("\nContact added!");
@@ -82,6 +70,7 @@ public class MenuDialog
 
 	private void ShowAllContacts()
 	{
+		int count = 1;
 		IEnumerable<Contact> contacts = _contactService.GetAllContacts();
 		Console.Clear();
 
@@ -94,7 +83,26 @@ public class MenuDialog
 		Console.WriteLine("List of contacts:\n");
 		foreach (Contact contact in contacts)
 		{
-			Console.WriteLine(contact.ToString());
+			Console.WriteLine($"{count}. {contact}");
+			count++;
+		}
+	}
+
+	private string PromptAndValidateInput(string prompt, string property)
+	{
+		while (true)
+		{
+			Console.Write(prompt);
+			string input = Console.ReadLine()!.Trim();
+			List<ValidationResult> results = new List<ValidationResult>();
+			ValidationContext context = new ValidationContext(ContactFactory.Create()) { MemberName = property };
+
+			if (Validator.TryValidateProperty(input, context, results))
+			{
+				return input;
+			}
+
+			Console.WriteLine($"{results[0].ErrorMessage}, please try again.\n");
 		}
 	}
 
