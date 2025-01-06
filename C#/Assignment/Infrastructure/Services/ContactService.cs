@@ -32,6 +32,31 @@ public class ContactService : IContactService
 			return false;
 		}
 	}
+	
+	public bool DeleteContact(string choice)
+	{
+		try
+		{
+			int parseResult;
+			
+			if (!int.TryParse(choice, out parseResult))
+			{
+				return false;
+			}
+
+			int contactIndex = parseResult - 1;
+			
+			_contacts.RemoveAt(contactIndex);
+
+			bool result = SaveContacts();
+			return result;
+		}
+		catch (Exception ex)
+		{
+			Debug.WriteLine(ex.Message);
+			return false;
+		}
+	}
 
 	public bool SaveContacts()
 	{

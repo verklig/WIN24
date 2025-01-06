@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.IO.Pipelines;
 using Infrastructure.Factories;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -22,6 +23,7 @@ public class MenuDialog
 			Console.WriteLine("-------- MAIN MENU -------");
 			Console.WriteLine("1. Add a contact");
 			Console.WriteLine("2. Show all contacts");
+			Console.WriteLine("4. Delete a contact");
 			Console.WriteLine("q. Quit");
 			Console.WriteLine("--------------------------");
 
@@ -35,6 +37,9 @@ public class MenuDialog
 					break;
 				case "2":
 					ShowAllContacts();
+					break;
+				case "4":
+					DeleteContact();
 					break;
 				case "q":
 					_contactService.SaveContacts();
@@ -67,8 +72,31 @@ public class MenuDialog
 		_contactService.CreateContact(contact);
 		Console.WriteLine("\nContact added!");
 	}
+	
+	private void DeleteContact()
+	{
+		if (!ShowAllContacts())
+		{
+			return;
+		}
+		
+		Console.Write("\nChoose the number of the contact to be deleted: ");
+		string choice = Console.ReadLine()!;
+		
+		bool result = _contactService.DeleteContact(choice);
+		
+		if (!result)
+		{
+			Console.WriteLine("\nContact could not be removed.");
+			Console.WriteLine("Either the input is wrong or the number doesn't match a contact in the list.");
+		}
+		else 
+		{
+			Console.WriteLine("\nContact removed!");
+		}
+	}
 
-	private void ShowAllContacts()
+	private bool ShowAllContacts()
 	{
 		int count = 1;
 		IEnumerable<Contact> contacts = _contactService.GetAllContacts();
@@ -77,7 +105,7 @@ public class MenuDialog
 		if (contacts.Count() == 0)
 		{
 			Console.WriteLine("No contacts in list.");
-			return;
+			return false;
 		}
 
 		Console.WriteLine("List of contacts:\n");
@@ -86,6 +114,8 @@ public class MenuDialog
 			Console.WriteLine($"{count}. {contact}");
 			count++;
 		}
+		
+		return true;
 	}
 
 	private string PromptAndValidateInput(string prompt, string property)
