@@ -32,20 +32,18 @@ public class ContactService : IContactService
 			return false;
 		}
 	}
-	
+
 	public bool DeleteContact(string choice)
 	{
 		try
 		{
-			int parseResult;
-			
-			if (!int.TryParse(choice, out parseResult))
+			if (!int.TryParse(choice, out int parseResult))
 			{
 				return false;
 			}
 
 			int contactIndex = parseResult - 1;
-			
+
 			_contacts.RemoveAt(contactIndex);
 
 			bool result = SaveContacts();
@@ -55,6 +53,24 @@ public class ContactService : IContactService
 		{
 			Debug.WriteLine(ex.Message);
 			return false;
+		}
+	}
+
+	public void UpdateContact(Contact contact)
+	{
+		Contact existingContact = _contacts.FirstOrDefault(c => c.Id == contact.Id)!;
+
+		if (existingContact != null)
+		{
+			existingContact.FirstName = contact.FirstName;
+			existingContact.LastName = contact.LastName;
+			existingContact.Email = contact.Email;
+			existingContact.PhoneNumber = contact.PhoneNumber;
+			existingContact.Street = contact.Street;
+			existingContact.PostalCode = contact.PostalCode;
+			existingContact.Locality = contact.Locality;
+
+			SaveContacts();
 		}
 	}
 

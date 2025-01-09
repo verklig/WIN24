@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.IO.Pipelines;
 using Infrastructure.Factories;
 using Infrastructure.Interfaces;
 using Infrastructure.Models;
@@ -23,6 +22,7 @@ public class MenuDialog
 			Console.WriteLine("-------- MAIN MENU -------");
 			Console.WriteLine("1. Add a contact");
 			Console.WriteLine("2. Show all contacts");
+			Console.WriteLine("3. Edit a contact");
 			Console.WriteLine("4. Delete a contact");
 			Console.WriteLine("q. Quit");
 			Console.WriteLine("--------------------------");
@@ -37,6 +37,9 @@ public class MenuDialog
 					break;
 				case "2":
 					ShowAllContacts();
+					break;
+				case "3":
+					EditContact();
 					break;
 				case "4":
 					DeleteContact();
@@ -59,7 +62,7 @@ public class MenuDialog
 		Contact contact = ContactFactory.Create();
 		Console.Clear();
 
-		Console.WriteLine("Adding Contact\n");
+		Console.WriteLine("-------- ADDING CONTACT -------");
 
 		contact.FirstName = PromptAndValidateInput("First Name: ", nameof(contact.FirstName));
 		contact.LastName = PromptAndValidateInput("Last name: ", nameof(contact.LastName));
@@ -72,27 +75,64 @@ public class MenuDialog
 		_contactService.CreateContact(contact);
 		Console.WriteLine("\nContact added!");
 	}
-	
+
 	private void DeleteContact()
 	{
 		if (!ShowAllContacts())
 		{
 			return;
 		}
-		
+
 		Console.Write("\nChoose the number of the contact to be deleted: ");
-		string choice = Console.ReadLine()!;
-		
+		string choice = Console.ReadLine()!.Trim();
+
 		bool result = _contactService.DeleteContact(choice);
-		
+
 		if (!result)
 		{
 			Console.WriteLine("\nContact could not be removed.");
 			Console.WriteLine("Either the input is wrong or the number doesn't match a contact in the list.");
 		}
-		else 
+		else
 		{
 			Console.WriteLine("\nContact removed!");
+		}
+	}
+
+	private void EditContact()
+	{
+		if (!ShowAllContacts())
+		{
+			return;
+		}
+
+		Console.Write("\nChoose the number of the contact to be edited: ");
+		string choice = Console.ReadLine()!.Trim();
+
+		if (int.TryParse(choice, out int parseResult))
+		{
+			IEnumerable<Contact> contacts = _contactService.GetAllContacts().ToList();
+
+			int contactIndex = parseResult - 1;
+			Contact contactToEdit = contacts.ElementAt(contactIndex);
+			Console.Clear();
+			Console.WriteLine($"Editing Contact: {contactToEdit.FirstName} {contactToEdit.LastName}\n");
+
+			contactToEdit.FirstName = PromptAndValidateInput("First Name: ", nameof(contactToEdit.FirstName));
+			contactToEdit.LastName = PromptAndValidateInput("Last Name: ", nameof(contactToEdit.LastName));
+			contactToEdit.Email = PromptAndValidateInput("Email: ", nameof(contactToEdit.Email));
+			contactToEdit.PhoneNumber = PromptAndValidateInput("Phone Number: ", nameof(contactToEdit.PhoneNumber));
+			contactToEdit.Street = PromptAndValidateInput("Street: ", nameof(contactToEdit.Street));
+			contactToEdit.PostalCode = PromptAndValidateInput("Postal Code: ", nameof(contactToEdit.PostalCode));
+			contactToEdit.Locality = PromptAndValidateInput("Town/City: ", nameof(contactToEdit.Locality));
+
+			_contactService.UpdateContact(contactToEdit);
+			Console.WriteLine("\nContact updated!");
+		}
+		else
+		{
+			Console.WriteLine("\nContact could not be edited.");
+			Console.WriteLine("Either the input is wrong or the number doesn't match a contact in the list.");
 		}
 	}
 
@@ -108,13 +148,13 @@ public class MenuDialog
 			return false;
 		}
 
-		Console.WriteLine("List of contacts:\n");
+		Console.WriteLine("-------- LIST OF CONTACTS -------");
 		foreach (Contact contact in contacts)
 		{
 			Console.WriteLine($"{count}. {contact}");
 			count++;
 		}
-		
+
 		return true;
 	}
 
