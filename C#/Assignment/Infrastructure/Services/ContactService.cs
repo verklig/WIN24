@@ -17,6 +17,8 @@ public class ContactService : IContactService
 
 	public bool CreateContact(Contact contact)
 	{
+		GetAllContacts();
+		
 		try
 		{
 			contact.Id = IdGenerator.GenerateId();

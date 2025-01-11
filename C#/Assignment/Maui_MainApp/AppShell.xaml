@@ -4,12 +4,24 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Maui_MainApp"
+    xmlns:pages="clr-namespace:Maui_MainApp.Pages"
     Shell.FlyoutBehavior="Flyout"
-    Title="Maui_MainApp">
+    Shell.NavBarIsVisible="False"
+    Title="Contact Service">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <FlyoutItem Title="Add contacts">
+        <ShellContent ContentTemplate="{DataTemplate pages:AddContactPage}" />
+    </FlyoutItem>
 
+    <FlyoutItem Title="Edit contacts">
+        <ShellContent ContentTemplate="{DataTemplate pages:EditContactPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Delete contacts">
+        <ShellContent ContentTemplate="{DataTemplate pages:DeleteContactPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="List of all contacts">
+        <ShellContent ContentTemplate="{DataTemplate pages:ListContactPage}" />
+    </FlyoutItem>
 </Shell>

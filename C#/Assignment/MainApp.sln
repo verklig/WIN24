@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{F88D25D3-E07D-4AFC-BCFB-5FC8336A3F5E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui_MainApp", "Maui_MainApp\Maui_MainApp.csproj", "{00B52514-444F-4BC3-81EE-8B75EF8E9DD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui_MainApp", "Maui_MainApp\Maui_MainApp.csproj", "{498C65AE-7DDE-411A-ABC6-A5EDE7552F09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +36,9 @@ Global
 		{00B52514-444F-4BC3-81EE-8B75EF8E9DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00B52514-444F-4BC3-81EE-8B75EF8E9DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00B52514-444F-4BC3-81EE-8B75EF8E9DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{498C65AE-7DDE-411A-ABC6-A5EDE7552F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{498C65AE-7DDE-411A-ABC6-A5EDE7552F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{498C65AE-7DDE-411A-ABC6-A5EDE7552F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{498C65AE-7DDE-411A-ABC6-A5EDE7552F09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

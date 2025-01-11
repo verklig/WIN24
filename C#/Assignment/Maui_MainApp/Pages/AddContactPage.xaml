@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui_MainApp.Pages.AddContactPage"
+             Title="Add contacts">
+    <ScrollView>
+        <Grid RowDefinitions="auto, *">
+            <VerticalStackLayout>
+                <Label Text="Add a contact" FontSize="30" HorizontalOptions="Center" Margin="0,20" />
+
+                <Label Text="First name:" Margin="20,5" />
+                <Entry x:Name="FirstNameEntry" Placeholder="John" Margin="20,5,20,20" />
+                <Label Text="Last name:" Margin="20,5" />
+                <Entry x:Name="LastNameEntry" Placeholder="Doe" Margin="20,5,20,20" />
+                <Label Text="Email:" Margin="20,5" />
+                <Entry x:Name="EmailEntry" Placeholder="john.doe@domain.com" Margin="20,5,20,20" />
+                <Label Text="Phone number:" Margin="20,5" />
+                <Entry x:Name="PhoneNumberEntry" Placeholder="0123456789" Margin="20,5,20,20" />
+                <Label Text="Street:" Margin="20,5" />
+                <Entry x:Name="StreetEntry" Placeholder="Mainway 12" Margin="20,5,20,20" />
+                <Label Text="Postal code:" Margin="20,5" />
+                <Entry x:Name="PostalCodeEntry" Placeholder="01234" Margin="20,5,20,20" />
+                <Label Text="Town/city:" Margin="20,5" />
+                <Entry x:Name="LocalityEntry" Placeholder="Albuquerque" Margin="20,5,20,20" />
+
+                <Button Text="Add Contact" Margin="20" Clicked="OnAddContactClicked" />
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

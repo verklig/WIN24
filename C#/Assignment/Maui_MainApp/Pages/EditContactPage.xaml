@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui_MainApp.Pages.EditContactPage"
+             Title="Edit contacts">
+    <ScrollView>
+        <Grid RowDefinitions="auto, *">
+            <VerticalStackLayout>
+                <Label Text="Edit a contact" FontSize="30" HorizontalOptions="Center" Margin="0,20" />
+
+                <Label Text="First name:" Margin="20,5" />
+                <Entry x:Name="FirstNameEntry" Margin="20,5,20,20" />
+                <Label Text="Last name:" Margin="20,5" />
+                <Entry x:Name="LastNameEntry" Margin="20,5,20,20" />
+                <Label Text="Email:" Margin="20,5" />
+                <Entry x:Name="EmailEntry" Margin="20,5,20,20" />
+                <Label Text="Phone number:" Margin="20,5" />
+                <Entry x:Name="PhoneNumberEntry" Margin="20,5,20,20" />
+                <Label Text="Street:" Margin="20,5" />
+                <Entry x:Name="StreetEntry" Margin="20,5,20,20" />
+                <Label Text="Postal code:" Margin="20,5" />
+                <Entry x:Name="PostalCodeEntry" Margin="20,5,20,20" />
+                <Label Text="Town/city:" Margin="20,5" />
+                <Entry x:Name="LocalityEntry" Margin="20,5,20,20" />
+                
+                <Button Text="Edit Contact" Margin="20" Clicked="OnEditContactClicked" IsEnabled="False" x:Name="EditButton" />
+
+                <Label Text="Select a contact to be edited" FontSize="20" HorizontalOptions="Center" Margin="0,30,0,40" />
+
+                <Label x:Name="NoContactsLabel" Text="No contacts in list." FontSize="16" HorizontalOptions="Center" IsVisible="False" TextColor="Gray" Margin="20" />
+
+                <ListView x:Name="ContactListView" ItemsSource="{Binding Contacts}" SelectionMode="Single" ItemSelected="ContactListView_ItemSelected" Margin="20">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <Label Text="{Binding FullName}" FontSize="20" />
+                                    <Label Text="{Binding ContactDetailsWithId}" FontSize="14" TextColor="Gray" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </VerticalStackLayout>
+        </Grid>
+    </ScrollView>
+</ContentPage>

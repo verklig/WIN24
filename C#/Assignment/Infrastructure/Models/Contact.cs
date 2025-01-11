@@ -36,6 +36,6 @@ public class Contact
 
 	public override string ToString()
 	{
-		return $"Name: {FirstName} {LastName}, Email: {Email}, Phone number: {PhoneNumber}, Street: {Street}, Postal code: {PostalCode}, Town/city: {Locality}, Id: ({Id})";
+		return $"Name: {FirstName} {LastName}, Email: {Email}, Phone: {PhoneNumber}, Street: {Street}, Postal code: {PostalCode}, Town/city: {Locality}, Id: ({Id})";
 	}
 }
