@@ -9,8 +9,10 @@ public class ContactFactory_Tests
 	[Fact]
 	public void Create_ShouldReturnContact()
 	{
+		// Act
 		Contact result = ContactFactory.Create();
 
+		// Assert
 		Assert.NotNull(result);
 		Assert.IsType<Contact>(result);
 	}

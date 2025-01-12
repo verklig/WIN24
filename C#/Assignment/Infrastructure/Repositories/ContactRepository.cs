@@ -31,8 +31,6 @@ public class ContactRepository : IContactRepository
 
 	public List<Contact> GetContactsFromFile()
 	{
-		List<Contact> list = new();
-
 		try
 		{
 			string json = _fileSerivice.GetTextFromFile();

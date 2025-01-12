@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Infrastructure.Factories;
 using Infrastructure.Interfaces;
 
@@ -25,7 +26,20 @@ public partial class AddContactPage : ContentPage
 		contact.Street = StreetEntry.Text;
 		contact.PostalCode = PostalCodeEntry.Text;
 		contact.Locality = LocalityEntry.Text;
+		
+		var results = new List<ValidationResult>();
+		var context = new ValidationContext(contact);
 
+		Validator.TryValidateObject(contact, context, results, true);
+		var errors = results.Select(r => r.ErrorMessage).ToList();
+		
+		if (errors.Any())
+		{
+			string errorMessage = string.Join("\n", results.Select(r => $"- {r.ErrorMessage}"));
+			await DisplayAlert("Error", errorMessage, "OK");
+			return;
+		}
+		
 		_contactService.CreateContact(contact);
 		
 		FirstNameEntry.Text = string.Empty;

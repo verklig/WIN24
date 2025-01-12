@@ -8,7 +8,11 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
+		string rootDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../../../../"));  
+		string dataDirectory = Path.Combine(rootDirectory, "Data");
+		
 		var builder = MauiApp.CreateBuilder();
+		
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>
@@ -19,7 +23,7 @@ public static class MauiProgram
 			
 		builder.Services.AddSingleton<IContactService, ContactService>();
 		builder.Services.AddSingleton<IContactRepository, ContactRepository>();
-		builder.Services.AddSingleton<IFileService>(new FileService("Data", "contacts.json"));
+		builder.Services.AddSingleton<IFileService>(new FileService(dataDirectory, "contacts.json"));
 
 		return builder.Build();
 	}

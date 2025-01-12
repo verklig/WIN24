@@ -1,12 +1,13 @@
 using Maui_MainApp.ViewModels;
 using Infrastructure.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Maui_MainApp.Pages;
 
 public partial class EditContactPage : ContentPage
 {
 	private readonly IContactService _contactService;
-	private Infrastructure.Models.Contact _selectedContact;
+	private Infrastructure.Models.Contact _selectedContact = null!;
 	private List<ContactViewModel> _contactViewModels = [];
 
 	public EditContactPage(IContactService contactService)
@@ -48,7 +49,7 @@ public partial class EditContactPage : ContentPage
 		}
 
 		var _selectedContactViewModel = selectedContactViewModel;
-		_selectedContact = _contactService.GetAllContacts().FirstOrDefault(c => c.Id == selectedContactViewModel.ContactId);
+		_selectedContact = _contactService.GetAllContacts().FirstOrDefault(c => c.Id == selectedContactViewModel.ContactId)!;
 
 		if (_selectedContact == null)
 		{
@@ -68,7 +69,7 @@ public partial class EditContactPage : ContentPage
 		ContactListView.SelectedItem = null;
 	}
 
-	private void OnEditContactClicked(object sender, EventArgs e)
+	private async void OnEditContactClicked(object sender, EventArgs e)
 	{
 		_selectedContact.FirstName = FirstNameEntry.Text;
 		_selectedContact.LastName = LastNameEntry.Text;
@@ -77,10 +78,23 @@ public partial class EditContactPage : ContentPage
 		_selectedContact.Street = StreetEntry.Text;
 		_selectedContact.PostalCode = PostalCodeEntry.Text;
 		_selectedContact.Locality = LocalityEntry.Text;
+		
+		var results = new List<ValidationResult>();
+		var context = new ValidationContext(_selectedContact);
+
+		Validator.TryValidateObject(_selectedContact, context, results, true);
+		var errors = results.Select(r => r.ErrorMessage).ToList();
+		
+		if (errors.Any())
+		{
+			string errorMessage = string.Join("\n", results.Select(r => $"- {r.ErrorMessage}"));
+			await DisplayAlert("Error", errorMessage, "OK");
+			return;
+		}
 
 		_contactService.UpdateContact(_selectedContact);
 
-		DisplayAlert("Success", "Contact updated!", "OK");
+		await DisplayAlert("Success", "Contact updated!", "OK");
 		LoadContacts();
 
 		FirstNameEntry.Text = string.Empty;
