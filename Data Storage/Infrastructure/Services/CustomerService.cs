@@ -26,13 +26,18 @@ public class CustomerService(CustomerRepository customerRepository)
 		return CustomerFactory.Create(customerEntity!)!;
 	}
 	
-	public async Task UpdateCustomerAsync(Customer customer) 
+	public async Task UpdateCustomerAsync(CustomerUpdateForm form) 
 	{ 
+		var customerEntity = await _customerRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Customer not found");
 		
+		CustomerFactory.Update(customerEntity, form);
+
+		await _customerRepository.UpdateAsync(customerEntity);
 	}
 	
 	public async Task DeleteCustomerAsync(int id) 
 	{
-		
+		var customerEntity = await _customerRepository.GetAsync(x => x.Id == id);
+		await _customerRepository.RemoveAsync(customerEntity!);
 	}
 }

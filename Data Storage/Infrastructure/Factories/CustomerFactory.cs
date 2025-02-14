@@ -15,4 +15,9 @@ public static class CustomerFactory
 	{
 		CustomerName = form.CustomerName,
 	};
+	
+	public static void Update(CustomerEntity entity, CustomerUpdateForm form)
+	{
+		entity.CustomerName = form.CustomerName;
+	}
 }

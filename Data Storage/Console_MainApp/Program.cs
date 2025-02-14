@@ -37,30 +37,89 @@ var services = new ServiceCollection()
 try
 {
 	var customerService = services.GetRequiredService<CustomerService>();
+
 	var testForm = new CustomerRegistrationForm()
 	{
 		CustomerName = "Test Name",
 	};
 
 	await customerService.CreateCustomerAsync(testForm);
-	Console.WriteLine("User added successfully!");
+	Console.WriteLine("Customer added successfully!");
 
 	Console.ReadKey();
 
 	var customers = await customerService.GetCustomersAsync();
+	
+	Console.WriteLine("\nCurrent Customers:");
 	foreach (var customer in customers)
 	{
-			Console.WriteLine($"Customer: {customer.CustomerName}");
+		Console.WriteLine($"Customer ID: {customer.Id}, Name: {customer.CustomerName}");
+	}
+
+	Console.ReadKey();
+
+	var customerToUpdate = customers.FirstOrDefault();
+	if (customerToUpdate != null)
+	{
+		var updateForm = new CustomerUpdateForm
+		{
+			Id = customerToUpdate.Id,
+			CustomerName = "Updated Name"
+		};
+
+		await customerService.UpdateCustomerAsync(updateForm);
+		Console.WriteLine($"Customer with ID {customerToUpdate.Id} updated successfully!");
+
+		Console.ReadKey();
+	}
+	else
+	{
+		Console.WriteLine("No customer found to update.");
+	}
+	
+	customers = await customerService.GetCustomersAsync();
+	
+	Console.WriteLine("\nCurrent Customers:");
+	foreach (var customer in customers)
+	{
+		Console.WriteLine($"Customer ID: {customer.Id}, Name: {customer.CustomerName}");
+	}
+	
+	Console.ReadKey();
+
+	var customerToDelete = customers.FirstOrDefault();
+	if (customerToDelete != null)
+	{
+		await customerService.DeleteCustomerAsync(customerToDelete.Id);
+		Console.WriteLine($"Customer with ID {customerToDelete.Id} deleted successfully!");
+	}
+	else
+	{
+		Console.WriteLine("No customer found to delete.");
+	}
+
+	Console.ReadKey();
+
+	var updatedCustomers = await customerService.GetCustomersAsync();
+	
+	Console.WriteLine("\nCustomers after updates and deletions:");
+	foreach (var customer in updatedCustomers)
+	{
+		Console.WriteLine($"Customer ID: {customer.Id}, Name: {customer.CustomerName}");
 	}
 
 	Console.ReadKey();
 }
 catch (Exception ex)
 {
-		Console.WriteLine($"An error occurred: {ex.Message}");
-		Console.WriteLine($"Inner exception: {ex.InnerException?.Message}");
+	Console.WriteLine($"An error occurred: {ex.Message}");
+	if (ex.InnerException != null)
+	{
+		Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+	}
 }
 finally
 {
-		Console.ReadKey();
+	Console.WriteLine("Test completed.");
+	Console.ReadKey();
 }
