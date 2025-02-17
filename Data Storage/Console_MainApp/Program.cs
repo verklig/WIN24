@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Models;
+using System.Runtime.CompilerServices;
 
 var config = new ConfigurationBuilder()
 	.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -34,10 +35,42 @@ var services = new ServiceCollection()
 // var menuDialog = services.GetRequiredService<MenuDialog>();
 // await menuDialog.Menu();
 
+// TESTING METHODS
+var customerService = services.GetRequiredService<CustomerService>();
+
 try
 {
-	var customerService = services.GetRequiredService<CustomerService>();
+	// Customer CRUD
+	await TestCreateCustomer();
+	Console.ReadKey();
 
+	await TestDisplayCustomers();
+	Console.ReadKey();
+
+	await TestEditCustomer();
+	await TestDisplayCustomers();
+	Console.ReadKey();
+
+	await TestDeleteCustomer();
+	await TestDisplayCustomers();
+	Console.ReadKey();
+}
+catch (Exception ex)
+{
+	Console.WriteLine($"An error occurred: {ex.Message}");
+	if (ex.InnerException != null)
+	{
+		Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+	}
+}
+finally
+{
+	Console.WriteLine("\nTest completed.");
+	Console.ReadKey();
+}
+
+async Task TestCreateCustomer()
+{
 	var testForm = new CustomerRegistrationForm()
 	{
 		CustomerName = "Test Name",
@@ -45,9 +78,10 @@ try
 
 	await customerService.CreateCustomerAsync(testForm);
 	Console.WriteLine("Customer added successfully!");
+}
 
-	Console.ReadKey();
-
+async Task TestDisplayCustomers()
+{
 	var customers = await customerService.GetCustomersAsync();
 	
 	Console.WriteLine("\nCurrent Customers:");
@@ -55,10 +89,13 @@ try
 	{
 		Console.WriteLine($"Customer ID: {customer.Id}, Name: {customer.CustomerName}");
 	}
+}
 
-	Console.ReadKey();
-
+async Task TestEditCustomer()
+{
+	var customers = await customerService.GetCustomersAsync();
 	var customerToUpdate = customers.FirstOrDefault();
+	
 	if (customerToUpdate != null)
 	{
 		var updateForm = new CustomerUpdateForm
@@ -76,17 +113,11 @@ try
 	{
 		Console.WriteLine("No customer found to update.");
 	}
-	
-	customers = await customerService.GetCustomersAsync();
-	
-	Console.WriteLine("\nCurrent Customers:");
-	foreach (var customer in customers)
-	{
-		Console.WriteLine($"Customer ID: {customer.Id}, Name: {customer.CustomerName}");
-	}
-	
-	Console.ReadKey();
+}
 
+async Task TestDeleteCustomer()
+{
+	var customers = await customerService.GetCustomersAsync();
 	var customerToDelete = customers.FirstOrDefault();
 	if (customerToDelete != null)
 	{
@@ -97,29 +128,4 @@ try
 	{
 		Console.WriteLine("No customer found to delete.");
 	}
-
-	Console.ReadKey();
-
-	var updatedCustomers = await customerService.GetCustomersAsync();
-	
-	Console.WriteLine("\nCustomers after updates and deletions:");
-	foreach (var customer in updatedCustomers)
-	{
-		Console.WriteLine($"Customer ID: {customer.Id}, Name: {customer.CustomerName}");
-	}
-
-	Console.ReadKey();
-}
-catch (Exception ex)
-{
-	Console.WriteLine($"An error occurred: {ex.Message}");
-	if (ex.InnerException != null)
-	{
-		Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-	}
-}
-finally
-{
-	Console.WriteLine("Test completed.");
-	Console.ReadKey();
 }
