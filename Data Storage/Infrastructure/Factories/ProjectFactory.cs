@@ -1,5 +1,6 @@
 using Data.Entities;
 using Infrastructure.Models;
+using Infrastructure.Dtos;
 
 namespace Infrastructure.Factories;
 

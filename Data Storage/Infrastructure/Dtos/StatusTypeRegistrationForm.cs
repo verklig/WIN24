@@ -1,4 +1,4 @@
-namespace Infrastructure.Models;
+namespace Infrastructure.Dtos;
 
 public class StatusTypeRegistrationForm
 {

@@ -8,7 +8,7 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 {
 	protected readonly DataContext _context = context;
 	protected readonly DbSet<TEntity> _db = context.Set<TEntity>();
-	
+
 	public async Task AddAsync(TEntity entity)
 	{
 		await _db.AddAsync(entity);

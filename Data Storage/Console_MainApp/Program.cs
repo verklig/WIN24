@@ -5,8 +5,7 @@ using Console_MainApp.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
-using Infrastructure.Models;
-using System.Runtime.CompilerServices;
+using Infrastructure.Dtos;
 
 var config = new ConfigurationBuilder()
 	.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

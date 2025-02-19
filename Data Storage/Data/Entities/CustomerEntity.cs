@@ -11,5 +11,4 @@ public class CustomerEntity
 	
 	[MaxLength(50)]
 	public string CustomerName { get; set; } = null!;
-	public ICollection<CustomerContactEntity> Contacts { get; set; } = new List<CustomerContactEntity>();
 }
