@@ -1,8 +1,8 @@
 namespace Infrastructure.Dtos;
 
-public class ServiceUpdateForm
+public class ProductUpdateForm
 {
 	public int Id { get; set; }
-	public string ServiceName { get; set; } = null!;
+	public string ProductName { get; set; } = null!;
 	public decimal Price { get; set; }
 }

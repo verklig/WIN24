@@ -12,34 +12,34 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 
 	public async Task CreateCustomerAsync(CustomerRegistrationForm form)
 	{
-		var customerEntity = CustomerFactory.Create(form)!;
-		await _customerRepository.AddAsync(customerEntity);
+		var entity = CustomerFactory.Create(form)!;
+		await _customerRepository.AddAsync(entity);
 	}
 
 	public async Task<IEnumerable<Customer>> GetCustomersAsync()
 	{
-		var customerEntities = await _customerRepository.GetAsync();
-		return customerEntities.Select(CustomerFactory.Create)!;
+		var entity = await _customerRepository.GetAsync();
+		return entity.Select(CustomerFactory.Create)!;
 	}
 
 	public async Task<Customer> GetCustomerByIdAsync(int id)
 	{
-		var customerEntity = await _customerRepository.GetAsync(x => x.Id == id);
-		return CustomerFactory.Create(customerEntity!)!;
+		var entity = await _customerRepository.GetAsync(x => x.Id == id);
+		return CustomerFactory.Create(entity!)!;
 	}
 
 	public async Task UpdateCustomerAsync(CustomerUpdateForm form)
 	{
-		var customerEntity = await _customerRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Customer not found");
+		var entity = await _customerRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Customer not found");
 
-		CustomerFactory.Update(customerEntity, form);
+		CustomerFactory.Update(entity, form);
 
-		await _customerRepository.UpdateAsync(customerEntity);
+		await _customerRepository.UpdateAsync(entity);
 	}
 
 	public async Task DeleteCustomerAsync(int id)
 	{
-		var customerEntity = await _customerRepository.GetAsync(x => x.Id == id);
-		await _customerRepository.RemoveAsync(customerEntity!);
+		var entity = await _customerRepository.GetAsync(x => x.Id == id);
+		await _customerRepository.RemoveAsync(entity!);
 	}
 }

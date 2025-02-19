@@ -3,7 +3,4 @@ using Data.Entities;
 
 namespace Data.Repositories;
 
-public class UserRepository(DataContext context) : BaseRepository<UserEntity>(context)
-{
-	
-}
+public class UserRepository(DataContext context) : BaseRepository<UserEntity>(context) {}

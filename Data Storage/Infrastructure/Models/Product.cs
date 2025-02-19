@@ -1,8 +1,8 @@
 namespace Infrastructure.Models;
 
-public class Service
+public class Product
 {
 	public int Id { get; set; }
-	public string ServiceName { get; set; } = null!;
+	public string ProductName { get; set; } = null!;
 	public decimal Price { get; set; }
 }
