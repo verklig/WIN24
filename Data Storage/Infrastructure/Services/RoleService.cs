@@ -20,6 +20,12 @@ public class RoleService(RoleRepository roleRepository)
 		var entity = await _roleRepository.GetAsync();
 		return entity.Select(RoleFactory.Create)!;
 	}
+	
+	public async Task<Role> GetRolesByIdAsync(int id)
+	{
+		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		return RoleFactory.Create(entity!)!;
+	}
 
 	public async Task UpdateRoleAsync(RoleUpdateForm form)
 	{
@@ -32,7 +38,7 @@ public class RoleService(RoleRepository roleRepository)
 
 	public async Task DeleteRoleAsync(int id)
 	{
-		var entity = await _roleRepository.GetAsync(x => x.Id == id);
+		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
 		await _roleRepository.RemoveAsync(entity!);
 	}
 }

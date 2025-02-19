@@ -36,6 +36,7 @@ var services = new ServiceCollection()
 
 // TESTING METHODS
 var customerService = services.GetRequiredService<CustomerService>();
+var projectService = services.GetRequiredService<ProjectService>();
 
 try
 {
@@ -52,6 +53,21 @@ try
 
 	await TestDeleteCustomer();
 	await TestDisplayCustomers();
+	Console.ReadKey();
+	
+	// Project CRUD
+	await TestCreateProject();
+	Console.ReadKey();
+
+	await TestDisplayProjects();
+	Console.ReadKey();
+	
+	await TestEditProject();
+	await TestDisplayProjects();
+	Console.ReadKey();
+	
+	await TestDeleteProject();
+	await TestDisplayProjects();
 	Console.ReadKey();
 }
 catch (Exception ex)
@@ -126,5 +142,74 @@ async Task TestDeleteCustomer()
 	else
 	{
 		Console.WriteLine("No customer found to delete.");
+	}
+}
+
+async Task TestCreateProject()
+{
+	var testForm = new ProjectRegistrationForm()
+	{
+		Title = "Test Project",
+		Description = "This is a test project",
+		StartDate = DateTime.Now,
+		EndDate = DateTime.Now.AddDays(30),
+		StatusId = 1,
+		CustomerId = 1,
+		ProductId = 1,
+		UserId = 1
+	};
+
+	await projectService.CreateProjectAsync(testForm);
+	Console.WriteLine("Project added successfully!");
+}
+
+async Task TestDisplayProjects()
+{
+	var projects = await projectService.GetProjectsAsync();
+
+	Console.WriteLine("\nCurrent Projects:");
+	foreach (var project in projects)
+	{
+		Console.WriteLine($"Project ID: {project.Id}, Title: {project.Title}, Status ID: {project.StatusId}");
+	}
+}
+
+async Task TestEditProject()
+{
+	var projects = await projectService.GetProjectsAsync();
+	var projectToUpdate = projects.FirstOrDefault();
+
+	if (projectToUpdate != null)
+	{
+		var updateForm = new ProjectUpdateForm
+		{
+			Id = projectToUpdate.Id,
+			Title = "Updated Project Title",
+			Description = "Updated project description",
+			EndDate = DateTime.Now.AddDays(60),
+			StatusId = 2
+		};
+
+		await projectService.UpdateProjectAsync(updateForm);
+		Console.WriteLine($"Project with ID {projectToUpdate.Id} updated successfully!");
+	}
+	else
+	{
+		Console.WriteLine("No project found to update.");
+	}
+}
+
+async Task TestDeleteProject()
+{
+	var projects = await projectService.GetProjectsAsync();
+	var projectToDelete = projects.FirstOrDefault();
+	if (projectToDelete != null)
+	{
+		await projectService.DeleteProjectAsync(projectToDelete.Id);
+		Console.WriteLine($"Project with ID {projectToDelete.Id} deleted successfully!");
+	}
+	else
+	{
+		Console.WriteLine("No project found to delete.");
 	}
 }

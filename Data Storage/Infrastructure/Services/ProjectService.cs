@@ -23,7 +23,7 @@ public class ProjectService(ProjectRepository projectRepository)
 
 	public async Task<Project> GetProjectByIdAsync(int id)
 	{
-		var entity = await _projectRepository.GetAsync(x => x.Id == id);
+		var entity = await _projectRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
 		return ProjectFactory.Create(entity!)!;
 	}
 
@@ -38,7 +38,7 @@ public class ProjectService(ProjectRepository projectRepository)
 
 	public async Task DeleteProjectAsync(int id)
 	{
-		var entity = await _projectRepository.GetAsync(x => x.Id == id);
+		var entity = await _projectRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
 		await _projectRepository.RemoveAsync(entity!);
 	}
 }

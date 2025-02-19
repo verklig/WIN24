@@ -28,9 +28,9 @@ public class ProjectEntity
 	public int CustomerId { get; set; }
 	public CustomerEntity Customer { get; set; } = null!;
 	
-	[ForeignKey("Service")]
-	public int ServiceId { get; set; }
-	public ServiceEntity Service { get; set; } = null!;
+	[ForeignKey("Product")]
+	public int ProductId { get; set; }
+	public ProductEntity Product { get; set; } = null!;
 	
 	[ForeignKey("User")]
 	public int UserId { get; set; }

@@ -15,7 +15,7 @@ public static class ProjectFactory
 		EndDate = entity.EndDate,
 		StatusId = entity.StatusId,
 		CustomerId = entity.CustomerId,
-		ServiceId = entity.ServiceId,
+		ProductId = entity.ProductId,
 		UserId = entity.UserId,
 	};
 	
@@ -27,7 +27,7 @@ public static class ProjectFactory
 		EndDate = form.EndDate,
 		StatusId = form.StatusId,
 		CustomerId = form.CustomerId,
-		ServiceId = form.ServiceId,
+		ProductId = form.ProductId,
 		UserId = form.UserId,
 	};
 	
@@ -39,7 +39,7 @@ public static class ProjectFactory
 		entity.EndDate = form.EndDate;
 		entity.StatusId = form.StatusId;
 		entity.CustomerId = form.CustomerId;
-		entity.ServiceId = form.ServiceId;
+		entity.ProductId = form.ProductId;
 		entity.UserId = form.UserId;
 	}
 }
