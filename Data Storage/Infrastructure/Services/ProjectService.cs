@@ -2,10 +2,11 @@ using Data.Repositories;
 using Infrastructure.Factories;
 using Infrastructure.Models;
 using Infrastructure.Dtos;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Services;
 
-public class ProjectService(ProjectRepository projectRepository)
+public class ProjectService(ProjectRepository projectRepository) : IProjectService
 {
 	private readonly ProjectRepository _projectRepository = projectRepository;
 	
@@ -23,7 +24,7 @@ public class ProjectService(ProjectRepository projectRepository)
 
 	public async Task<Project> GetProjectByIdAsync(int id)
 	{
-		var entity = await _projectRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _projectRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Project not found");
 		return ProjectFactory.Create(entity!)!;
 	}
 
@@ -38,7 +39,7 @@ public class ProjectService(ProjectRepository projectRepository)
 
 	public async Task DeleteProjectAsync(int id)
 	{
-		var entity = await _projectRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _projectRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Project not found");
 		await _projectRepository.RemoveAsync(entity!);
 	}
 }

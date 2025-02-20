@@ -24,7 +24,7 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 
 	public async Task<Customer> GetCustomerByIdAsync(int id)
 	{
-		var entity = await _customerRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _customerRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Customer not found");
 		return CustomerFactory.Create(entity!)!;
 	}
 
@@ -39,7 +39,7 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 
 	public async Task DeleteCustomerAsync(int id)
 	{
-		var entity = await _customerRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _customerRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Customer not found");
 		await _customerRepository.RemoveAsync(entity!);
 	}
 }

@@ -9,12 +9,12 @@ public static class RoleFactory
 	public static Role? Create(RoleEntity entity) => entity == null ? null : new()
 	{
 		Id = entity.Id,
-		RoleName = entity.RoleName,
+		RoleName = entity.RoleName
 	};
 	
 	public static RoleEntity? Create(RoleRegistrationForm form) => form == null ? null : new()
 	{
-		RoleName = form.RoleName,
+		RoleName = form.RoleName
 	};
 	
 	public static void Update(RoleEntity entity, RoleUpdateForm form)

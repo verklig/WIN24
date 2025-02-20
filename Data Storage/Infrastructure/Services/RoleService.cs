@@ -2,10 +2,11 @@ using Data.Repositories;
 using Infrastructure.Factories;
 using Infrastructure.Models;
 using Infrastructure.Dtos;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Services;
 
-public class RoleService(RoleRepository roleRepository)
+public class RoleService(RoleRepository roleRepository) : IRoleService
 {
 	private readonly RoleRepository _roleRepository = roleRepository;
 	
@@ -21,9 +22,9 @@ public class RoleService(RoleRepository roleRepository)
 		return entity.Select(RoleFactory.Create)!;
 	}
 	
-	public async Task<Role> GetRolesByIdAsync(int id)
+	public async Task<Role> GetRoleByIdAsync(int id)
 	{
-		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Role not found");
 		return RoleFactory.Create(entity!)!;
 	}
 
@@ -38,7 +39,7 @@ public class RoleService(RoleRepository roleRepository)
 
 	public async Task DeleteRoleAsync(int id)
 	{
-		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Role not found");
 		await _roleRepository.RemoveAsync(entity!);
 	}
 }

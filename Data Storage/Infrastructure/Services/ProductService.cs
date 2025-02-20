@@ -2,10 +2,11 @@ using Data.Repositories;
 using Infrastructure.Factories;
 using Infrastructure.Models;
 using Infrastructure.Dtos;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Services;
 
-public class ProductService(ProductRepository productRepository)
+public class ProductService(ProductRepository productRepository) : IProductService
 {
 	private readonly ProductRepository _productRepository = productRepository;
 	
@@ -15,13 +16,13 @@ public class ProductService(ProductRepository productRepository)
 		await _productRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<Product>> GetRolesAsync()
+	public async Task<IEnumerable<Product>> GetProductsAsync()
 	{
 		var entity = await _productRepository.GetAsync();
 		return entity.Select(ProductFactory.Create)!;
 	}
 	
-	public async Task<Product> GetProductsByIdAsync(int id)
+	public async Task<Product> GetProductByIdAsync(int id)
 	{
 		var entity = await _productRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
 		return ProductFactory.Create(entity!)!;

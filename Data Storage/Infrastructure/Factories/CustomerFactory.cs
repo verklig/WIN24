@@ -9,12 +9,12 @@ public static class CustomerFactory
 	public static Customer? Create(CustomerEntity entity) => entity == null ? null : new()
 	{
 		Id = entity.Id,
-		CustomerName = entity.CustomerName,
+		CustomerName = entity.CustomerName
 	};
 	
 	public static CustomerEntity? Create(CustomerRegistrationForm form) => form == null ? null : new()
 	{
-		CustomerName = form.CustomerName,
+		CustomerName = form.CustomerName
 	};
 	
 	public static void Update(CustomerEntity entity, CustomerUpdateForm form)

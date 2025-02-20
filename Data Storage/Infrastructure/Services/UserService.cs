@@ -2,10 +2,11 @@ using Data.Repositories;
 using Infrastructure.Factories;
 using Infrastructure.Models;
 using Infrastructure.Dtos;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Services;
 
-public class UserService(UserRepository userRepository)
+public class UserService(UserRepository userRepository) : IUserService
 {
 	private readonly UserRepository _userRepository = userRepository;
 	
@@ -15,7 +16,7 @@ public class UserService(UserRepository userRepository)
 		await _userRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<User>> GetUserAsync()
+	public async Task<IEnumerable<User>> GetUsersAsync()
 	{
 		var entity = await _userRepository.GetAsync();
 		return entity.Select(UserFactory.Create)!;
@@ -23,13 +24,13 @@ public class UserService(UserRepository userRepository)
 	
 	public async Task<User> GetUserByIdAsync(int id)
 	{
-		var entity = await _userRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _userRepository.GetAsync(x => x.Id == id) ?? throw new Exception("User not found");
 		return UserFactory.Create(entity!)!;
 	}
 
 	public async Task UpdateUserAsync(UserUpdateForm form)
 	{
-		var entity = await _userRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Role not found");
+		var entity = await _userRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("User not found");
 
 		UserFactory.Update(entity, form);
 
@@ -38,7 +39,7 @@ public class UserService(UserRepository userRepository)
 
 	public async Task DeleteUserAsync(int id)
 	{
-		var entity = await _userRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
+		var entity = await _userRepository.GetAsync(x => x.Id == id) ?? throw new Exception("User not found");
 		await _userRepository.RemoveAsync(entity!);
 	}
 }

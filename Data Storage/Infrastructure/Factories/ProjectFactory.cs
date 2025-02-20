@@ -16,7 +16,7 @@ public static class ProjectFactory
 		StatusId = entity.StatusId,
 		CustomerId = entity.CustomerId,
 		ProductId = entity.ProductId,
-		UserId = entity.UserId,
+		UserId = entity.UserId
 	};
 	
 	public static ProjectEntity? Create(ProjectRegistrationForm form) => form == null ? null : new()
@@ -28,7 +28,7 @@ public static class ProjectFactory
 		StatusId = form.StatusId,
 		CustomerId = form.CustomerId,
 		ProductId = form.ProductId,
-		UserId = form.UserId,
+		UserId = form.UserId
 	};
 	
 	public static void Update(ProjectEntity entity, ProjectUpdateForm form)
