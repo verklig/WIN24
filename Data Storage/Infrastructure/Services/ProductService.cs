@@ -9,37 +9,55 @@ namespace Infrastructure.Services;
 public class ProductService(ProductRepository productRepository) : IProductService
 {
 	private readonly ProductRepository _productRepository = productRepository;
-	
-	public async Task CreateProductAsync(ProductRegistrationForm form)
+
+	public async Task<bool> CreateProductAsync(ProductRegistrationForm form)
 	{
-		var entity = ProductFactory.Create(form)!;
-		await _productRepository.AddAsync(entity);
+		var entity = ProductFactory.Create(form);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _productRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<Product>> GetProductsAsync()
+	public async Task<IEnumerable<Product?>> GetProductsAsync()
 	{
-		var entity = await _productRepository.GetAsync();
-		return entity.Select(ProductFactory.Create)!;
-	}
-	
-	public async Task<Product> GetProductByIdAsync(int id)
-	{
-		var entity = await _productRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
-		return ProductFactory.Create(entity!)!;
+		var entities = await _productRepository.GetAsync();
+		return entities?.Select(ProductFactory.Create)!;
 	}
 
-	public async Task UpdateProductAsync(ProductUpdateForm form)
+	public async Task<Product?> GetProductByIdAsync(int id)
 	{
-		var entity = await _productRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Product not found");
+		var entity = await _productRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return null;
+		}
+
+		return ProductFactory.Create(entity);
+	}
+
+	public async Task<bool> UpdateProductAsync(ProductUpdateForm form)
+	{
+		var entity = await _productRepository.GetAsync(x => x.Id == form.Id);
+		if (entity == null)
+		{
+			return false;
+		}
 
 		ProductFactory.Update(entity, form);
-
-		await _productRepository.UpdateAsync(entity);
+		return await _productRepository.UpdateAsync(entity);
 	}
 
-	public async Task DeleteProductAsync(int id)
+	public async Task<bool> DeleteProductAsync(int id)
 	{
-		var entity = await _productRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Product not found");
-		await _productRepository.RemoveAsync(entity!);
+		var entity = await _productRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _productRepository.RemoveAsync(entity!);
 	}
 }

@@ -6,18 +6,33 @@ using Console_MainApp.Dialogs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
+using MySqlConnector;
 
 var config = new ConfigurationBuilder()
 	.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
 	.AddEnvironmentVariables()
 	.Build();
 
-
 string? connectionString = config.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
 {
-	Console.WriteLine("Connection string missing!");
+	Console.WriteLine("Connection string is missing or not found.");
+	Console.WriteLine("\nPress any key to exit...");
+	Console.ReadKey();
+	return;
+}
+
+try
+{
+	using var connection = new MySqlConnection(connectionString);
+	connection.Open();
+}
+catch (MySqlException ex)
+{
+	Console.WriteLine("ERROR: Unable to connect to the database.");
+	Console.WriteLine($"Details: {ex.Message}");
+	Console.WriteLine("\nPress any key to exit...");
 	Console.ReadKey();
 	return;
 }

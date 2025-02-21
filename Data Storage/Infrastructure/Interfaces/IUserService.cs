@@ -5,9 +5,9 @@ namespace Infrastructure.Interfaces;
 
 public interface IUserService
 {
-	Task CreateUserAsync(UserRegistrationForm form);
-	Task<IEnumerable<User>> GetUsersAsync();
-	Task<User> GetUserByIdAsync(int id);
-	Task UpdateUserAsync(UserUpdateForm form);
-	Task DeleteUserAsync(int id);
+	Task<bool> CreateUserAsync(UserRegistrationForm form);
+	Task<IEnumerable<User?>> GetUsersAsync();
+	Task<User?> GetUserByIdAsync(int id);
+	Task<bool> UpdateUserAsync(UserUpdateForm form);
+	Task<bool> DeleteUserAsync(int id);
 }

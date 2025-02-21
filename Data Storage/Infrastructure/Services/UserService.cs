@@ -9,37 +9,55 @@ namespace Infrastructure.Services;
 public class UserService(UserRepository userRepository) : IUserService
 {
 	private readonly UserRepository _userRepository = userRepository;
-	
-	public async Task CreateUserAsync(UserRegistrationForm form)
+
+	public async Task<bool> CreateUserAsync(UserRegistrationForm form)
 	{
-		var entity = UserFactory.Create(form)!;
-		await _userRepository.AddAsync(entity);
+		var entity = UserFactory.Create(form);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _userRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<User>> GetUsersAsync()
+	public async Task<IEnumerable<User?>> GetUsersAsync()
 	{
-		var entity = await _userRepository.GetAsync();
-		return entity.Select(UserFactory.Create)!;
-	}
-	
-	public async Task<User> GetUserByIdAsync(int id)
-	{
-		var entity = await _userRepository.GetAsync(x => x.Id == id) ?? throw new Exception("User not found");
-		return UserFactory.Create(entity!)!;
+		var entities = await _userRepository.GetAsync();
+		return entities?.Select(UserFactory.Create)!;
 	}
 
-	public async Task UpdateUserAsync(UserUpdateForm form)
+	public async Task<User?> GetUserByIdAsync(int id)
 	{
-		var entity = await _userRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("User not found");
+		var entity = await _userRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return null;
+		}
+
+		return UserFactory.Create(entity);
+	}
+
+	public async Task<bool> UpdateUserAsync(UserUpdateForm form)
+	{
+		var entity = await _userRepository.GetAsync(x => x.Id == form.Id);
+		if (entity == null)
+		{
+			return false;
+		}
 
 		UserFactory.Update(entity, form);
-
-		await _userRepository.UpdateAsync(entity);
+		return await _userRepository.UpdateAsync(entity);
 	}
 
-	public async Task DeleteUserAsync(int id)
+	public async Task<bool> DeleteUserAsync(int id)
 	{
-		var entity = await _userRepository.GetAsync(x => x.Id == id) ?? throw new Exception("User not found");
-		await _userRepository.RemoveAsync(entity!);
+		var entity = await _userRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _userRepository.RemoveAsync(entity!);
 	}
 }

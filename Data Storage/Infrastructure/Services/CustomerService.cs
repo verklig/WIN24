@@ -10,36 +10,54 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 {
 	private readonly CustomerRepository _customerRepository = customerRepository;
 
-	public async Task CreateCustomerAsync(CustomerRegistrationForm form)
+	public async Task<bool> CreateCustomerAsync(CustomerRegistrationForm form)
 	{
-		var entity = CustomerFactory.Create(form)!;
-		await _customerRepository.AddAsync(entity);
+		var entity = CustomerFactory.Create(form);
+		if (entity == null)
+		{
+			return false;
+		}
+		
+		return await _customerRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<Customer>> GetCustomersAsync()
+	public async Task<IEnumerable<Customer?>> GetCustomersAsync()
 	{
-		var entity = await _customerRepository.GetAsync();
-		return entity.Select(CustomerFactory.Create)!;
+		var entities = await _customerRepository.GetAsync();
+		return entities?.Select(CustomerFactory.Create)!;
 	}
 
-	public async Task<Customer> GetCustomerByIdAsync(int id)
+	public async Task<Customer?> GetCustomerByIdAsync(int id)
 	{
-		var entity = await _customerRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Customer not found");
-		return CustomerFactory.Create(entity!)!;
+		var entity = await _customerRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return null;
+		}
+
+		return CustomerFactory.Create(entity);
 	}
 
-	public async Task UpdateCustomerAsync(CustomerUpdateForm form)
+	public async Task<bool> UpdateCustomerAsync(CustomerUpdateForm form)
 	{
-		var entity = await _customerRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Customer not found");
+		var entity = await _customerRepository.GetAsync(x => x.Id == form.Id);
+		if (entity == null)
+		{
+			return false; 
+		}
 
 		CustomerFactory.Update(entity, form);
-
-		await _customerRepository.UpdateAsync(entity);
+		return await _customerRepository.UpdateAsync(entity);
 	}
 
-	public async Task DeleteCustomerAsync(int id)
+	public async Task<bool> DeleteCustomerAsync(int id)
 	{
-		var entity = await _customerRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Customer not found");
-		await _customerRepository.RemoveAsync(entity!);
+		var entity = await _customerRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return false; 
+		}
+		
+		return await _customerRepository.RemoveAsync(entity!);
 	}
 }

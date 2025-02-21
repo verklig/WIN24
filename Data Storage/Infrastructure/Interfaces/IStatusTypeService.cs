@@ -5,9 +5,9 @@ namespace Infrastructure.Interfaces;
 
 public interface IStatusTypeService
 {
-	Task CreateStatusTypeAsync(StatusTypeRegistrationForm form);
-	Task<IEnumerable<StatusType>> GetStatusTypesAsync();
-	Task<StatusType> GetStatusTypeByIdAsync(int id);
-	Task UpdateStatusTypeAsync(StatusTypeUpdateForm form);
-	Task DeleteStatusTypeAsync(int id);
+	Task<bool> CreateStatusTypeAsync(StatusTypeRegistrationForm form);
+	Task<IEnumerable<StatusType?>> GetStatusTypesAsync();
+	Task<StatusType?> GetStatusTypeByIdAsync(int id);
+	Task<bool> UpdateStatusTypeAsync(StatusTypeUpdateForm form);
+	Task<bool> DeleteStatusTypeAsync(int id);
 }

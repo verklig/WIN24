@@ -5,9 +5,9 @@ namespace Infrastructure.Interfaces;
 
 public interface IProjectService
 {
-	Task CreateProjectAsync(ProjectRegistrationForm form);
-	Task<IEnumerable<Project>> GetProjectsAsync();
-	Task<Project> GetProjectByIdAsync(int id);
-	Task UpdateProjectAsync(ProjectUpdateForm form);
-	Task DeleteProjectAsync(int id);
+	Task<bool> CreateProjectAsync(ProjectRegistrationForm form);
+	Task<IEnumerable<Project?>> GetProjectsAsync();
+	Task<Project?> GetProjectByIdAsync(int id);
+	Task<bool> UpdateProjectAsync(ProjectUpdateForm form);
+	Task<bool> DeleteProjectAsync(int id);
 }

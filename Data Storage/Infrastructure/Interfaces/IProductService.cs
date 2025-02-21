@@ -5,9 +5,9 @@ namespace Infrastructure.Interfaces;
 
 public interface IProductService
 {
-	Task CreateProductAsync(ProductRegistrationForm form);
-	Task<IEnumerable<Product>> GetProductsAsync();
-	Task<Product> GetProductByIdAsync(int id);
-	Task UpdateProductAsync(ProductUpdateForm form);
-	Task DeleteProductAsync(int id);
+	Task<bool> CreateProductAsync(ProductRegistrationForm form);
+	Task<IEnumerable<Product?>> GetProductsAsync();
+	Task<Product?> GetProductByIdAsync(int id);
+	Task<bool> UpdateProductAsync(ProductUpdateForm form);
+	Task<bool> DeleteProductAsync(int id);
 }

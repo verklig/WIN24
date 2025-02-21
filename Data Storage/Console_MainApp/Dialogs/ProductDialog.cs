@@ -13,13 +13,13 @@ public class ProductDialog(IProductService productService)
 		{
 			Console.Clear();
 			
-			Console.WriteLine("-------- PRODUCT MANAGEMENT -------");
+			Console.WriteLine("-------- PRODUCT MANAGEMENT --------");
 			Console.WriteLine("1. Create a Product");
 			Console.WriteLine("2. Edit a Product");
 			Console.WriteLine("3. Delete a Product");
 			Console.WriteLine("4. Show all Products");
 			Console.WriteLine("q. Go back");
-			Console.WriteLine("-----------------------------------");
+			Console.WriteLine("------------------------------------");
 
 			Console.Write("\nChoose an option: ");
 			string choice = Console.ReadLine()!.ToLower();
@@ -41,7 +41,8 @@ public class ProductDialog(IProductService productService)
 				case "q":
 					return;
 				default:
-					Console.WriteLine("Invalid input, try again.");
+					Console.WriteLine("\nERROR: Invalid input.");
+					Console.WriteLine("\nPress any key to return...");
 					Console.ReadKey();
 					break;
 			}
@@ -51,40 +52,50 @@ public class ProductDialog(IProductService productService)
 	private async Task CreateProductAsync()
 	{
 		Console.Clear();
+		Console.WriteLine("---- CREATING A PRODUCT ----\n");
 		
 		Console.Write("Enter product name: ");
-		string name = Console.ReadLine()!;
+		string name = Console.ReadLine()!.Trim();
 		
-		Console.Write("Enter price: ");
-		string price = Console.ReadLine()!;
+		if (string.IsNullOrEmpty(name))
+		{
+			Console.WriteLine("\nERROR: The name cannot be empty.");
+			Console.WriteLine("\nPress any key to return...");
+			Console.ReadKey();
+			
+			return;
+		}
+		
+		Console.Write("Enter price (use \",\" instead of \".\" for decimals): ");
+		string price = Console.ReadLine()!.Trim();
 
 		if (decimal.TryParse(price, out decimal parsedPrice))
 		{
 			var productForm = new ProductRegistrationForm { ProductName = name, Price = parsedPrice };
-			await _productService.CreateProductAsync(productForm);
+			bool ok = await _productService.CreateProductAsync(productForm);
 		
-			Console.WriteLine("Product created successfully!");
+			Console.WriteLine(ok ? "\nProduct created successfully!" : "\nERROR: Failed to create product.");
 		}
 		else
 		{
-			Console.WriteLine("Something went wrong.");
+			Console.WriteLine("\nERROR: Price was formatted wrong.");
 		}
 		
+		Console.WriteLine("\nPress any key to return...");
 		Console.ReadKey();
 	}
 
 	private async Task ShowProductsAsync()
 	{
 		Console.Clear();
+		Console.WriteLine("---- LIST OF ALL PRODUCTS ----\n");
 		
 		var products = await _productService.GetProductsAsync();
 		if (products.Any())
 		{
-			Console.WriteLine("List of all Products:\n");
-		
 			foreach (var product in products)
 			{
-				Console.WriteLine($"ID: {product.Id}, Name: {product.ProductName}, Price: {product.Price}");
+				Console.WriteLine($"ID: {product!.Id}, Name: {product.ProductName}, Price: {product.Price}");
 			}
 		}
 		else
@@ -99,51 +110,64 @@ public class ProductDialog(IProductService productService)
 	private async Task EditProductAsync()
 	{
 		Console.Clear();
+		Console.WriteLine("---- EDITING A PRODUCT ----\n");
 		
-		Console.Write("Enter Product ID to edit: ");
-		if (int.TryParse(Console.ReadLine(), out int id))
+		Console.Write("Enter product ID to edit: ");
+		if (int.TryParse(Console.ReadLine()!.Trim(), out int id))
 		{
-			Console.Write("Enter new Product Name: ");
-			string newName = Console.ReadLine()!;
+			Console.Write("Enter new product name: ");
+			string newName = Console.ReadLine()!.Trim();
 			
-			Console.Write("Enter new Product Price: ");
-			string newPrice = Console.ReadLine()!;
+			if (string.IsNullOrEmpty(newName))
+			{
+			Console.WriteLine("\nERROR: The name cannot be empty.");
+			Console.WriteLine("\nPress any key to return...");
+			Console.ReadKey();
+			
+			return;
+			}
+			
+			Console.Write("Enter new product price (use \",\" instead of \".\" for decimals): ");
+			string newPrice = Console.ReadLine()!.Trim();
 
 			if (decimal.TryParse(newPrice, out decimal parsedPrice))
 			{
 				var updateForm = new ProductUpdateForm { Id = id, ProductName = newName, Price = parsedPrice };
-				await _productService.UpdateProductAsync(updateForm);
+				bool ok = await _productService.UpdateProductAsync(updateForm);
 			
-				Console.WriteLine("Product updated successfully!");
+				Console.WriteLine(ok ? "\nProduct updated successfully!" : "\nERROR: Failed to update product.\nMake sure a product with the chosen ID exists.");
 			}
 			else
 			{
-				Console.WriteLine("Something went wrong.");
+				Console.WriteLine("Price was formatted wrong.");
 			}
 		}
 		else
 		{
-			Console.WriteLine("Invalid ID.");
+			Console.WriteLine("\nERROR: Invalid ID.");
 		}
 		
+		Console.WriteLine("\nPress any key to return...");
 		Console.ReadKey();
 	}
 
 	private async Task DeleteProductAsync()
 	{
 		Console.Clear();
+		Console.WriteLine("---- DELETING A PRODUCT ----\n");
 		
-		Console.Write("Enter Product ID to delete: ");
-		if (int.TryParse(Console.ReadLine(), out int id))
+		Console.Write("Enter product ID to delete: ");
+		if (int.TryParse(Console.ReadLine()!.Trim(), out int id))
 		{
-			await _productService.DeleteProductAsync(id);
-			Console.WriteLine("Product deleted successfully!");
+			bool ok = await _productService.DeleteProductAsync(id);
+			Console.WriteLine(ok ? "\nProduct deleted successfully!" : "\nERROR: Failed to delete product.\nMake sure a product with the chosen ID exists.");
 		}
 		else
 		{
-			Console.WriteLine("Invalid ID.");
+			Console.WriteLine("\nERROR: Invalid ID.");
 		}
 		
+		Console.WriteLine("\nPress any key to return...");
 		Console.ReadKey();
 	}
 }

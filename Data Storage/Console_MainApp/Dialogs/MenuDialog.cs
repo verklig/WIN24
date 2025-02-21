@@ -11,11 +11,11 @@ public class MenuDialog(CustomerDialog customerDialog, ProductDialog productDial
 		{
 			Console.Clear();
 			
-			Console.WriteLine("-------- MAIN MENU -------");
+			Console.WriteLine("-------- MAIN MENU --------");
 			Console.WriteLine("1. Manage Customers");
 			Console.WriteLine("2. Manage Products");
 			Console.WriteLine("q. Quit");
-			Console.WriteLine("--------------------------");
+			Console.WriteLine("---------------------------");
 			
 			Console.Write("\nChoose an option: ");
 			string choice = Console.ReadLine()!.ToLower();
@@ -31,7 +31,8 @@ public class MenuDialog(CustomerDialog customerDialog, ProductDialog productDial
 				case "q":
 					return;
 				default:
-					Console.WriteLine("Invalid input, try again.");
+					Console.WriteLine("\nERROR: Invalid input.");
+					Console.WriteLine("\nPress any key to return...");
 					Console.ReadKey();
 					break;
 			}

@@ -9,33 +9,81 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 	protected readonly DataContext _context = context;
 	protected readonly DbSet<TEntity> _db = context.Set<TEntity>();
 
-	public async Task AddAsync(TEntity entity)
+	public async Task<bool> AddAsync(TEntity entity)
 	{
-		await _db.AddAsync(entity);
-		await _context.SaveChangesAsync();
+		try
+		{
+			await _db.AddAsync(entity);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("ERROR: Failed to add entity.");
+			Console.WriteLine($"Details: {ex.Message}");
+			return false;
+		}
 	}
 	
-	public async Task<IEnumerable<TEntity>> GetAsync()
+	public async Task<IEnumerable<TEntity>?> GetAsync()
 	{
-		var entities = await _db.ToListAsync();
-		return entities;
+		try
+		{
+			var entities = await _db.ToListAsync();
+			return entities;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("ERROR: Failed to retrieve entities.");
+			Console.WriteLine($"Details: {ex.Message}");
+			return null;
+		}
 	}
 	
 	public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression)
 	{
-		var entity = await _db.FirstOrDefaultAsync(expression);
-		return entity;
+		try
+		{
+			var entity = await _db.FirstOrDefaultAsync(expression);
+			return entity;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("ERROR: Failed to retrieve entity.");
+			Console.WriteLine($"Details: {ex.Message}");
+			return null;
+		}
 	}
 	
-	public async Task UpdateAsync(TEntity entity)
+	public async Task<bool> UpdateAsync(TEntity entity)
 	{
-		_db.Update(entity);
-		await _context.SaveChangesAsync();
+		try
+		{
+			_db.Update(entity);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("ERROR: Failed to update entity.");
+			Console.WriteLine($"Details: {ex.Message}");
+			return false;
+		}
 	}
 	
-	public async Task RemoveAsync(TEntity entity)
+	public async Task<bool> RemoveAsync(TEntity entity)
 	{
-		_db.Remove(entity);
-		await _context.SaveChangesAsync();
+		try
+		{
+			_db.Remove(entity);
+			await _context.SaveChangesAsync();
+			return true;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("ERROR: Failed to remove entity.");
+			Console.WriteLine($"Details: {ex.Message}");
+			return false;
+		}
 	}
 }

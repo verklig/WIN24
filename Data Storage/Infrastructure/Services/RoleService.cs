@@ -9,37 +9,55 @@ namespace Infrastructure.Services;
 public class RoleService(RoleRepository roleRepository) : IRoleService
 {
 	private readonly RoleRepository _roleRepository = roleRepository;
-	
-	public async Task CreateRoleAsync(RoleRegistrationForm form)
+
+	public async Task<bool> CreateRoleAsync(RoleRegistrationForm form)
 	{
-		var entity = RoleFactory.Create(form)!;
-		await _roleRepository.AddAsync(entity);
+		var entity = RoleFactory.Create(form);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _roleRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<Role>> GetRolesAsync()
+	public async Task<IEnumerable<Role?>> GetRolesAsync()
 	{
-		var entity = await _roleRepository.GetAsync();
-		return entity.Select(RoleFactory.Create)!;
-	}
-	
-	public async Task<Role> GetRoleByIdAsync(int id)
-	{
-		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Role not found");
-		return RoleFactory.Create(entity!)!;
+		var entities = await _roleRepository.GetAsync();
+		return entities?.Select(RoleFactory.Create)!;
 	}
 
-	public async Task UpdateRoleAsync(RoleUpdateForm form)
+	public async Task<Role?> GetRoleByIdAsync(int id)
 	{
-		var entity = await _roleRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Role not found");
+		var entity = await _roleRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return null;
+		}
+
+		return RoleFactory.Create(entity);
+	}
+
+	public async Task<bool> UpdateRoleAsync(RoleUpdateForm form)
+	{
+		var entity = await _roleRepository.GetAsync(x => x.Id == form.Id);
+		if (entity == null)
+		{
+			return false;
+		}
 
 		RoleFactory.Update(entity, form);
-
-		await _roleRepository.UpdateAsync(entity);
+		return await _roleRepository.UpdateAsync(entity);
 	}
 
-	public async Task DeleteRoleAsync(int id)
+	public async Task<bool> DeleteRoleAsync(int id)
 	{
-		var entity = await _roleRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Role not found");
-		await _roleRepository.RemoveAsync(entity!);
+		var entity = await _roleRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _roleRepository.RemoveAsync(entity!);
 	}
 }

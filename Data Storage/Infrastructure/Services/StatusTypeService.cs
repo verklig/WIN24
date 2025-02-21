@@ -9,37 +9,55 @@ namespace Infrastructure.Services;
 public class StatusTypeService(StatusTypeRepository statusTypeRepository) : IStatusTypeService
 {
 	private readonly StatusTypeRepository _statusTypeRepository = statusTypeRepository;
-	
-	public async Task CreateStatusTypeAsync(StatusTypeRegistrationForm form)
+
+	public async Task<bool> CreateStatusTypeAsync(StatusTypeRegistrationForm form)
 	{
-		var entity = StatusTypeFactory.Create(form)!;
-		await _statusTypeRepository.AddAsync(entity);
+		var entity = StatusTypeFactory.Create(form);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _statusTypeRepository.AddAsync(entity);
 	}
 
-	public async Task<IEnumerable<StatusType>> GetStatusTypesAsync()
+	public async Task<IEnumerable<StatusType?>> GetStatusTypesAsync()
 	{
-		var entity = await _statusTypeRepository.GetAsync();
-		return entity.Select(StatusTypeFactory.Create)!;
-	}
-	
-	public async Task<StatusType> GetStatusTypeByIdAsync(int id)
-	{
-		var entity = await _statusTypeRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Status Type not found");
-		return StatusTypeFactory.Create(entity!)!;
+		var entities = await _statusTypeRepository.GetAsync();
+		return entities?.Select(StatusTypeFactory.Create)!;
 	}
 
-	public async Task UpdateStatusTypeAsync(StatusTypeUpdateForm form)
+	public async Task<StatusType?> GetStatusTypeByIdAsync(int id)
 	{
-		var entity = await _statusTypeRepository.GetAsync(x => x.Id == form.Id) ?? throw new Exception("Status Type not found");
+		var entity = await _statusTypeRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return null;
+		}
+
+		return StatusTypeFactory.Create(entity);
+	}
+
+	public async Task<bool> UpdateStatusTypeAsync(StatusTypeUpdateForm form)
+	{
+		var entity = await _statusTypeRepository.GetAsync(x => x.Id == form.Id);
+		if (entity == null)
+		{
+			return false;
+		}
 
 		StatusTypeFactory.Update(entity, form);
-
-		await _statusTypeRepository.UpdateAsync(entity);
+		return await _statusTypeRepository.UpdateAsync(entity);
 	}
 
-	public async Task DeleteStatusTypeAsync(int id)
+	public async Task<bool> DeleteStatusTypeAsync(int id)
 	{
-		var entity = await _statusTypeRepository.GetAsync(x => x.Id == id) ?? throw new Exception("Status Type not found");
-		await _statusTypeRepository.RemoveAsync(entity!);
+		var entity = await _statusTypeRepository.GetAsync(x => x.Id == id);
+		if (entity == null)
+		{
+			return false;
+		}
+
+		return await _statusTypeRepository.RemoveAsync(entity!);
 	}
 }
