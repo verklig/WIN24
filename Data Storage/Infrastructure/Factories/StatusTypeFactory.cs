@@ -19,7 +19,7 @@ public static class StatusTypeFactory
 	
 	public static void Update(StatusTypeEntity entity, StatusTypeUpdateForm form)
 	{
-		entity.Id = entity.Id;
-		entity.StatusName = entity.StatusName;
+		entity.Id = form.Id;
+		entity.StatusName = form.StatusName;
 	}
 }

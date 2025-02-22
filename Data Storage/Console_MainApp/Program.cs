@@ -53,8 +53,12 @@ var services = new ServiceCollection()
 	.AddScoped<IUserService, UserService>()
 	.AddScoped<CustomerDialog>()
 	.AddScoped<ProductDialog>()
-	.AddScoped<MenuDialog>()
+	.AddScoped<ProjectDialog>()
+	.AddScoped<RoleDialog>()
+	.AddScoped<StatusTypeDialog>()
+	.AddScoped<UserDialog>()
+	.AddScoped<MainMenuDialog>()
 	.BuildServiceProvider();
 
-var menuDialog = services.GetRequiredService<MenuDialog>();
-await menuDialog.ShowMenuAsync();
+var mainMenuDialog = services.GetRequiredService<MainMenuDialog>();
+await mainMenuDialog.ShowMenuAsync();

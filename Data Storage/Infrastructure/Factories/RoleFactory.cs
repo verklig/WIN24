@@ -19,7 +19,7 @@ public static class RoleFactory
 	
 	public static void Update(RoleEntity entity, RoleUpdateForm form)
 	{
-		entity.Id = entity.Id;
-		entity.RoleName = entity.RoleName;
+		entity.Id = form.Id;
+		entity.RoleName = form.RoleName;
 	}
 }

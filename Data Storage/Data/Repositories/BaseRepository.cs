@@ -19,8 +19,13 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("ERROR: Failed to add entity.");
+			Console.WriteLine("\nERROR: Failed to add entity.");
 			Console.WriteLine($"Details: {ex.Message}");
+			if (ex.InnerException != null)
+			{
+				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+			}
+			
 			return false;
 		}
 	}
@@ -34,8 +39,13 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("ERROR: Failed to retrieve entities.");
+			Console.WriteLine("\nERROR: Failed to retrieve entities.");
 			Console.WriteLine($"Details: {ex.Message}");
+			if (ex.InnerException != null)
+			{
+				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+			}
+			
 			return null;
 		}
 	}
@@ -49,8 +59,13 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("ERROR: Failed to retrieve entity.");
+			Console.WriteLine("\nERROR: Failed to retrieve entity.");
 			Console.WriteLine($"Details: {ex.Message}");
+			if (ex.InnerException != null)
+			{
+				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+			}
+			
 			return null;
 		}
 	}
@@ -65,8 +80,13 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("ERROR: Failed to update entity.");
+			Console.WriteLine("\nERROR: Failed to update entity.");
 			Console.WriteLine($"Details: {ex.Message}");
+			if (ex.InnerException != null)
+			{
+				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+			}
+			
 			return false;
 		}
 	}
@@ -81,8 +101,13 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("ERROR: Failed to remove entity.");
+			Console.WriteLine("\nERROR: Failed to remove entity.");
 			Console.WriteLine($"Details: {ex.Message}");
+			if (ex.InnerException != null)
+			{
+				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+			}
+			
 			return false;
 		}
 	}

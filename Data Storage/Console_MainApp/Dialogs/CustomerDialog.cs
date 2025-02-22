@@ -62,7 +62,6 @@ public class CustomerDialog(ICustomerService customerService)
 			Console.WriteLine("\nERROR: The name cannot be empty.");
 			Console.WriteLine("\nPress any key to return...");
 			Console.ReadKey();
-			
 			return;
 		}
 
@@ -89,7 +88,7 @@ public class CustomerDialog(ICustomerService customerService)
 		}
 		else
 		{
-			Console.WriteLine("No Customers found.");
+			Console.WriteLine("No customers found.");
 		}
 		
 		Console.WriteLine("\nPress any key to return...");
@@ -100,31 +99,40 @@ public class CustomerDialog(ICustomerService customerService)
 	{
 		Console.Clear();
 		Console.WriteLine("---- EDITING A CUSTOMER ----\n");
-		
+
 		Console.Write("Enter customer ID to edit: ");
-		if (int.TryParse(Console.ReadLine()!.Trim(), out int id))
+		if (!int.TryParse(Console.ReadLine()!.Trim(), out int id))
 		{
-			Console.Write("Enter new customer name: ");
-			string newName = Console.ReadLine()!.Trim();
-			
-			if (string.IsNullOrEmpty(newName))
-			{
+			Console.WriteLine("\nERROR: Invalid ID.");
+			Console.WriteLine("\nPress any key to return...");
+			Console.ReadKey();
+			return;
+		}
+		
+		var customer = await _customerService.GetCustomerByIdAsync(id);
+		if (customer == null)
+		{
+			Console.WriteLine("\nERROR: Failed to find customer.");
+			Console.WriteLine("Make sure a customer with the chosen ID exists.");
+			Console.WriteLine("\nPress any key to return...");
+			Console.ReadKey();
+			return;
+		}
+		
+		Console.Write("Enter new customer name: ");
+		string newName = Console.ReadLine()!.Trim();
+		
+		if (string.IsNullOrEmpty(newName))
+		{
 			Console.WriteLine("\nERROR: The name cannot be empty.");
 			Console.WriteLine("\nPress any key to return...");
 			Console.ReadKey();
-			
 			return;
-			}
+		}
 
-			var updateForm = new CustomerUpdateForm { Id = id, CustomerName = newName };
-			bool ok = await _customerService.UpdateCustomerAsync(updateForm);
-			
-			Console.WriteLine(ok ? "\nCustomer updated successfully!" : "\nERROR: Failed to update customer.\nMake sure a customer with the chosen ID exists.");
-		}
-		else
-		{
-			Console.WriteLine("\nERROR: Invalid ID.");		
-		}
+		var updateForm = new CustomerUpdateForm { Id = id, CustomerName = newName };
+		bool ok = await _customerService.UpdateCustomerAsync(updateForm);
+		Console.WriteLine(ok ? "\nCustomer updated successfully!" : "\nERROR: Failed to update customer.");
 		
 		Console.WriteLine("\nPress any key to return...");
 		Console.ReadKey();
@@ -136,16 +144,17 @@ public class CustomerDialog(ICustomerService customerService)
 		Console.WriteLine("---- DELETING A CUSTOMER ----\n");
 		
 		Console.Write("Enter customer ID to delete: ");
-		if (int.TryParse(Console.ReadLine()!.Trim(), out int id))
-		{
-			bool ok = await _customerService.DeleteCustomerAsync(id);
-			Console.WriteLine(ok ? "\nCustomer deleted successfully!" : "\nERROR: Failed to delete customer.\nMake sure a customer with the chosen ID exists.");
-		}
-		else
+		if (!int.TryParse(Console.ReadLine()!.Trim(), out int id))
 		{
 			Console.WriteLine("\nERROR: Invalid ID.");
+			Console.WriteLine("\nPress any key to return...");
+			Console.ReadKey();
+			return;
 		}
 		
+		bool ok = await _customerService.DeleteCustomerAsync(id);
+		Console.WriteLine(ok ? "\nCustomer deleted successfully!" : "\nERROR: Failed to delete customer.\nMake sure a customer with the chosen ID exists.");
+			
 		Console.WriteLine("\nPress any key to return...");
 		Console.ReadKey();
 	}
