@@ -30,7 +30,8 @@ try
 }
 catch (MySqlException ex)
 {
-	Console.WriteLine($"ERROR: {ex.Message}");
+	Console.WriteLine("ERROR: Unable to connect to the database.");
+	Console.WriteLine($"Details: {ex.Message}");
 	Console.WriteLine("\nPress any key to exit...");
 	Console.ReadKey();
 	return;

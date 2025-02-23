@@ -18,7 +18,10 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
 			return false;
 		}
 
-		return await _statusTypeRepository.AddAsync(entity);
+		return await _statusTypeRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _statusTypeRepository.AddAsync(entity);
+		});
 	}
 
 	public async Task<IEnumerable<StatusType?>> GetStatusTypesAsync()
@@ -47,7 +50,11 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
 		}
 
 		StatusTypeFactory.Update(entity, form);
-		return await _statusTypeRepository.UpdateAsync(entity);
+
+		return await _statusTypeRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _statusTypeRepository.UpdateAsync(entity);
+		});
 	}
 
 	public async Task<bool> DeleteStatusTypeAsync(int id)
@@ -58,6 +65,9 @@ public class StatusTypeService(StatusTypeRepository statusTypeRepository) : ISta
 			return false;
 		}
 
-		return await _statusTypeRepository.RemoveAsync(entity!);
+		return await _statusTypeRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _statusTypeRepository.RemoveAsync(entity);
+		});
 	}
 }

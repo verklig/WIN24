@@ -18,7 +18,10 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 			return false;
 		}
 		
-		return await _customerRepository.AddAsync(entity);
+		return await _customerRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _customerRepository.AddAsync(entity);
+		});
 	}
 
 	public async Task<IEnumerable<Customer?>> GetCustomersAsync()
@@ -47,7 +50,11 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 		}
 
 		CustomerFactory.Update(entity, form);
-		return await _customerRepository.UpdateAsync(entity);
+
+		return await _customerRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _customerRepository.UpdateAsync(entity);
+		});
 	}
 
 	public async Task<bool> DeleteCustomerAsync(int id)
@@ -55,9 +62,12 @@ public class CustomerService(CustomerRepository customerRepository) : ICustomerS
 		var entity = await _customerRepository.GetAsync(x => x.Id == id);
 		if (entity == null)
 		{
-			return false; 
+			return false;
 		}
-		
-		return await _customerRepository.RemoveAsync(entity!);
+
+		return await _customerRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _customerRepository.RemoveAsync(entity);
+		});
 	}
 }

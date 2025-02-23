@@ -18,7 +18,10 @@ public class RoleService(RoleRepository roleRepository) : IRoleService
 			return false;
 		}
 
-		return await _roleRepository.AddAsync(entity);
+		return await _roleRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _roleRepository.AddAsync(entity);
+		});
 	}
 
 	public async Task<IEnumerable<Role?>> GetRolesAsync()
@@ -47,7 +50,11 @@ public class RoleService(RoleRepository roleRepository) : IRoleService
 		}
 
 		RoleFactory.Update(entity, form);
-		return await _roleRepository.UpdateAsync(entity);
+
+		return await _roleRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _roleRepository.UpdateAsync(entity);
+		});
 	}
 
 	public async Task<bool> DeleteRoleAsync(int id)
@@ -58,6 +65,9 @@ public class RoleService(RoleRepository roleRepository) : IRoleService
 			return false;
 		}
 
-		return await _roleRepository.RemoveAsync(entity!);
+		return await _roleRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _roleRepository.RemoveAsync(entity);
+		});
 	}
 }

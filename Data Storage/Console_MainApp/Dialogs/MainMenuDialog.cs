@@ -16,12 +16,12 @@ public class MainMenuDialog(CustomerDialog customerDialog, ProductDialog product
 			Console.Clear();
 			
 			Console.WriteLine("-------- MAIN MENU --------");
-			Console.WriteLine("1. Manage Customers");
-			Console.WriteLine("2. Manage Users");
-			Console.WriteLine("3. Manage Roles");
-			Console.WriteLine("4. Manage Products");
-			Console.WriteLine("5. Manage Status Types");
-			Console.WriteLine("6. Manage Projects");
+			Console.WriteLine("1. Manage Projects");
+			Console.WriteLine("2. Manage Customers");
+			Console.WriteLine("3. Manage Users");
+			Console.WriteLine("4. Manage Roles");
+			Console.WriteLine("5. Manage Products");
+			Console.WriteLine("6. Manage Status Types");
 			Console.WriteLine("q. Quit");
 			Console.WriteLine("---------------------------");
 			
@@ -31,22 +31,22 @@ public class MainMenuDialog(CustomerDialog customerDialog, ProductDialog product
 			switch (choice)
 			{
 				case "1":
-					await _customerDialog.ShowCustomerMenuAsync();
+					await _projectDialog.ShowProjectMenuAsync();
 					break;
 				case "2":
-					await _userDialog.ShowUserMenuAsync();
+					await _customerDialog.ShowCustomerMenuAsync();
 					break;
 				case "3":
-					await _roleDialog.ShowRoleMenuAsync();
+					await _userDialog.ShowUserMenuAsync();
 					break;
 				case "4":
-					await _productDialog.ShowProductMenuAsync();
+					await _roleDialog.ShowRoleMenuAsync();
 					break;
 				case "5":
-					await _statusTypeDialog.ShowStatusTypeMenuAsync();
+					await _productDialog.ShowProductMenuAsync();
 					break;
 				case "6":
-					await _projectDialog.ShowProjectMenuAsync();
+					await _statusTypeDialog.ShowStatusTypeMenuAsync();
 					break;
 				case "q":
 					return;

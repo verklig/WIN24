@@ -14,22 +14,15 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		try
 		{
 			await _db.AddAsync(entity);
-			await _context.SaveChangesAsync();
 			return true;
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("\nERROR: Failed to add entity.");
-			Console.WriteLine($"Details: {ex.Message}");
-			if (ex.InnerException != null)
-			{
-				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-			}
-			
+			ShowError(ex);
 			return false;
 		}
 	}
-	
+
 	public async Task<IEnumerable<TEntity>?> GetAsync()
 	{
 		try
@@ -39,17 +32,11 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("\nERROR: Failed to retrieve entities.");
-			Console.WriteLine($"Details: {ex.Message}");
-			if (ex.InnerException != null)
-			{
-				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-			}
-			
+			ShowError(ex);
 			return null;
 		}
 	}
-	
+
 	public async Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> expression)
 	{
 		try
@@ -59,56 +46,65 @@ public abstract class BaseRepository<TEntity>(DataContext context) where TEntity
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("\nERROR: Failed to retrieve entity.");
-			Console.WriteLine($"Details: {ex.Message}");
-			if (ex.InnerException != null)
-			{
-				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-			}
-			
+			ShowError(ex);
 			return null;
 		}
 	}
-	
-	public async Task<bool> UpdateAsync(TEntity entity)
+
+	public Task<bool> UpdateAsync(TEntity entity)
 	{
 		try
 		{
 			_db.Update(entity);
-			await _context.SaveChangesAsync();
-			return true;
+			return Task.FromResult(true);
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("\nERROR: Failed to update entity.");
-			Console.WriteLine($"Details: {ex.Message}");
-			if (ex.InnerException != null)
-			{
-				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-			}
-			
-			return false;
+			ShowError(ex);
+			return Task.FromResult(false);
 		}
 	}
-	
-	public async Task<bool> RemoveAsync(TEntity entity)
+
+	public Task<bool> RemoveAsync(TEntity entity)
 	{
 		try
 		{
 			_db.Remove(entity);
-			await _context.SaveChangesAsync();
-			return true;
+			return Task.FromResult(true);
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine("\nERROR: Failed to remove entity.");
-			Console.WriteLine($"Details: {ex.Message}");
-			if (ex.InnerException != null)
-			{
-				Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-			}
-			
+			ShowError(ex);
+			return Task.FromResult(false);
+		}
+	}
+
+	public async Task<bool> ExecuteInTransactionAsync(Func<Task> operation)
+	{
+		using var transaction = await _context.Database.BeginTransactionAsync();
+
+		try
+		{
+			await operation();
+			await _context.SaveChangesAsync();
+			await transaction.CommitAsync();
+			return true;
+		}
+		catch (Exception)
+		{
+			await transaction.RollbackAsync();
 			return false;
+			throw;
+		}
+	}
+
+	private void ShowError(Exception ex)
+	{
+		Console.WriteLine("\nERROR: Operation failed.");
+		Console.WriteLine($"Details: {ex.Message}");
+		if (ex.InnerException != null)
+		{
+			Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
 		}
 	}
 }

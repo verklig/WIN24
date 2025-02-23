@@ -19,13 +19,7 @@ public class UserRepository(DataContext context) : BaseRepository<UserEntity>(co
     }
     catch (Exception ex)
     {
-      Console.WriteLine("\nERROR: Failed to retrieve entities.");
-      Console.WriteLine($"Details: {ex.Message}");
-      if (ex.InnerException != null)
-      {
-        Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-      }
-
+      ShowError(ex);
       return null;
     }
   }
@@ -42,14 +36,18 @@ public class UserRepository(DataContext context) : BaseRepository<UserEntity>(co
     }
     catch (Exception ex)
     {
-      Console.WriteLine("\nERROR: Failed to retrieve entity.");
-      Console.WriteLine($"Details: {ex.Message}");
-      if (ex.InnerException != null)
-      {
-        Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
-      }
-
+      ShowError(ex);
       return null;
     }
   }
+
+	private void ShowError(Exception ex)
+ 	{
+		Console.WriteLine("\nERROR: Operation failed.");
+		Console.WriteLine($"Details: {ex.Message}");
+		if (ex.InnerException != null)
+		{
+			Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+		}
+	}
 }

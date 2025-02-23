@@ -18,7 +18,10 @@ public class ProjectService(ProjectRepository projectRepository) : IProjectServi
 			return false;
 		}
 
-		return await _projectRepository.AddAsync(entity);
+		return await _projectRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _projectRepository.AddAsync(entity);
+		});
 	}
 
 	public async Task<IEnumerable<Project?>> GetProjectsAsync()
@@ -47,7 +50,11 @@ public class ProjectService(ProjectRepository projectRepository) : IProjectServi
 		}
 
 		ProjectFactory.Update(entity, form);
-		return await _projectRepository.UpdateAsync(entity);
+
+		return await _projectRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _projectRepository.UpdateAsync(entity);
+		});
 	}
 
 	public async Task<bool> DeleteProjectAsync(int id)
@@ -58,6 +65,9 @@ public class ProjectService(ProjectRepository projectRepository) : IProjectServi
 			return false;
 		}
 
-		return await _projectRepository.RemoveAsync(entity!);
+		return await _projectRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _projectRepository.RemoveAsync(entity);
+		});
 	}
 }

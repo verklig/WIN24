@@ -18,7 +18,10 @@ public class ProductService(ProductRepository productRepository) : IProductServi
 			return false;
 		}
 
-		return await _productRepository.AddAsync(entity);
+		return await _productRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _productRepository.AddAsync(entity);
+		});
 	}
 
 	public async Task<IEnumerable<Product?>> GetProductsAsync()
@@ -47,7 +50,11 @@ public class ProductService(ProductRepository productRepository) : IProductServi
 		}
 
 		ProductFactory.Update(entity, form);
-		return await _productRepository.UpdateAsync(entity);
+
+		return await _productRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _productRepository.UpdateAsync(entity);
+		});
 	}
 
 	public async Task<bool> DeleteProductAsync(int id)
@@ -58,6 +65,9 @@ public class ProductService(ProductRepository productRepository) : IProductServi
 			return false;
 		}
 
-		return await _productRepository.RemoveAsync(entity!);
+		return await _productRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _productRepository.RemoveAsync(entity);
+		});
 	}
 }

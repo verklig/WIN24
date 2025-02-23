@@ -18,7 +18,10 @@ public class UserService(UserRepository userRepository) : IUserService
 			return false;
 		}
 
-		return await _userRepository.AddAsync(entity);
+		return await _userRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _userRepository.AddAsync(entity);
+		});
 	}
 
 	public async Task<IEnumerable<User?>> GetUsersAsync()
@@ -47,7 +50,11 @@ public class UserService(UserRepository userRepository) : IUserService
 		}
 
 		UserFactory.Update(entity, form);
-		return await _userRepository.UpdateAsync(entity);
+
+		return await _userRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _userRepository.UpdateAsync(entity);
+		});
 	}
 
 	public async Task<bool> DeleteUserAsync(int id)
@@ -57,7 +64,10 @@ public class UserService(UserRepository userRepository) : IUserService
 		{
 			return false;
 		}
-
-		return await _userRepository.RemoveAsync(entity!);
+		
+		return await _userRepository.ExecuteInTransactionAsync(async () =>
+		{
+			await _userRepository.RemoveAsync(entity);
+		});
 	}
 }
