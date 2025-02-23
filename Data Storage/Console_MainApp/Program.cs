@@ -17,7 +17,7 @@ string? connectionString = config.GetConnectionString("DefaultConnection");
 
 if (string.IsNullOrEmpty(connectionString))
 {
-	Console.WriteLine("Connection string is missing or not found.");
+	Console.WriteLine("ERROR: Connection string is missing or not found.");
 	Console.WriteLine("\nPress any key to exit...");
 	Console.ReadKey();
 	return;
@@ -30,8 +30,7 @@ try
 }
 catch (MySqlException ex)
 {
-	Console.WriteLine("ERROR: Unable to connect to the database.");
-	Console.WriteLine($"Details: {ex.Message}");
+	Console.WriteLine($"ERROR: {ex.Message}");
 	Console.WriteLine("\nPress any key to exit...");
 	Console.ReadKey();
 	return;

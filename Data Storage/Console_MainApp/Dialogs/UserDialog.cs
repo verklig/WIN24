@@ -119,15 +119,13 @@ public class UserDialog(IUserService userService, IRoleService roleService)
 		Console.WriteLine("---- LIST OF ALL USERS ----\n");
 		
 		var users = await _userService.GetUsersAsync();
-		var roles = await _roleService.GetRolesAsync();
 		if (users.Any())
 		{
 			foreach (var user in users)
 			{
-				string roleName = roles.FirstOrDefault(r => r!.Id == user!.RoleId)?.RoleName!;
 				string emailDisplay = string.IsNullOrWhiteSpace(user!.Email) ? "N/A" : user.Email;
 				
-				Console.WriteLine($"ID: {user.Id}, Name: {user.FirstName} {user.LastName}, Email: {emailDisplay}, Role: {roleName}");
+				Console.WriteLine($"ID: {user.Id}, Name: {user.FirstName} {user.LastName}, Email: {emailDisplay}, Role: {user.Role.RoleName}");
 			}
 		}
 		else

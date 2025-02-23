@@ -23,7 +23,7 @@ public class ProjectService(ProjectRepository projectRepository) : IProjectServi
 
 	public async Task<IEnumerable<Project?>> GetProjectsAsync()
 	{
-		var entities = await _projectRepository.GetAsync();
+		var entities = await _projectRepository.GetProjectsAsync();
 		return entities?.Select(ProjectFactory.Create)!;
 	}
 
@@ -40,7 +40,7 @@ public class ProjectService(ProjectRepository projectRepository) : IProjectServi
 
 	public async Task<bool> UpdateProjectAsync(ProjectUpdateForm form)
 	{
-		var entity = await _projectRepository.GetAsync(x => x.Id == form.Id);
+		var entity = await _projectRepository.GetProjectAsync(x => x.Id == form.Id);
 		if (entity == null)
 		{
 			return false;

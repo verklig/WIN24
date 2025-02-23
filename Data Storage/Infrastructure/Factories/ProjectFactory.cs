@@ -13,10 +13,10 @@ public static class ProjectFactory
 		Description = entity.Description,
 		StartDate = entity.StartDate,
 		EndDate = entity.EndDate,
-		StatusId = entity.StatusId,
-		CustomerId = entity.CustomerId,
-		ProductId = entity.ProductId,
-		UserId = entity.UserId
+		Status = entity.Status != null ? new StatusType { StatusName = entity.Status.StatusName } : null!,
+		Customer = entity.Customer != null ? new Customer { CustomerName = entity.Customer.CustomerName } : null!,
+		Product = entity.User != null ? new Product { ProductName = entity.Product.ProductName, Price = entity.Product.Price } : null!,
+		User = entity.Product != null ? new User { FirstName = entity.User.FirstName, LastName = entity.User.LastName } : null!,
 	};
 	
 	public static ProjectEntity? Create(ProjectRegistrationForm form) => form == null ? null : new()

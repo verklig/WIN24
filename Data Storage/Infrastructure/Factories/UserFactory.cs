@@ -12,7 +12,7 @@ public static class UserFactory
 		FirstName = entity.FirstName,
 		LastName = entity.LastName,
 		Email = entity.Email,
-		RoleId = entity.RoleId
+		Role = entity.Role != null ? new Role { RoleName = entity.Role.RoleName } : null!,
 	};
 	
 	public static UserEntity? Create(UserRegistrationForm form) => form == null ? null : new()

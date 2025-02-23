@@ -187,28 +187,22 @@ public class ProjectDialog(ICustomerService customerService, IProductService pro
 		Console.WriteLine("---- LIST OF ALL PROJECTS ----\n");
 		
 		var projects = await _projectService.GetProjectsAsync();
-		var statusTypes = await _statusTypeService.GetStatusTypesAsync();
-		var customers = await _customerService.GetCustomersAsync();
-		var products = await _productService.GetProductsAsync();
-		var users = await _userService.GetUsersAsync();
 
 		if (projects.Any())
 		{
 			foreach (var project in projects)
 			{
-				var product = products.FirstOrDefault(x => x!.Id == project!.ProductId);
-				string statusName = statusTypes.FirstOrDefault(x => x!.Id == project!.StatusId)?.StatusName!;
-				string customerName = customers.FirstOrDefault(x => x!.Id == project!.CustomerId)?.CustomerName!;
-				string assignedUser = $"{users.First(x => x!.Id == project!.UserId)!.FirstName} {users.First(x => x!.Id == project!.UserId)!.LastName}";
+				string description = string.IsNullOrWhiteSpace(project!.Description) ? "N/A" : project.Description;
+				string endDate = project.EndDate?.ToString("yyyy-MM-dd") ?? "N/A";
 
 				Console.WriteLine($"ID: {project!.Id}");
 				Console.WriteLine($"Title: {project.Title}");
-				Console.WriteLine($"Description: {(string.IsNullOrWhiteSpace(project.Description) ? "N/A" : project.Description)}");
-				Console.WriteLine($"Starts: {project.StartDate:yyyy-MM-dd}, Ends: {project.EndDate?.ToString("yyyy-MM-dd") ?? "N/A"}");
-				Console.WriteLine($"Status: {statusName}");
-				Console.WriteLine($"Customer: {customerName}");
-				Console.WriteLine($"Project Assigned: {assignedUser}");
-				Console.WriteLine($"Service: {product!.ProductName} - Price: {product.Price:C}/h\n");
+				Console.WriteLine($"Description: {description}");
+				Console.WriteLine($"Starts: {project.StartDate:yyyy-MM-dd}, Ends: {endDate}");
+				Console.WriteLine($"Status: {project.Status.StatusName}");
+				Console.WriteLine($"Customer: {project.Customer.CustomerName}");
+				Console.WriteLine($"Project Assigned: {project.User.FirstName} {project.User.LastName}");
+				Console.WriteLine($"Service: {project.Product.ProductName} - Price: {project.Product.Price:C}/h\n");
 			}
 		}
 		else

@@ -23,13 +23,13 @@ public class UserService(UserRepository userRepository) : IUserService
 
 	public async Task<IEnumerable<User?>> GetUsersAsync()
 	{
-		var entities = await _userRepository.GetAsync();
+		var entities = await _userRepository.GetUsersAsync();
 		return entities?.Select(UserFactory.Create)!;
 	}
 
 	public async Task<User?> GetUserByIdAsync(int id)
 	{
-		var entity = await _userRepository.GetAsync(x => x.Id == id);
+		var entity = await _userRepository.GetUserAsync(x => x.Id == id);
 		if (entity == null)
 		{
 			return null;
