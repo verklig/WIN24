@@ -38,6 +38,12 @@ artifacts/
 # Database Configurations
 appsettings.json
 
+# Properties
+Properties/
+launchSettings.json
+appsettings.Development.json
+appsettings.json
+
 # Other temporary files
 *.tmp
 *.bak
