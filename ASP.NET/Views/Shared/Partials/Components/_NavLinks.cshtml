@@ -1,10 +1,12 @@
 <nav class="nav-links">
   <a class="nav-link @(Context.Request.Path == "/projects" ? "active" : "")" asp-action="Projects" asp-controller="Projects">
-    <i class="fa-duotone fa-solid fa-briefcase"></i>
+    <img src="~/images/projects-icon.svg" alt="Projects Icon" class="default">
+    <img src="~/images/projects-icon-hover.svg" alt="Projects Icon" class="hover">
     <span>Projects</span>
   </a>
   <a class="nav-link @(Context.Request.Path == "/admin/members" ? "active" : "")" asp-action="Members" asp-controller="Admin">
-    <i class="fa-duotone fa-solid fa-user-group"></i>
+    <img src="~/images/members-icon.svg" alt="Members Icon" class="default">
+    <img src="~/images/members-icon-hover.svg" alt="Members Icon" class="hover">
     <span>Team Members</span>
   </a>
 </nav>
