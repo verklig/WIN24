@@ -1,17 +1,60 @@
+@model LoginViewModel
 @{
   Layout = "_LoginLayout";
   ViewData["Title"] = "Login";
 }
 
 <div class="center-screen">
-  <div class="surface grid">
-    <h1 class="flex">Login</h1>
+  <div class="surface">
+    <form class="grid" method="post" asp-controller="Auth" asp-action="HandleLogin" novalidate>
+      
+      <h1 class="title flex">
+        @ViewData["Title"]
+      </h1>
 
-    <label>Email</label>
-    <input placeholder="Your email address">
+      <button class="btn btn-white">
+        <img src="images/google-icon.svg" alt="Google Icon">
+        Login with Google
+      </button>
 
-    <label>Password</label>
-    <input placeholder="Enter your password">
+      <div class="or-divider flex">
+        <div class="flex">
+          <span>OR</span>
+        </div>
+      </div>
 
+      <label asp-for="Email" class="input-label">Email</label>
+      <input asp-for="Email" type="email" placeholder="Enter your email address">
+      <span asp-validation-for="Email"></span>
+
+      <label asp-for="Password" class="input-label" >Password</label>
+      <input asp-for="Password" type="password" placeholder="Enter your password">
+      <span asp-validation-for="Password"></span>
+      <a href="#" class="flex">
+        <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
+        <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
+      </a>
+      </input>
+
+      <div class="remember-password flex">
+        <div class="flex">
+          <label class="flex">
+            <input type="checkbox">
+              <i class="fa-solid fa-check checkmark"></i>
+            </input>
+            <span>Remember Me</span>
+          </label>
+        </div>
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <button class="btn btn-blue" type="submit">Log in</button>
+
+      <div class="sign-up flex">
+        <label>Don't have an account?</label>
+        <a asp-controller="Auth" asp-action="Register">Sign Up</a>
+      </div>
+
+    </form>
   </div>
 </div>

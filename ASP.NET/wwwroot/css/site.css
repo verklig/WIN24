@@ -169,6 +169,11 @@ body {
   display: none;
 }
 
+.field-validation-error {
+  font-size: var(--font-size-irregular);
+  color: var(--color-red);
+}
+
 /* Typography */
 
 h1 {

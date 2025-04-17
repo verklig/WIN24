@@ -1,0 +1,70 @@
+@model RegisterViewModel
+@{
+  Layout = "_LoginLayout";
+  ViewData["Title"] = "Create Account";
+}
+
+<div class="center-screen">
+  <div class="surface">
+    <form class="grid" method="post" asp-controller="Auth" asp-action="HandleRegister" novalidate>
+
+      <h1 class="title flex">
+        @ViewData["Title"]
+      </h1>
+
+      <button class="btn btn-white">
+        <img src="images/google-icon.svg" alt="Google Icon">
+        Sign Up with Google
+      </button>
+
+      <div class="or-divider flex">
+        <div class="flex">
+          <span>OR</span>
+        </div>
+      </div>
+
+      <label asp-for="FullName" class="input-label">Full Name</label>
+      <input asp-for="FullName" type="text" placeholder="Enter your full name">
+      <span asp-validation-for="FullName"></span>
+
+      <label asp-for="Email" class="input-label">Email</label>
+      <input asp-for="Email" type="email" placeholder="Enter your email address">
+      <span asp-validation-for="Email"></span>
+
+      <label asp-for="Password" class="input-label">Password</label>
+      <input asp-for="Password" type="password" placeholder="Enter your password">
+      <span asp-validation-for="Password"></span>
+        <a href="#" class="flex">
+          <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
+          <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
+        </a>
+      </input>
+
+      <label asp-for="ConfirmPassword" class="input-label">Confirm Password</label>
+      <input asp-for="ConfirmPassword" type="password" placeholder="Confirm your password">
+      <span asp-validation-for="ConfirmPassword"></span>
+        <a href="#" class="flex">
+          <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
+          <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
+        </a>
+      </input>
+
+      <div class="terms-and-conditions flex">
+        <label class="flex">
+          <input type="checkbox">
+            <i class="fa-solid fa-check checkmark"></i>
+          </input>
+          <span>I accept the <a href="#">Terms and Conditions</a></span>
+        </label>
+      </div>
+
+      <button class="btn btn-blue" type="submit">Create Account</button>
+
+      <div class="sign-up flex">
+        <label>Already have an account?</label>
+        <a asp-controller="Auth" asp-action="Login">Sign In</a>
+      </div>
+
+    </form>
+  </div>
+</div>
