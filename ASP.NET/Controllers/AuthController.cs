@@ -9,7 +9,8 @@ public class AuthController : Controller
   [HttpGet("login")]
   public IActionResult Login()
   {
-    return View();
+    var model = new LoginViewModel();
+    return View(model);
   }
 
   [HttpPost("login")]
@@ -17,7 +18,7 @@ public class AuthController : Controller
   {
     if (!ModelState.IsValid)
     {
-      return View("Login");
+      return View("Login", model);
     }
 
     return RedirectToAction("Projects", "Projects");
@@ -26,7 +27,8 @@ public class AuthController : Controller
   [HttpGet("register")]
   public IActionResult Register()
   {
-    return View();
+    var model = new RegisterViewModel();
+    return View(model);
   }
 
   [HttpPost("register")]
@@ -34,7 +36,7 @@ public class AuthController : Controller
   {
     if (!ModelState.IsValid)
     {
-      return View("Register");
+      return View("Register", model);
     }
 
     return RedirectToAction("Projects", "Projects");

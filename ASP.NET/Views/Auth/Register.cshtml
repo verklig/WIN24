@@ -1,6 +1,6 @@
 @model RegisterViewModel
 @{
-  Layout = "_LoginLayout";
+  Layout = "_CleanLayout";
   ViewData["Title"] = "Create Account";
 }
 
@@ -13,7 +13,7 @@
       </h1>
 
       <button class="btn btn-white">
-        <img src="images/google-icon.svg" alt="Google Icon">
+        <img src="~/images/google-icon.svg" alt="Google Icon">
         Sign Up with Google
       </button>
 
@@ -24,39 +24,42 @@
       </div>
 
       <label asp-for="FullName" class="input-label">Full Name</label>
-      <input asp-for="FullName" type="text" placeholder="Enter your full name">
+      <input asp-for="FullName" value="@Model.FullName" type="text" placeholder="Enter your full name">
       <span asp-validation-for="FullName"></span>
 
       <label asp-for="Email" class="input-label">Email</label>
-      <input asp-for="Email" type="email" placeholder="Enter your email address">
+      <input asp-for="Email" value="@Model.Email" type="email" placeholder="Enter your email address">
       <span asp-validation-for="Email"></span>
 
       <label asp-for="Password" class="input-label">Password</label>
-      <input asp-for="Password" type="password" placeholder="Enter your password">
+      <div class="password-input">
+        <input asp-for="Password" value="@Model.Password" type="password" placeholder="Enter your password">
+        <button type="button" class="btn flex" onclick="togglePassword(this)">
+          <i class="fa-duotone fa-solid fa-eye-low-vision flex show-icon hidden"></i>
+          <i class="fa-duotone fa-solid fa-eye flex hide-icon"></i>
+        </button>
+      </div>
       <span asp-validation-for="Password"></span>
-        <a href="#" class="flex">
-          <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
-          <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
-        </a>
-      </input>
 
       <label asp-for="ConfirmPassword" class="input-label">Confirm Password</label>
-      <input asp-for="ConfirmPassword" type="password" placeholder="Confirm your password">
+      <div class="password-input">
+        <input asp-for="ConfirmPassword" value="@Model.ConfirmPassword" type="password" placeholder="Confirm your password">
+        <button type="button" class="btn flex" onclick="togglePassword(this)">
+          <i class="fa-duotone fa-solid fa-eye-low-vision flex show-icon hidden"></i>
+          <i class="fa-duotone fa-solid fa-eye flex hide-icon"></i>
+        </button>
+      </div>
       <span asp-validation-for="ConfirmPassword"></span>
-        <a href="#" class="flex">
-          <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
-          <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
-        </a>
-      </input>
-
+      
+      <input type="hidden" name="TOS" value="">
       <div class="terms-and-conditions flex">
         <label class="flex">
-          <input type="checkbox">
-            <i class="fa-solid fa-check checkmark"></i>
-          </input>
-          <span>I accept the <a href="#">Terms and Conditions</a></span>
+          <input type="checkbox" name="TOS" value="true" @(Model.TOS == true ? "checked" : "")>
+          <i class="fa-solid fa-check checkmark"></i>
+          <span>I accept the <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Terms and Conditions</a></span>
         </label>
       </div>
+      <span asp-validation-for="TOS"></span>
 
       <button class="btn btn-blue" type="submit">Create Account</button>
 

@@ -1,0 +1,71 @@
+<div class="overlay">
+  <div class="surface">
+    <form action="" class="project-form grid">
+
+      <div class="title flex">
+        <h2>Add Project</h2>
+        <button class="btn"><i class="fa-regular fa-xmark"></i></button>
+      </div>
+
+      <button class="image-upload btn">
+        <img src="~/images/upload-icon-border.svg" alt="Border" class="image-upload-border">
+          <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
+        </img>
+      </button>
+
+      <label class="input-label">Project Name</label>
+      <input type="text" placeholder="Enter project name">
+
+      <label class="input-label">Client Name</label>
+      <input type="text" placeholder="Enter client name">
+
+      <label class="input-label">Description</label>
+      <textarea type="text" placeholder="Type something..."></textarea>
+
+      <div class="flex">
+        <div class="grid">
+          <label class="input-label">Start Date</label>
+          <div class="input-container" onclick="openPicker(this.querySelector('input'))">
+            <input type="date" min="2000-01-01" max="2050-12-31">
+            <img src="~/images/calendar-icon.svg" alt="Calendar Icon" class="invert-when-dark">
+          </div>
+        </div>
+        
+        <div class="grid">
+          <label class="input-label">End Date</label>
+          <div class="input-container" onclick="openPicker(this.querySelector('input'))">
+            <input type="date" min="2000-01-01" max="2050-12-31">
+            <img src="~/images/calendar-icon.svg" alt="Calendar Icon" class="invert-when-dark">
+          </div>
+        </div>
+      </div>
+
+      <label class="input-label">Members</label>
+      <div class="input-container">
+        <input type="text" placeholder="Search for members...">
+        <img src="~/images/search-icon.svg" alt="Search Icon" class="invert-when-dark">
+        <div class="member-wrapper">
+          <div class="member">
+            <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+            <span>Hans Mattin-Lassei</span>
+            <button class="btn"><i class="fa-regular fa-xmark"></i></button>
+          </div>
+          <div class="member">
+            <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+            <span>Hans Mattin-Lassei</span>
+            <button class="btn"><i class="fa-regular fa-xmark"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <label class="input-label">Budget</label>
+      <div class="input-container-budget">
+        <input type="text" placeholder="0">
+        <img src="~/images/dollar-icon.svg" alt="Dollar Icon" class="invert-when-dark">
+      </div>
+
+      <button type="submit" class="btn btn-blue">Create</button>
+
+    </form>
+  </div>
+</div>

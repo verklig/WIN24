@@ -1,0 +1,25 @@
+<div class="member-card">
+  <div class="card-div flex">
+    <button class="btn"><i class="fa-solid fa-circle"></i><i class="fa-solid fa-circle"></i></button>
+  </div>
+
+  <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+
+  <div class="card-title">
+    <div class="flex">
+      <h2>Hans Mattin-Lassei</h2>
+    </div>
+    <div class="flex">
+      <span>Chief Executive Officer</span>
+    </div>
+  </div>
+
+  <div class="contact-info flex">
+    <span class="email">hans@domain.com</span>
+    <span class="phone">+46 070-123 45 78</span>
+  </div>
+
+  <button class="btn btn-white">Message</button>
+  
+  @await Html.PartialAsync("Partials/Components/_MemberCardMenu")
+</div>

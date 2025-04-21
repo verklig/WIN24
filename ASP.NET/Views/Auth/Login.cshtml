@@ -1,6 +1,6 @@
 @model LoginViewModel
 @{
-  Layout = "_LoginLayout";
+  Layout = "_CleanLayout";
   ViewData["Title"] = "Login";
 }
 
@@ -13,7 +13,7 @@
       </h1>
 
       <button class="btn btn-white">
-        <img src="images/google-icon.svg" alt="Google Icon">
+        <img src="~/images/google-icon.svg" alt="Google Icon">
         Login with Google
       </button>
 
@@ -24,24 +24,24 @@
       </div>
 
       <label asp-for="Email" class="input-label">Email</label>
-      <input asp-for="Email" type="email" placeholder="Enter your email address">
+      <input asp-for="Email" value="@Model.Email" type="email" placeholder="Enter your email address">
       <span asp-validation-for="Email"></span>
 
-      <label asp-for="Password" class="input-label" >Password</label>
-      <input asp-for="Password" type="password" placeholder="Enter your password">
+      <label asp-for="Password" class="input-label">Password</label>
+      <div class="password-input">
+        <input asp-for="Password" value="@Model.Password" type="password" placeholder="Enter your password">
+        <button type="button" class="btn flex">
+          <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
+          <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
+        </button>
+      </div>
       <span asp-validation-for="Password"></span>
-      <a href="#" class="flex">
-        <i class="fa-duotone fa-solid fa-eye-low-vision flex password-privacy hidden"></i>
-        <i class="fa-duotone fa-solid fa-eye flex password-privacy"></i>
-      </a>
-      </input>
 
       <div class="remember-password flex">
         <div class="flex">
           <label class="flex">
             <input type="checkbox">
-              <i class="fa-solid fa-check checkmark"></i>
-            </input>
+            <i class="fa-solid fa-check checkmark"></i>
             <span>Remember Me</span>
           </label>
         </div>
