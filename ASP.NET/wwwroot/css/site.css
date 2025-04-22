@@ -83,7 +83,7 @@
   --color-background-hover-btn-gray: var(--color-gray-300);
 
   --color-background-btn-white: var(--color-gray-100);
-  --color-background-hover-btn: var(--color-gray-300);
+  --color-background-hover-btn: var(--color-white);
 
   --color-text-navlink: var(--color-text);
   --color-text-navlink-hover: var(--color-blue-accent);
@@ -120,8 +120,8 @@
   --color-scrollbar: var(--color-dark-700)
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
+[data-theme="dark"] {
+  &:root {
     --color-surface: var(--color-dark-250); /* Edited */
     --color-surface-white: var(--color-dark-300); /* Edited */
 
@@ -314,9 +314,17 @@ body {
   display: none !important;
 }
 
+.menu {
+  z-index: 999;
+}
+
 .field-validation-error {
   font-size: var(--font-size-irregular);
   color: var(--color-red);
+}
+
+.no-theme-transition * {
+  transition: none !important;
 }
 
 /* Typography */
@@ -454,6 +462,7 @@ textarea {
 
 .password-input {
   position: relative;
+  transition: opacity var(--transition-speed) ease-in-out;
 
   .btn {
     position: absolute;
@@ -467,7 +476,7 @@ textarea {
   }
 
   i {
-    color: var(--color-dark-100);
+    color: var(--color-text);
   }
 }
 
@@ -556,6 +565,63 @@ a {
 
 /* Components */
 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 25.5px;
+  align-self: flex-end;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: var(--transition-speed);
+    transition: var(--transition-speed);
+
+    &:before {
+      position: absolute;
+      content: "";
+      height: 19.5px;
+      width: 19.5px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      -webkit-transition: var(--transition-speed);
+      transition: var(--transition-speed);
+    }
+
+    &.round {
+      border-radius: 34px;
+
+      &:before {
+        border-radius: 50%;
+      }
+    }
+
+    &.active .slider {
+      background-color: var(--color-blue-accent);
+    }
+    
+    &.active .slider:before {
+      -webkit-transform: translateX(19.5px);
+      -ms-transform: translateX(19.5px);
+      transform: translateX(19.5px);
+    }
+  }
+}
+
 .alpha-logotype {
   height: 30px;
   display: flex;
@@ -642,38 +708,22 @@ a {
   }
 }
 
-.remember-password { /* IDK */
+.remember-password,
+.terms-and-conditions {
   justify-content: space-between;
   margin: 1rem 0;
+  position: relative;
 
   label {
     cursor: pointer;
   }
 
-  .checkmark { /* IDK */
+  .checkmark {
     position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translate(-50%, -50%);
     font-size: 10px;
-    margin-right: 102px;
-    color: var(--color-text-btn-blue);
-  }
-
-  span {
-    font-weight: var(--font-regular);
-  }
-}
-
-.terms-and-conditions { /* IDK */
-  justify-content: start;
-  margin: 1rem 0;
-
-  label {
-    cursor: pointer;
-  }
-
-  .checkmark { /* IDK */
-    position: absolute;
-    font-size: 10px;
-    margin-right: 231px;
     color: var(--color-text-btn-blue);
   }
 
@@ -1167,6 +1217,10 @@ a {
       &:hover {
         background-color: var(--color-background-hover-btn);
       }
+
+      &.active {
+        background-color: var(--color-background-hover-btn);
+      }
     }
 
     .nav-button {
@@ -1307,6 +1361,10 @@ a {
         &:hover {
           background-color: var(--color-background-hover-btn);
         }
+
+        &.active {
+          background-color: var(--color-background-hover-btn);
+        }
       }
 
       .card-menu {
@@ -1315,10 +1373,10 @@ a {
         height: auto;
         padding: .5rem;
         border-radius: 14px;
-        background-color: var(--color-background-profile);
+        background-color: var(--color-background-hover-btn);
         box-shadow: 0px 10px 20px 0 rgba(0, 0, 0, 0.1);
         right: 28px;
-        top: 70px;
+        top: 71px;
 
         .flex {
           gap: 1rem;
@@ -1402,6 +1460,10 @@ a {
         &:hover {
           background-color: var(--color-background-hover-btn);
         }
+
+        &.active {
+          background-color: var(--color-background-hover-btn);
+        }
       }
 
       .btn-white {
@@ -1423,7 +1485,7 @@ a {
         height: auto;
         padding: .5rem;
         border-radius: 14px;
-        background-color: var(--color-background-profile);
+        background-color: var(--color-background-hover-btn);
         box-shadow: 0px 10px 20px 0 rgba(0, 0, 0, 0.1);
         right: 28px;
         top: 70px;

@@ -1,5 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+builder.WebHost.UseUrls("http://0.0.0.0:7777");
 
 var app = builder.Build();
 app.UseHsts();

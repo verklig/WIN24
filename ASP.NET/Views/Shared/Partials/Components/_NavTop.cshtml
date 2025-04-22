@@ -3,16 +3,19 @@
 
   <input type="text" placeholder="Search anything..." class="search-bar">
 
-  <button class="btn nav-button">
+  <button class="btn nav-button" data-toggle="notification-menu">
     <img src="~/images/notification-bell-icon.svg" alt="Notification Icon" class="notification-bell invert-when-dark">
     <img src="~/images/notification-bell-active-icon.svg" alt="Notification Icon" class="notification-bell invert-when-dark hidden">
   </button>
 
-  <button class="btn nav-button">
+  <button class="btn nav-button" data-toggle="settings-menu">
     <img src="~/images/settings-icon.svg" alt="Settings Icon" class="invert-when-dark">
   </button>
 
   <div class="vertical-divider"></div>
 
   <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+
+  @await Html.PartialAsync("Partials/Components/_NotificationMenu")
+  @await Html.PartialAsync("Partials/Components/_SettingsMenu")
 </div>

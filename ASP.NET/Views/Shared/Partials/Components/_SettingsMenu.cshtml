@@ -1,12 +1,16 @@
-<div class="settings-menu">
+<div class="settings-menu menu hidden" id="settings-menu">
   <div class="settings-profile flex">
     <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
     <span>Tommy Mattin-Lassei</span>
   </div>
 
-  <button class="btn flex">
+  <button class="btn flex" id="dark-mode-toggle">
     <img src="~/images/settings-icon.svg" alt="Settings Icon" class="invert-when-dark">
     <span>Dark Mode</span>
+    <label class="switch">
+      <input type="checkbox" disabled>
+      <span class="slider round"></span>
+    </label>
   </button>
 
   <div class="horizontal-divider"></div>
