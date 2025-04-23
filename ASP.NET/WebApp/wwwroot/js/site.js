@@ -56,7 +56,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Handling the dark mode using a toggle button, system preference and saves a cookie to keep the choice
 document.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.getElementById('dark-mode-toggle');
+  const darkToggle = document.getElementById('dark-mode-toggle');
+  const switchSlider = document.getElementById('theme-toggle-slider');
   const root = document.documentElement;
 
   // Set theme and save as cookie for 1 year
@@ -81,16 +82,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = getSavedTheme();
   const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+  // If there is a saved theme, set it to that, otherwise find the preference
   if (savedTheme) {
     setTheme(savedTheme);
   } else {
     setTheme(systemPrefersDark ? 'dark' : 'light');
   }
 
+  // If the theme is set to dark, keep the slider active, otherwise remove active
+  if (root.getAttribute('data-theme') === 'dark') {
+    switchSlider.classList.add('active');
+  } else {
+    switchSlider.classList.remove('active');
+  }
+
   // Toggle on button click
-  toggleBtn.addEventListener('click', () => {
+  darkToggle.addEventListener('click', () => {
     const current = root.getAttribute('data-theme');
     const newTheme = current === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
+    switchSlider.classList.toggle('active');
   });
 });
