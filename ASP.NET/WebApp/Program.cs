@@ -11,17 +11,17 @@ string? connectionString = builder.Configuration.GetConnectionString("DefaultCon
 builder.Services.AddDbContext<AppDbContext>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 {
-    x.User.RequireUniqueEmail = true;
-    x.Password.RequiredLength = 8;
+  x.User.RequireUniqueEmail = true;
+  x.Password.RequiredLength = 8;
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(x =>
 {
-    x.LoginPath = "/auth/login";
-    x.AccessDeniedPath = "/auth/denied";
-    x.Cookie.HttpOnly = true;
-    x.Cookie.IsEssential = true;
-    x.Cookie.Expiration = TimeSpan.FromHours(1);
-    x.SlidingExpiration = true;
+  x.LoginPath = "/auth/login";
+  x.AccessDeniedPath = "/auth/denied";
+  x.Cookie.HttpOnly = true;
+  x.Cookie.IsEssential = true;
+  x.Cookie.Expiration = TimeSpan.FromHours(1);
+  x.SlidingExpiration = true;
 });
 
 var app = builder.Build();
@@ -31,7 +31,7 @@ app.UseRouting();
 app.UseAuthorization();
 app.MapStaticAssets();
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+  name: "default",
+  pattern: "{controller=Home}/{action=Index}/{id?}")
+  .WithStaticAssets();
 app.Run();

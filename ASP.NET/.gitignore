@@ -44,6 +44,9 @@ launchSettings.json
 appsettings.Development.json
 appsettings.json
 
+# Docker configuration
+docker-compose.yml
+
 # Other temporary files
 *.tmp
 *.bak
