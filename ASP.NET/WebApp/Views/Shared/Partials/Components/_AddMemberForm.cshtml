@@ -1,16 +1,17 @@
-<div class="overlay">
+<div id="add-overlay" class="overlay hidden">
   <div class="surface">
     <form action="" class="member-form grid">
 
       <div class="title flex">
         <h2>Add Member</h2>
-        <button class="btn"><i class="fa-regular fa-xmark"></i></button>
+        <button class="btn" type="button" onclick="document.getElementById('add-overlay').classList.add('hidden')">
+          <i class="fa-regular fa-xmark"></i>
+        </button>
       </div>
 
       <button class="image-upload btn">
         <img src="~/images/upload-icon-border-round.svg" alt="Border" class="image-upload-border">
-          <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
-        </img>
+        <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
       </button>
 
       <div class="flex">

@@ -1,48 +1,62 @@
-<div class="overlay">
+@model AddProjectViewModel
+
+<div id="add-overlay" class="overlay hidden">
   <div class="surface">
-    <form action="" class="project-form grid">
+    <form class="project-form grid" method="post" asp-action="Add" asp-controller="Projects" novalidate>
 
       <div class="title flex">
         <h2>Add Project</h2>
-        <button class="btn"><i class="fa-regular fa-xmark"></i></button>
+        <button class="btn" type="button" onclick="document.getElementById('add-overlay').classList.add('hidden')">
+          <i class="fa-regular fa-xmark"></i>
+        </button>
       </div>
 
-      <button class="image-upload btn">
+      <button type="button" class="image-upload btn">
         <img src="~/images/upload-icon-border.svg" alt="Border" class="image-upload-border">
-          <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
-        </img>
+        <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
       </button>
 
-      <label class="input-label">Project Name</label>
-      <input type="text" placeholder="Enter project name">
+      <div class="grid">
+        <label asp-for="ProjectName" class="input-label"></label>
+        <input asp-for="ProjectName" value="@Model.ProjectName" type="text">
+        <span asp-validation-for="ProjectName"></span>
+      </div>
 
-      <label class="input-label">Client Name</label>
-      <input type="text" placeholder="Enter client name">
+      <div class="grid">
+        <label asp-for="ClientId" class="input-label"></label>
+        <input asp-for="ClientId" type="text">
+        <span asp-validation-for="ClientId"></span>
+      </div>
 
-      <label class="input-label">Description</label>
-      <textarea type="text" placeholder="Type something..."></textarea>
+      <div class="grid">
+        <label asp-for="Description" class="input-label"></label>
+        <textarea asp-for="Description" type="text"></textarea>
+        <span asp-validation-for="Description"></span>
+      </div>
 
       <div class="flex">
         <div class="grid">
-          <label class="input-label">Start Date</label>
+          <label asp-for="StartDate" class="input-label"></label>
           <div class="input-container" onclick="openPicker(this.querySelector('input'))">
-            <input type="date" min="2000-01-01" max="2050-12-31">
+            <input asp-for="StartDate" type="date" min="2000-01-01" max="2050-12-31">
             <img src="~/images/calendar-icon.svg" alt="Calendar Icon" class="invert-when-dark">
           </div>
+          <span asp-validation-for="StartDate"></span>
         </div>
         
         <div class="grid">
-          <label class="input-label">End Date</label>
+          <label asp-for="EndDate" class="input-label"></label>
           <div class="input-container" onclick="openPicker(this.querySelector('input'))">
-            <input type="date" min="2000-01-01" max="2050-12-31">
+            <input asp-for="EndDate" type="date" min="2000-01-01" max="2050-12-31">
             <img src="~/images/calendar-icon.svg" alt="Calendar Icon" class="invert-when-dark">
           </div>
+          <span asp-validation-for="EndDate"></span>
         </div>
       </div>
 
-      <label class="input-label">Members</label>
+      <label asp-for="UserId" class="input-label"></label>
       <div class="input-container">
-        <input type="text" placeholder="Search for members...">
+        <input asp-for="UserId" type="text">
         <img src="~/images/search-icon.svg" alt="Search Icon" class="invert-when-dark">
         <div class="member-wrapper">
           <div class="member">
@@ -56,13 +70,15 @@
             <button class="btn"><i class="fa-regular fa-xmark"></i></button>
           </div>
         </div>
+        <span asp-validation-for="UserId"></span>
       </div>
 
-      <label class="input-label">Budget</label>
+      <label asp-for="Budget" class="input-label"></label>
       <div class="input-container-budget">
-        <input type="text" placeholder="0">
+        <input asp-for="Budget" type="number">
         <img src="~/images/dollar-icon.svg" alt="Dollar Icon" class="invert-when-dark">
       </div>
+      <span asp-validation-for="Budget"></span>
 
       <button type="submit" class="btn btn-blue">Create</button>
 

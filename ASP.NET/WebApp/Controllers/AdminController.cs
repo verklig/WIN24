@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Assignment.Controllers;
+namespace Webapp.Controllers;
 
 [Route("admin")]
 public class AdminController : Controller

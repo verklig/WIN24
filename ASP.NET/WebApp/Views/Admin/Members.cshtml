@@ -6,8 +6,14 @@
   <h2>
     @ViewData["Title"]
   </h2>
-  <button class="btn btn-blue"><i class="fa-regular fa-plus"></i>Add Member</button>
+  <button class="btn btn-blue" data-toggle="add-overlay">
+    <i class="fa-regular fa-plus"></i>
+    Add Member
+  </button>
 </div>
+
+@await Html.PartialAsync("Partials/Components/_AddMemberForm")
+@await Html.PartialAsync("Partials/Components/_EditMemberForm")
 
 <div class="member-container">
   @await Html.PartialAsync("Partials/Components/_MemberCard")

@@ -1,8 +1,8 @@
-using Domain.Models;
-
 namespace Infrastructure.Models;
 
-public class StatusResult : BaseResult
+public class StatusResult<T> : BaseResult
 {
-  public IEnumerable<Status>? Result { get; set; }
+  public T? Result { get; set; }
 }
+
+public class StatusResult : BaseResult { }

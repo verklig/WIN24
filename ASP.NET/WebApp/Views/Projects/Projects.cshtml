@@ -1,3 +1,4 @@
+@using WebApp.Models
 @{
   ViewData["Title"] = "Projects";
 }
@@ -6,8 +7,14 @@
   <h2>
     @ViewData["Title"]
   </h2>
-  <button class="btn btn-blue"><i class="fa-regular fa-plus"></i>Add Project</button>
+  <button class="btn btn-blue" data-toggle="add-overlay">
+    <i class="fa-regular fa-plus"></i>
+    Add Project
+  </button>
 </div>
+
+@await Html.PartialAsync("Partials/Components/_AddProjectForm", new AddProjectViewModel())
+@await Html.PartialAsync("Partials/Components/_EditProjectForm", new EditProjectViewModel())
 
 <div class="nav-main flex">
   <a href="#">

@@ -23,13 +23,13 @@
         </div>
       </div>
 
-      <label asp-for="Email" class="input-label">Email</label>
-      <input asp-for="Email" value="@Model.Email" type="email" placeholder="Enter your email address">
+      <label asp-for="Email" class="input-label"></label>
+      <input asp-for="Email" value="@Model.Email" type="email">
       <span asp-validation-for="Email"></span>
 
-      <label asp-for="Password" class="input-label">Password</label>
+      <label asp-for="Password" class="input-label"></label>
       <div class="password-input">
-        <input asp-for="Password" value="@Model.Password" type="password" placeholder="Enter your password">
+        <input asp-for="Password" value="@Model.Password" type="password">
         <button type="button" class="btn flex" onclick="togglePassword(this)">
           <i class="fa-duotone fa-solid fa-eye flex show-icon hidden"></i>
           <i class="fa-duotone fa-solid fa-eye-low-vision flex hide-icon"></i>
@@ -37,15 +37,16 @@
       </div>
       <span asp-validation-for="Password"></span>
 
+      <input type="hidden" name="IsPersistent">
       <div class="remember-password flex">
         <div class="flex">
           <label class="flex">
-            <input type="checkbox">
+            <input type="checkbox" name="IsPersistent" value="true" @(Model.IsPersistent == true ? "checked" : "")>
             <i class="fa-solid fa-check checkmark"></i>
             <span>Remember Me</span>
           </label>
         </div>
-        <a href="#">Forgot Password?</a>
+        <a href="#">Forgot your Password?</a>
       </div>
 
       <button class="btn btn-blue" type="submit">Log in</button>
