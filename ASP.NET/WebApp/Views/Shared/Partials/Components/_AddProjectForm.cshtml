@@ -2,7 +2,7 @@
 
 <div id="add-overlay" class="overlay hidden">
   <div class="surface">
-    <form class="project-form grid" method="post" asp-action="Add" asp-controller="Projects" novalidate>
+    <form class="project-form grid" method="post" asp-controller="Projects" asp-action="Add" novalidate>
 
       <div class="title flex">
         <h2>Add Project</h2>
@@ -18,19 +18,19 @@
 
       <div class="grid">
         <label asp-for="ProjectName" class="input-label"></label>
-        <input asp-for="ProjectName" value="@Model.ProjectName" type="text">
+        <input asp-for="ProjectName" value="@Model.ProjectName">
         <span asp-validation-for="ProjectName"></span>
       </div>
 
       <div class="grid">
         <label asp-for="ClientId" class="input-label"></label>
-        <input asp-for="ClientId" type="text">
+        <input asp-for="ClientId" value="@Model.ClientId">
         <span asp-validation-for="ClientId"></span>
       </div>
 
       <div class="grid">
         <label asp-for="Description" class="input-label"></label>
-        <textarea asp-for="Description" type="text"></textarea>
+        <textarea asp-for="Description" value="@Model.ClientId"></textarea>
         <span asp-validation-for="Description"></span>
       </div>
 
@@ -38,7 +38,7 @@
         <div class="grid">
           <label asp-for="StartDate" class="input-label"></label>
           <div class="input-container" onclick="openPicker(this.querySelector('input'))">
-            <input asp-for="StartDate" type="date" min="2000-01-01" max="2050-12-31">
+            <input asp-for="StartDate" value="@Model.StartDate" min="2000-01-01" max="2050-12-31">
             <img src="~/images/calendar-icon.svg" alt="Calendar Icon" class="invert-when-dark">
           </div>
           <span asp-validation-for="StartDate"></span>
@@ -47,7 +47,7 @@
         <div class="grid">
           <label asp-for="EndDate" class="input-label"></label>
           <div class="input-container" onclick="openPicker(this.querySelector('input'))">
-            <input asp-for="EndDate" type="date" min="2000-01-01" max="2050-12-31">
+            <input asp-for="EndDate" value="@Model.EndDate" min="2000-01-01" max="2050-12-31">
             <img src="~/images/calendar-icon.svg" alt="Calendar Icon" class="invert-when-dark">
           </div>
           <span asp-validation-for="EndDate"></span>
@@ -56,7 +56,7 @@
 
       <label asp-for="UserId" class="input-label"></label>
       <div class="input-container">
-        <input asp-for="UserId" type="text">
+        <input asp-for="UserId" value="@Model.UserId">
         <img src="~/images/search-icon.svg" alt="Search Icon" class="invert-when-dark">
         <div class="member-wrapper">
           <div class="member">
@@ -75,13 +75,13 @@
 
       <div class="grid">
         <label asp-for="StatusId" class="input-label"></label>
-        <input asp-for="StatusId" value="@Model.StatusId" type="text">
+        <input asp-for="StatusId" value="@Model.StatusId">
         <span asp-validation-for="StatusId"></span>
       </div>
 
       <label asp-for="Budget" class="input-label"></label>
       <div class="input-container-budget">
-        <input asp-for="Budget" type="number">
+        <input asp-for="Budget" value="@Model.Budget">
         <img src="~/images/dollar-icon.svg" alt="Dollar Icon" class="invert-when-dark">
       </div>
       <span asp-validation-for="Budget"></span>

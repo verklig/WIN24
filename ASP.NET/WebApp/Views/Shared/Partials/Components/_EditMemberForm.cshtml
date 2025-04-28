@@ -1,6 +1,8 @@
+@model EditMemberViewModel
+
 <div id="edit-overlay" class="overlay hidden">
   <div class="surface">
-    <form action="" class="member-form grid">
+    <form class="member-form grid" method="post" asp-controller="Admin" asp-action="Edit" novalidate>
 
       <div class="title flex">
         <h2>Edit Member</h2>
@@ -9,41 +11,60 @@
         </button>
       </div>
 
-      <button class="image-upload btn">
-        <img src="~/images/temp/profile-picture.svg" alt="Border" class="image-upload-border">
-        <img src="~/images/edit-icon-gradient.svg" alt="Upload Icon" class="edit-icon">
+      <input type="hidden" asp-for="Id" />
+
+      <button type="button" class="image-upload btn">
+        <img src="~/images/upload-icon-border-round.svg" alt="Border" class="image-upload-border">
+        <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
       </button>
 
       <div class="flex">
         <div class="grid">
-          <label class="input-label">First Name</label>
-          <input type="text" placeholder="Enter first name">
+          <label asp-for="FirstName" class="input-label"></label>
+          <input asp-for="FirstName" value="@Model.FirstName">
+          <span asp-validation-for="FirstName"></span>
         </div>
         
         <div class="grid">
-          <label class="input-label">Last Name</label>
-          <input type="text" placeholder="Enter last name">
+          <label asp-for="LastName" class="input-label"></label>
+          <input asp-for="LastName" value="@Model.LastName">
+          <span asp-validation-for="LastName"></span>
         </div>
       </div>
 
-      <label class="input-label">Email</label>
-      <input type="email" placeholder="Enter email">
+      <div class="grid">
+        <label asp-for="Email" class="input-label"></label>
+        <input asp-for="Email" value="@Model.Email">
+        <span asp-validation-for="Email"></span>
+      </div>
 
-      <label class="input-label">Phone</label>
-      <input type="text" placeholder="Enter phone number">
+      <div class="grid">
+        <label asp-for="PhoneNumber" class="input-label"></label>
+        <input asp-for="PhoneNumber" value="@Model.PhoneNumber">
+        <span asp-validation-for="PhoneNumber"></span>
+      </div>
 
-      <label class="input-label">Job Title</label>
-      <input type="text" placeholder="Enter job title">
+      <div class="grid">
+        <label asp-for="JobTitle" class="input-label"></label>
+        <input asp-for="JobTitle" value="@Model.JobTitle">
+        <span asp-validation-for="JobTitle"></span>
+      </div>
 
-      <label class="input-label">Address</label>
-      <input type="text" placeholder="Enter address">
+      <div class="grid">
+        <label asp-for="Address" class="input-label"></label>
+        <input asp-for="Address" value="@Model.Address">
+        <span asp-validation-for="Address"></span>
+      </div>
 
       <label class="input-label">Date of Birth</label>
       <div class="dob-inputs flex">
-        <input type="number" name="day" placeholder="Day" min="1" max="31" />
-        <input type="number" name="month" placeholder="Month" min="1" max="12" />
-        <input type="number" name="year" placeholder="Year" min="1900" max="2100" />
-      </div>            
+        <input asp-for="BirthDay" value="@Model.BirthDay">
+        <input asp-for="BirthMonth" value="@Model.BirthMonth">
+        <input asp-for="BirthYear" value="@Model.BirthYear">
+      </div>
+      <span asp-validation-for="BirthDay"></span>
+      <span asp-validation-for="BirthMonth"></span>
+      <span asp-validation-for="BirthYear"></span>        
 
       <button type="submit" class="btn btn-blue">Save</button>
 

@@ -1,3 +1,5 @@
+@model MembersViewModel
+@using WebApp.Models
 @{
   ViewData["Title"] = "Team Members";
 }
@@ -13,8 +15,23 @@
 </div>
 
 <div class="member-container">
-  @await Html.PartialAsync("Partials/Components/_MemberCard")
+  @foreach(var user in Model.Users)
+  {
+    @await @await Html.PartialAsync("Partials/Components/_MemberCard", user)
+  }
 </div>
 
-@await Html.PartialAsync("Partials/Components/_AddMemberForm")
+@await Html.PartialAsync("Partials/Components/_AddMemberForm", Model.AddMemberViewModel)
 @await Html.PartialAsync("Partials/Components/_EditMemberForm")
+
+@section Scripts {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const shouldShow = '@ViewData["ShowForm"]' === 'true';
+
+      if (shouldShow) {
+        document.getElementById('add-overlay').classList.remove('hidden')
+      }
+    });
+  </script>
+}

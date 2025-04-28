@@ -34,6 +34,11 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
 
     projectEntity.StatusId = status!.Id;
 
+    if (string.IsNullOrEmpty(projectEntity.Image))
+    {
+      projectEntity.Image = "~/images/alpha-logotype";
+    }
+
     var result = await _projectRepository.AddAsync(projectEntity);
 
     return result.Succeeded

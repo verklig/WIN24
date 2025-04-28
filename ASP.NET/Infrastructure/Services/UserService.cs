@@ -38,6 +38,11 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
     {
       var userEntity = formData.MapTo<UserEntity>();
 
+      if (string.IsNullOrEmpty(userEntity.Image))
+      {
+        userEntity.Image = "~/images/profile-picture-placeholder";
+      }
+
       var result = await _userManager.CreateAsync(userEntity, formData.Password);
       if (result.Succeeded)
       {

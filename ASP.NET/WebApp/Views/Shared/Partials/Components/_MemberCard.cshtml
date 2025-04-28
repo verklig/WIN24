@@ -1,3 +1,5 @@
+@model Domain.Models.Project
+
 <div class="member-card">
   <div class="card-div flex">
     <button class="btn" data-toggle="card-menu">
@@ -6,20 +8,20 @@
     </button>
   </div>
 
-  <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+  <img src="@Model.Image" alt="Profile Picture">
 
   <div class="card-title">
     <div class="flex">
-      <h2>Hans Mattin-Lassei</h2>
+      <h2>@Model.FirstName @Model.LastName</h2>
     </div>
     <div class="flex">
-      <span>Chief Executive Officer</span>
+      <span>@Model.JobTitle</span>
     </div>
   </div>
 
   <div class="contact-info flex">
-    <span class="email">hans@domain.com</span>
-    <span class="phone">+46 070-123 45 78</span>
+    <span class="email">@Model.Email</span>
+    <span class="phone">@Model.PhoneNumber ?? "[No Phone Number]"</span>
   </div>
 
   <button class="btn btn-white">Message</button>
