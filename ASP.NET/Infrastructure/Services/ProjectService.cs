@@ -36,7 +36,7 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
 
     if (string.IsNullOrEmpty(projectEntity.Image))
     {
-      projectEntity.Image = "~/images/alpha-logotype";
+      projectEntity.Image = "/images/profile-picture-placeholder.svg";
     }
 
     var result = await _projectRepository.AddAsync(projectEntity);

@@ -17,12 +17,15 @@
 <div class="member-container">
   @foreach(var user in Model.Users)
   {
-    @await @await Html.PartialAsync("Partials/Components/_MemberCard", user)
+    if (user != null)
+    {
+      @await Html.PartialAsync("Partials/Components/_MemberCard", user)
+    }
   }
 </div>
 
 @await Html.PartialAsync("Partials/Components/_AddMemberForm", Model.AddMemberViewModel)
-@await Html.PartialAsync("Partials/Components/_EditMemberForm")
+@await Html.PartialAsync("Partials/Components/_EditMemberForm", Model.EditMemberViewModel)
 
 @section Scripts {
   <script>

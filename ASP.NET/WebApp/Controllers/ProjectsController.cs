@@ -10,12 +10,6 @@ namespace Webapp.Controllers;
 public class ProjectsController(IProjectService projectService) : Controller
 {
   private readonly IProjectService _projectService = projectService;
-  
-/*   [Route("")]
-  public IActionResult Projects()
-  {
-    return View();
-  } */
 
   [HttpGet("")]
   public async Task<IActionResult> Projects()
@@ -60,11 +54,11 @@ public class ProjectsController(IProjectService projectService) : Controller
       return RedirectToAction(nameof(Projects));
     }
 
-    var allProjects = await _projectService.GetAllProjectsAsync();
+    var fallbackProjects = await _projectService.GetAllProjectsAsync();
 
     var errorViewModel = new ProjectsViewModel
     {
-      Projects = allProjects.Result!,
+      Projects = fallbackProjects.Result!,
       AddProjectViewModel = model
     };
 

@@ -1,8 +1,8 @@
-using Domain.Models;
-
 namespace Infrastructure.Models;
 
-public class UserResult : BaseResult
+public class UserResult<T> : BaseResult
 {
-  public IEnumerable<User>? Result { get; set; }
+  public T? Result { get; set; }
 }
+
+public class UserResult : BaseResult { }

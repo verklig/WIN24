@@ -31,7 +31,10 @@
 <div class="project-container">
   @foreach(var project in Model.Projects)
   {
-    @await Html.PartialAsync("Partials/Components/_ProjectCard", project)
+    if (project != null)
+    {
+      @await Html.PartialAsync("Partials/Components/_ProjectCard", project)
+    }
   }
 </div>
 

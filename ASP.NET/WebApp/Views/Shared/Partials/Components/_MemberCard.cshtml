@@ -1,4 +1,4 @@
-@model Domain.Models.Project
+@model Domain.Models.User
 
 <div class="member-card">
   <div class="card-div flex">
@@ -8,23 +8,28 @@
     </button>
   </div>
 
-  <img src="@Model.Image" alt="Profile Picture">
+  @{
+    var resolvedImage = Url.Content(!string.IsNullOrWhiteSpace(Model?.Image)
+      ? Model.Image
+      : "/images/profile-picture-placeholder.svg");
+  }
+  <img src="@resolvedImage" alt="Profile Picture">
 
   <div class="card-title">
     <div class="flex">
-      <h2>@Model.FirstName @Model.LastName</h2>
+      <h2>@($"{Model?.FirstName ?? "[No First Name]"} {Model?.LastName ?? "[No Last Name]"}")</h2>
     </div>
     <div class="flex">
-      <span>@Model.JobTitle</span>
+      <span>@(Model?.JobTitle ?? "[No Job Title]")</span>
     </div>
   </div>
 
   <div class="contact-info flex">
-    <span class="email">@Model.Email</span>
-    <span class="phone">@Model.PhoneNumber ?? "[No Phone Number]"</span>
+    <span class="email">@(Model?.Email ?? "[No Email]")</span>
+    <span class="phone">@(Model?.PhoneNumber ?? "[No Phone Number]")</span>
   </div>
 
   <button class="btn btn-white">Message</button>
-  
+
   @await Html.PartialAsync("Partials/Components/_MemberCardMenu")
 </div>
