@@ -16,7 +16,7 @@ public class AddProjectViewModel
   [DataType(DataType.Date)]
   [Required(ErrorMessage = "You must enter a start date.")]
   [Display(Name = "Start Date")]
-  public DateTime StartDate { get; set; }
+  public DateTime StartDate { get; set; } = DateTime.Today;
 
   [DataType(DataType.Date)]
   [Display(Name = "End Date")]

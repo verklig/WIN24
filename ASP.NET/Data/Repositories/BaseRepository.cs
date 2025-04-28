@@ -15,8 +15,8 @@ public interface IBaseRepository<TEntity, T> where TEntity : class
   Task<RepositoryResult<IEnumerable<T>>> GetAllAsync(bool orderByDecending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes);
   Task<RepositoryResult<IEnumerable<TSelect>>> GetAllAsync<TSelect>(Expression<Func<TEntity, TSelect>> selector, bool orderByDecending = false, Expression<Func<TEntity, object>>? sortBy = null, Expression<Func<TEntity, bool>>? where = null, params Expression<Func<TEntity, object>>[] includes);
   Task<RepositoryResult<T>> GetAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes);
-  RepositoryResult<bool> RemoveAsync(TEntity entity);
-  RepositoryResult<bool> UpdateAsync(TEntity entity);
+  Task<RepositoryResult<bool>> RemoveAsync(TEntity entity);
+  Task<RepositoryResult<bool>> UpdateAsync(TEntity entity);
 }
 
 public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRepository<TEntity, T> where TEntity : class
@@ -34,6 +34,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     try
     {
       await _db.AddAsync(entity);
+      await _context.SaveChangesAsync();
       return new RepositoryResult<bool> { Succeeded = true, StatusCode = 201 };
     }
     catch (Exception ex)
@@ -43,7 +44,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
   }
 
-  public virtual RepositoryResult<bool> UpdateAsync(TEntity entity)
+  public virtual async Task<RepositoryResult<bool>> UpdateAsync(TEntity entity)
   {
     if (entity == null)
     {
@@ -53,6 +54,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     try
     {
       _db.Update(entity);
+      await _context.SaveChangesAsync();
       return new RepositoryResult<bool> { Succeeded = true, StatusCode = 200 };
     }
     catch (Exception ex)
@@ -62,7 +64,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
   }
 
-  public virtual RepositoryResult<bool> RemoveAsync(TEntity entity)
+  public virtual async Task<RepositoryResult<bool>> RemoveAsync(TEntity entity)
   {
     if (entity == null)
     {
@@ -72,6 +74,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     try
     {
       _db.Remove(entity);
+      await _context.SaveChangesAsync();
       return new RepositoryResult<bool> { Succeeded = true, StatusCode = 200 };
     }
     catch (Exception ex)

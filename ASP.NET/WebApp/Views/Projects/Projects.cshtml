@@ -1,3 +1,4 @@
+@model ProjectsViewModel
 @using WebApp.Models
 @{
   ViewData["Title"] = "Projects";
@@ -13,23 +14,39 @@
   </button>
 </div>
 
-@await Html.PartialAsync("Partials/Components/_AddProjectForm", new AddProjectViewModel())
-@await Html.PartialAsync("Partials/Components/_EditProjectForm", new EditProjectViewModel())
-
 <div class="nav-main flex">
   <a href="#">
-    <span>ALL [0]</span>
+    <span>ALL [@Model.Projects.Count()]</span>
   </a>
   <a href="#">
-    <span>STARTED [0]</span>
+    <span>STARTED [@Model.Projects.Count(p => p.Status?.StatusName == "Started")]</span>
   </a>
   <a href="#">
-    <span>COMPLETED [0]</span>
+    <span>COMPLETED [@Model.Projects.Count(p => p.Status?.StatusName == "Completed")]</span>
   </a>
 </div>
 
 <div class="horizontal-divider"></div>
 
 <div class="project-container">
-  @await Html.PartialAsync("Partials/Components/_ProjectCard")
+  @foreach(var project in Model.Projects)
+  {
+    @await Html.PartialAsync("Partials/Components/_ProjectCard", project)
+  }
 </div>
+
+@await Html.PartialAsync("Partials/Components/_AddProjectForm", Model.AddProjectViewModel)
+@await Html.PartialAsync("Partials/Components/_EditProjectForm", Model.EditProjectViewModel)
+
+@section Scripts {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const shouldShow = '@ViewData["ShowForm"]' === 'true';
+
+      if (shouldShow) {
+        document.getElementById('add-overlay').classList.remove('hidden')
+      }
+    });
+  </script>
+}
+

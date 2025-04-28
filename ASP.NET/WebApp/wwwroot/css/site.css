@@ -406,9 +406,9 @@ input[type="password"] {
 }
 
 input[type="checkbox"] {
+  appearance: none;
   -moz-appearance: none;
   -webkit-appearance: none;
-  appearance: none;
   width: 16px;
   height: 16px;
   margin-right: 0.5rem;
@@ -430,6 +430,18 @@ input[type="date"] {
   min-width: 0;
   padding-right: 1rem;
   appearance: none;
+}
+
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: textfield;
+    -webkit-appearance: none;
+    margin: 0;
+}
 }
 
 textarea {

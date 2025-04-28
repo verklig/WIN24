@@ -73,6 +73,12 @@
         <span asp-validation-for="UserId"></span>
       </div>
 
+      <div class="grid">
+        <label asp-for="StatusId" class="input-label"></label>
+        <input asp-for="StatusId" value="@Model.StatusId" type="text">
+        <span asp-validation-for="StatusId"></span>
+      </div>
+
       <label asp-for="Budget" class="input-label"></label>
       <div class="input-container-budget">
         <input asp-for="Budget" type="number">

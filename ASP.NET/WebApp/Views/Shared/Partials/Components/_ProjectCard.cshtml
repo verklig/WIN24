@@ -1,9 +1,11 @@
+@model Domain.Models.Project
+
 <div class="project-card">
   <div class="card-div flex">
     <img src="~/images/temp/notification-icon.svg" alt="">
     <div class="card-title">
-      <h3>Website Redisign</h3>
-      <span>GitLab Inc.</span>
+      <h3>@Model.ProjectName</h3>
+      <span>@Model.Client?.ClientName ?? "[No Client]"</span>
     </div>
     <button class="btn" data-toggle="card-menu">
       <i class="fa-solid fa-circle"></i>
@@ -11,12 +13,12 @@
     </button>
   </div>
 
-  <p>It is necessary to develop a website redesign in a corporate style.</p>
+  <p>@Model.Description</p>
 
   <div class="project-card-footer flex">
     <div class="card-timer flex">
       <i class="fa-duotone fa-solid fa-clock"></i>
-      <span>1 week left</span>
+      <span>@Model.EndDate?.ToString("d") ?? "[No End Date]"</span>
     </div>
     <div class="flex">
       <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">

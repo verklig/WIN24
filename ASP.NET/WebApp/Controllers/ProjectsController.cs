@@ -1,56 +1,109 @@
+using WebApp.Models;
 using Domain.Dtos;
+using Domain.Extensions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Webapp.Controllers;
 
-[Route("")]
+[Route("projects")]
 public class ProjectsController(IProjectService projectService) : Controller
 {
   private readonly IProjectService _projectService = projectService;
-
-  [Route("projects")]
+  
+/*   [Route("")]
   public IActionResult Projects()
   {
     return View();
+  } */
+
+  [HttpGet("")]
+  public async Task<IActionResult> Projects()
+  {
+    var result = await _projectService.GetAllProjectsAsync();
+
+    if (!result.Succeeded)
+    {
+      return View();
+    }
+
+    var model = new ProjectsViewModel
+    {
+      Projects = result.Result!
+    };
+
+    return View(model);
   }
 
-  // [Route("projects")]
-  // public async Task<IActionResult> Projects()
-  // {
-  //   var model = new ProjectsViewModel
-  //   {
-  //     Projects = await _projectService.GetAllProjectsAsync()
-  //   };
+  [HttpPost("add")]
+  public async Task<IActionResult> Add(AddProjectViewModel model)
+  {
+    if (!ModelState.IsValid)
+    {
+      var projects = await _projectService.GetAllProjectsAsync();
 
-  //   return View(model);
-  // }
+      var viewModel = new ProjectsViewModel
+      {
+        Projects = projects.Result!,
+        AddProjectViewModel = model
+      };
 
-  // [HttpPost]
-  // public async Task<IActionResult> Create(AddProjectViewModel model)
-  // {
-  //   var addProjectFormData = model.MapTo<AddProjectFormData>;
+      ViewData["ShowForm"] = "true";
 
-  //   var result = await _projectService.CreateProjectAsync(addProjectFormData);
+      return View("Projects", viewModel);
+    }
 
-  //   return Json(new { });
-  // }
+    var result = await _projectService.CreateProjectAsync(model.MapTo<AddProjectFormData>());
 
-  // [HttpPost]
-  // public async Task<IActionResult> Edit(EditProjectViewModel model)
-  // {
-  //   var editProjectFormData = model.MapTo<EditProjectViewModel>;
+    if (result.Succeeded)
+    {
+      return RedirectToAction(nameof(Projects));
+    }
 
-  //   var result = await _projectService.EditProjectAsync(editProjectFormData);
+    var allProjects = await _projectService.GetAllProjectsAsync();
 
-  //   return Json(new { });
-  // }
+    var errorViewModel = new ProjectsViewModel
+    {
+      Projects = allProjects.Result!,
+      AddProjectViewModel = model
+    };
+
+    ViewData["ShowForm"] = "true";
+
+    return View("Projects", errorViewModel);
+  }
+
+  [HttpPost("edit")]
+  public async Task<IActionResult> Edit(EditProjectViewModel model)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View(ModelState);
+    }
+
+    var result = await _projectService.UpdateProjectAsync(model.MapTo<EditProjectFormData>());
+    if (result.Succeeded)
+    {
+      return RedirectToAction(nameof(Projects));
+    }
+
+    return View();
+  }
   
-  // [HttpPost]
-  // public async Task<IActionResult> Delete()
-  // {
-  //   var result = await _projectService.DeleteProjectAsync();
+  [HttpPost("delete/{id}")]
+  public async Task<IActionResult> Delete(string id)
+  {
+    if (!ModelState.IsValid)
+    {
+      return View(ModelState);
+    }
 
-  //   return Json(new { });
-  // }
+    var result = await _projectService.RemoveProjectAsync(id);
+    if (result.Succeeded)
+    {
+      return RedirectToAction(nameof(Projects));
+    }
+
+    return View();
+  }
 }

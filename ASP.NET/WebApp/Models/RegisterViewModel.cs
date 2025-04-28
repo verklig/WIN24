@@ -27,5 +27,6 @@ public class RegisterViewModel
   public string ConfirmPassword { get; set; } = null!;
 
   [Required(ErrorMessage = "You must accept the terms and conditions.")]
+  [Range(typeof(bool), "true", "true")]
   public bool TOS { get; set; }
 }

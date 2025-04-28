@@ -11,6 +11,7 @@ builder.WebHost.UseUrls("http://0.0.0.0:7777");
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 {
   x.User.RequireUniqueEmail = true;
