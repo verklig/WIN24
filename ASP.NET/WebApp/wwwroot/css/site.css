@@ -1536,7 +1536,7 @@ a {
         }
 
         .horizontal-divider {
-          border-color: var(--color-border-input);
+          border-color: var(--color-border-menu-divider);
           margin: 2px 0 2px 0;
         }
       }

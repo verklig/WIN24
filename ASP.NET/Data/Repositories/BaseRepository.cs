@@ -111,6 +111,12 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
       }
 
       var entities = await query.ToListAsync();
+
+      if (entities == null)
+      {
+        return new RepositoryResult<IEnumerable<T>> { Succeeded = false, StatusCode = 404, Error = "No entities found." };
+      }
+
       var result = entities.Select(entity => entity.MapTo<T>());
       return new RepositoryResult<IEnumerable<T>> { Succeeded = true, StatusCode = 200, Result = result };
     }

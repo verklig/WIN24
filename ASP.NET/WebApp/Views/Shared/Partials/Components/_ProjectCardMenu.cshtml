@@ -1,5 +1,7 @@
+@model Domain.Models.Project
+
 <div class="card-menu menu hidden" id="card-menu">
-  <button class="btn flex" data-toggle="edit-overlay">
+  <button class="btn flex" onclick="navigateToEdit('@Model.Id')">
     <img src="~/images/edit-icon.svg" alt="Edit Icon" class="invert-when-dark">
     <span>Edit</span>
   </button>
@@ -16,3 +18,10 @@
     <span id="delete-text">Delete Project</span>
   </button>
 </div>
+
+<script>
+  function navigateToEdit(id) {
+    if (!id) return;
+    window.location.href = `/project/edit/${id}`;
+  }
+</script>

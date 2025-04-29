@@ -17,6 +17,11 @@ public class AdminController(IUserService userService) : Controller
     {
       var result = await _userService.GetAllUsersAsync();
 
+      if (!result.Succeeded)
+      {
+        return View();
+      }
+
       var model = new MembersViewModel
       {
         Users = result.Succeeded && result.Result != null ? result.Result : [],
@@ -41,7 +46,7 @@ public class AdminController(IUserService userService) : Controller
         AddMemberViewModel = model
       };
 
-      ViewData["ShowForm"] = "true";
+      ViewData["ShowAddForm"] = "true";
 
       return View("Members", viewModel);
     }
@@ -58,7 +63,7 @@ public class AdminController(IUserService userService) : Controller
       catch { }
     }
 
-    var result = await _userService.CreateUserExtendedAsync(formData);
+    var result = await _userService.CreateUserByFormAsync(formData);
 
     if (result.Succeeded)
     {
@@ -73,8 +78,131 @@ public class AdminController(IUserService userService) : Controller
       AddMemberViewModel = model
     };
 
-    ViewData["ShowForm"] = "true";
+    ViewData["ShowAddForm"] = "true";
 
     return View("Members", errorViewModel);
   }
+
+  [HttpPost("members/edit")]
+  public async Task<IActionResult> Edit(EditMemberViewModel model)
+  {
+    if (!ModelState.IsValid)
+    {
+      var users = await _userService.GetAllUsersAsync();
+
+      var viewModel = new MembersViewModel
+      {
+        Users = users.Result!,
+        EditMemberViewModel = model
+      };
+
+      ViewData["ShowEditForm"] = "true";
+
+      return View("Members", viewModel);
+    }
+
+    var formData = model.MapTo<EditMemberFormData>();
+
+    if (model.BirthDay.HasValue && model.BirthMonth.HasValue && model.BirthYear.HasValue)
+    {
+      try
+      {
+        var dob = new DateTime(model.BirthYear.Value, model.BirthMonth.Value, model.BirthDay.Value);
+        formData.DateOfBirth = dob.ToString("yyyy-MM-dd");
+      }
+      catch { }
+    }
+
+    var result = await _userService.UpdateUserAsync(formData);
+
+    if (result.Succeeded)
+    {
+      return RedirectToAction(nameof(Members));
+    }
+
+    var fallbackUsers = await _userService.GetAllUsersAsync();
+
+    var errorViewModel = new MembersViewModel
+    {
+      Users = fallbackUsers.Result!,
+      EditMemberViewModel = model
+    };
+
+    ViewData["ShowEditForm"] = "true";
+
+    return View("Members", errorViewModel);
+  }
+
+  [HttpGet("members/edit/{id}")]
+  [ValidateAntiForgeryToken]
+  public async Task<IActionResult> Edit(string id)
+  {
+    if (string.IsNullOrEmpty(id))
+    {
+      return RedirectToAction(nameof(Members));
+    }
+
+    var userResult = await _userService.GetUserAsync(id);
+    if (!userResult.Succeeded || userResult.Result == null)
+    {
+      return RedirectToAction(nameof(Members));
+    }
+
+    var user = userResult.Result;
+    var editModel = new EditMemberViewModel
+    {
+      Id = user.Id,
+      FirstName = user.FirstName!,
+      LastName = user.LastName!,
+      Email = user.Email,
+      PhoneNumber = user.PhoneNumber,
+      JobTitle = user.JobTitle,
+      Address = user.Address
+    };
+
+    if (!string.IsNullOrWhiteSpace(user.DateOfBirth))
+    {
+      if (DateTime.TryParse(user.DateOfBirth, out var dob))
+      {
+        editModel.BirthDay = dob.Day;
+        editModel.BirthMonth = dob.Month;
+        editModel.BirthYear = dob.Year;
+      }
+    }
+
+    var allUsers = await _userService.GetAllUsersAsync();
+    var viewModel = new MembersViewModel
+    {
+      Users = allUsers.Result!,
+      EditMemberViewModel = editModel
+    };
+
+    ViewData["ShowEditForm"] = "true";
+
+    return View("Members", viewModel);
+  }
+
+/*   [HttpPost("members/delete/{id}")]
+  [ValidateAntiForgeryToken]
+  public async Task<IActionResult> Delete(string id)
+  {
+    if (string.IsNullOrEmpty(id))
+    {
+      return RedirectToAction(nameof(Members));
+    }
+
+    var result = await _userService.DeleteUserAsync(id);
+    if (result.Succeeded)
+    {
+      return RedirectToAction(nameof(Members));
+    }
+
+    var users = await _userService.GetAllUsersAsync();
+    var viewModel = new MembersViewModel
+    {
+      Users = users.Result!,
+    };
+    
+    return View("Members", viewModel);
+  } */
 }

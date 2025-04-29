@@ -23,7 +23,9 @@ public class ProjectsController(IProjectService projectService) : Controller
 
     var model = new ProjectsViewModel
     {
-      Projects = result.Result!
+      Projects = result.Succeeded && result.Result != null ? result.Result : [],
+      AddProjectViewModel = new(),
+      EditProjectViewModel = new()
     };
 
     return View(model);
@@ -42,7 +44,7 @@ public class ProjectsController(IProjectService projectService) : Controller
         AddProjectViewModel = model
       };
 
-      ViewData["ShowForm"] = "true";
+      ViewData["ShowAddForm"] = "true";
 
       return View("Projects", viewModel);
     }
@@ -62,7 +64,7 @@ public class ProjectsController(IProjectService projectService) : Controller
       AddProjectViewModel = model
     };
 
-    ViewData["ShowForm"] = "true";
+    ViewData["ShowAddForm"] = "true";
 
     return View("Projects", errorViewModel);
   }

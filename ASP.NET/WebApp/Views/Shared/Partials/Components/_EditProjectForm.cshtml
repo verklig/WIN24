@@ -2,11 +2,13 @@
 
 <div id="edit-overlay" class="overlay hidden">
   <div class="surface">
-    <form class="project-form grid" method="post" asp-controller="Projects" asp-action="Edit" novalidate>
+    <form class="project-form grid" method="post" action="/projects/edit" novalidate>
+
+      @Html.AntiForgeryToken()
 
       <div class="title flex">
         <h2>Edit Project</h2>
-        <button class="btn" type="button" onclick="document.getElementById('edit-overlay').classList.add('hidden')">
+        <button class="btn" type="button" onclick="closeOverlay('edit-overlay', '/projects')">
           <i class="fa-regular fa-xmark"></i>
         </button>
       </div>

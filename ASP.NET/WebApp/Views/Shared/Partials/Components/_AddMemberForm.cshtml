@@ -4,9 +4,11 @@
   <div class="surface">
     <form class="member-form grid" method="post" asp-controller="Admin" asp-action="Add" novalidate>
 
+      @Html.AntiForgeryToken()
+
       <div class="title flex">
         <h2>Add Member</h2>
-        <button class="btn" type="button" onclick="document.getElementById('add-overlay').classList.add('hidden')">
+        <button class="btn" type="button" onclick="closeOverlay('add-overlay', '/admin/members')">
           <i class="fa-regular fa-xmark"></i>
         </button>
       </div>

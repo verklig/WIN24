@@ -44,12 +44,16 @@
 @section Scripts {
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const shouldShow = '@ViewData["ShowForm"]' === 'true';
+      const shouldShowAdd = '@ViewData["ShowAddForm"]' === 'true';
+      const shouldShowEdit = '@ViewData["ShowEditForm"]' === 'true';
 
-      if (shouldShow) {
-        document.getElementById('add-overlay').classList.remove('hidden')
+      if (shouldShowAdd) {
+        document.getElementById('add-overlay').classList.remove('hidden');
+      }
+
+      if (shouldShowEdit) {
+        document.getElementById('edit-overlay').classList.remove('hidden');
       }
     });
   </script>
 }
-

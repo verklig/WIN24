@@ -14,7 +14,7 @@
       <h3>@(Model?.ProjectName ?? "[No Project Name]")</h3>
       <span>@(Model?.Client?.ClientName ?? "[No Client]")</span>
     </div>
-    <button class="btn" data-toggle="card-menu">
+    <button class="btn" data-toggle="card-menu-@Model.Id">
       <i class="fa-solid fa-circle"></i>
       <i class="fa-solid fa-circle"></i>
     </button>

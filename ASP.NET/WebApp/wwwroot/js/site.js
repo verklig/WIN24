@@ -18,6 +18,34 @@ function togglePassword(button) {
   hideIcon.classList.toggle('hidden', isPassword);
 }
 
+// Closes overlay and optionally resets url
+function closeOverlay(overlayId, resetUrlTo = null) {
+  const overlay = document.getElementById(overlayId);
+
+  if (overlay) {
+    overlay.classList.add('hidden');
+
+    // Reset the form inside the overlay
+    const form = overlay.querySelector('form');
+    if (form) {
+      form.reset();
+
+      // Clear the validation errors
+      const validationMessages = form.querySelectorAll('.field-validation-error, .input-validation-error');
+      validationMessages.forEach(element => {
+        element.textContent = '';
+        element.classList.remove('field-validation-error');
+        element.classList.remove('input-validation-error');
+      });
+    }
+  }
+
+  if (resetUrlTo && window.location.pathname !== resetUrlTo) {
+    window.history.pushState({}, '', resetUrlTo);
+  }
+}
+
+
 // Opens menus when clicking their corresponding buttons using the data-toggle attribute
 document.addEventListener("DOMContentLoaded", () => {
   const toggleButtons = document.querySelectorAll("[data-toggle]");
