@@ -37,7 +37,7 @@ public class AuthService(IUserService userService, SignInManager<UserEntity> sig
       return new AuthResult { Succeeded = false, StatusCode = 400, Error = "Not all required fields have a valid input." };
     }
 
-    var result = await _userService.CreateUserAsync(formData);
+    var result = await _userService.CreateUserBySignUpAsync(formData);
     return result.Succeeded
       ? new AuthResult { Succeeded = true, StatusCode = 201 }
       : new AuthResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };

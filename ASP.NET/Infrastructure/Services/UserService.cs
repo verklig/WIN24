@@ -12,10 +12,11 @@ namespace Infrastructure.Services;
 public interface IUserService
 {
   Task<UserResult> AddUserToRoleAsync(string userId, string roleName);
-  Task<UserResult> CreateUserBySignUpAsync(SignUpFormData formData, string roleName = "User");
   Task<UserResult> CreateUserByFormAsync(AddMemberFormData formData, string roleName = "User");
+  Task<UserResult> CreateUserBySignUpAsync(SignUpFormData formData, string roleName = "User");
   Task<UserResult<IEnumerable<User>>> GetAllUsersAsync();
   Task<UserResult<User>> GetUserAsync(string userId);
+  Task<UserResult> RemoveUserAsync(string userId);
   Task<UserResult> UpdateUserAsync(EditMemberFormData formData);
 }
 
@@ -131,7 +132,8 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
 
     try
     {
-      var existingUser = await _userManager.FindByIdAsync(formData.Id); // Not using MapTo here to not mess up Identity
+      // Not using MapTo here to not mess up Identity
+      var existingUser = await _userManager.FindByIdAsync(formData.Id);
 
       existingUser!.FirstName = formData.FirstName;
       existingUser.LastName = formData.LastName;
@@ -159,6 +161,34 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
       return result.Succeeded
         ? new UserResult { Succeeded = true, StatusCode = 200 }
         : new UserResult { Succeeded = false, StatusCode = 500, Error = "Unable to update user." };
+    }
+    catch (Exception ex)
+    {
+      Debug.WriteLine(ex.Message);
+      return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
+    }
+  }
+
+  public async Task<UserResult> RemoveUserAsync(string userId)
+  {
+    if (string.IsNullOrEmpty(userId))
+    {
+      return new UserResult { Succeeded = false, StatusCode = 400, Error = "User ID cannot be null or empty." };
+    }
+
+    try
+    {
+      var user = await _userManager.FindByIdAsync(userId);
+
+      if (user == null)
+      {
+        return new UserResult { Succeeded = false, StatusCode = 404, Error = "User not found." };
+      }
+
+      var result = await _userManager.DeleteAsync(user);
+      return result.Succeeded
+        ? new UserResult { Succeeded = true, StatusCode = 200 }
+        : new UserResult { Succeeded = false, StatusCode = 500, Error = "Unable to delete user." };
     }
     catch (Exception ex)
     {

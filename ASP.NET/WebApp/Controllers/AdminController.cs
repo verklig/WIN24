@@ -84,6 +84,7 @@ public class AdminController(IUserService userService) : Controller
   }
 
   [HttpPost("members/edit")]
+  [ValidateAntiForgeryToken]
   public async Task<IActionResult> Edit(EditMemberViewModel model)
   {
     if (!ModelState.IsValid)
@@ -134,7 +135,6 @@ public class AdminController(IUserService userService) : Controller
   }
 
   [HttpGet("members/edit/{id}")]
-  [ValidateAntiForgeryToken]
   public async Task<IActionResult> Edit(string id)
   {
     if (string.IsNullOrEmpty(id))
@@ -182,7 +182,7 @@ public class AdminController(IUserService userService) : Controller
     return View("Members", viewModel);
   }
 
-/*   [HttpPost("members/delete/{id}")]
+  [HttpPost("members/delete/{id}")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> Delete(string id)
   {
@@ -191,7 +191,7 @@ public class AdminController(IUserService userService) : Controller
       return RedirectToAction(nameof(Members));
     }
 
-    var result = await _userService.DeleteUserAsync(id);
+    var result = await _userService.RemoveUserAsync(id);
     if (result.Succeeded)
     {
       return RedirectToAction(nameof(Members));
@@ -204,5 +204,5 @@ public class AdminController(IUserService userService) : Controller
     };
     
     return View("Members", viewModel);
-  } */
+  }
 }
