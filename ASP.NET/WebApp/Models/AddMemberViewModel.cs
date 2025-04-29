@@ -4,6 +4,7 @@ namespace WebApp.Models;
 
 public class AddMemberViewModel
 {
+  public IFormFile? ImageFile { get; set; }
   public string? Image { get; set; }
 
   [Required(ErrorMessage = "You must enter first name.")]

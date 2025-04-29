@@ -2,7 +2,7 @@
 
 <div id="edit-overlay" class="overlay hidden">
   <div class="surface">
-    <form class="project-form grid" method="post" action="/projects/edit" novalidate>
+    <form class="project-form grid" method="post" action="/projects/edit" enctype="multipart/form-data" novalidate>
 
       @Html.AntiForgeryToken()
 

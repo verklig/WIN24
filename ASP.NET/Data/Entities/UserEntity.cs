@@ -10,6 +10,7 @@ public class UserEntity : IdentityUser
   public string? JobTitle { get; set; }
   public string? Address { get; set; }
   public string? DateOfBirth { get; set; }
+  public DateTime Created { get; set; } = DateTime.Now;
 
   public virtual ICollection<ProjectEntity> Projects { get; set; } = [];
 }

@@ -51,6 +51,22 @@ public class AdminController(IUserService userService) : Controller
       return View("Members", viewModel);
     }
 
+    if (model.ImageFile != null && model.ImageFile.Length > 0)
+    {
+      var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/members");
+      Directory.CreateDirectory(uploadsFolder);
+
+      var fileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ImageFile.FileName)}";
+      var filePath = Path.Combine(uploadsFolder, fileName);
+
+      using (var stream = new FileStream(filePath, FileMode.Create))
+      {
+        await model.ImageFile.CopyToAsync(stream);
+      }
+
+      model.Image = $"/uploads/members/{fileName}";
+    }
+
     var formData = model.MapTo<AddMemberFormData>();
 
     if (model.BirthDay.HasValue && model.BirthMonth.HasValue && model.BirthYear.HasValue)
@@ -100,6 +116,22 @@ public class AdminController(IUserService userService) : Controller
       ViewData["ShowEditForm"] = "true";
 
       return View("Members", viewModel);
+    }
+
+    if (model.ImageFile != null && model.ImageFile.Length > 0)
+    {
+      var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/members");
+      Directory.CreateDirectory(uploadsFolder);
+
+      var fileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ImageFile.FileName)}";
+      var filePath = Path.Combine(uploadsFolder, fileName);
+
+      using (var stream = new FileStream(filePath, FileMode.Create))
+      {
+        await model.ImageFile.CopyToAsync(stream);
+      }
+
+      model.Image = $"/uploads/members/{fileName}";
     }
 
     var formData = model.MapTo<EditMemberFormData>();
@@ -157,7 +189,8 @@ public class AdminController(IUserService userService) : Controller
       Email = user.Email,
       PhoneNumber = user.PhoneNumber,
       JobTitle = user.JobTitle,
-      Address = user.Address
+      Address = user.Address,
+      Image = user.Image
     };
 
     if (!string.IsNullOrWhiteSpace(user.DateOfBirth))

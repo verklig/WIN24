@@ -30,6 +30,10 @@ function closeOverlay(overlayId, resetUrlTo = null) {
     if (form) {
       form.reset();
 
+      // Resets the image when closing the add form and opening it again
+      document.getElementById('upload-preview').src = '/images/upload-icon-border-round.svg';
+      document.getElementById('imageFileInput').value = "";
+
       // Clear the validation errors
       const validationMessages = form.querySelectorAll('.field-validation-error, .input-validation-error');
       validationMessages.forEach(element => {
@@ -45,6 +49,42 @@ function closeOverlay(overlayId, resetUrlTo = null) {
   }
 }
 
+// Handles uploading images
+function triggerUpload(button) {
+  const wrapper = button.closest('.upload-wrapper');
+  if (!wrapper) return;
+
+  const fileInput = wrapper.querySelector('input[type="file"]');
+  if (fileInput) {
+    fileInput.click();
+  }
+}
+
+// Handles previewing images on forms
+function previewImage(event) {
+  const input = event.target;
+  const previewId = input.dataset.previewId;
+  const preview = document.getElementById(previewId);
+
+  if (!preview) return;
+
+  if (!input.files || input.files.length === 0) {
+    const original = preview.dataset.original;
+    if (original) {
+      preview.src = original;
+    }
+    
+    return;
+  }
+
+  const file = input.files[0];
+  const reader = new FileReader();
+  reader.onload = function (e) {
+    preview.src = e.target.result;
+  };
+
+  reader.readAsDataURL(file);
+}
 
 // Opens menus when clicking their corresponding buttons using the data-toggle attribute
 document.addEventListener("DOMContentLoaded", () => {

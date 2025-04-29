@@ -5,6 +5,7 @@ namespace WebApp.Models;
 public class EditProjectViewModel
 {
   public string Id { get; set; } = null!;
+  public IFormFile? ImageFile { get; set; }
   public string? Image { get; set; }
 
   [Required(ErrorMessage = "You must enter a project name.")]

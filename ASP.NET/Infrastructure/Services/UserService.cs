@@ -141,6 +141,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
       existingUser.PhoneNumber = formData.PhoneNumber;
       existingUser.JobTitle = formData.JobTitle;
       existingUser.Address = formData.Address;
+      existingUser.Image = formData.Image;
 
       if (!string.IsNullOrWhiteSpace(formData.DateOfBirth))
       {
@@ -199,7 +200,11 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
 
   public async Task<UserResult<IEnumerable<User>>> GetAllUsersAsync()
   {
-    var result = await _userRepository.GetAllAsync();
+    var result = await _userRepository.GetAllAsync
+    (
+      orderByDecending: false,
+      sortBy: s => s.Created
+    );
 
     if (!result.Succeeded || result.Result == null)
     {

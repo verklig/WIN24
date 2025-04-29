@@ -2,7 +2,7 @@
 
 <div id="edit-overlay" class="overlay hidden">
   <div class="surface">
-    <form class="member-form grid" method="post" action="/admin/members/edit" novalidate>
+    <form class="member-form grid" method="post" action="/admin/members/edit" enctype="multipart/form-data" novalidate>
 
       @Html.AntiForgeryToken()
 
@@ -15,10 +15,18 @@
 
       <input type="hidden" asp-for="Id" />
 
-      <button type="button" class="image-upload btn">
-        <img src="~/images/upload-icon-border-round.svg" alt="Border" class="image-upload-border">
-        <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
-      </button>
+      <div class="upload-wrapper">
+        <button type="button" class="image-upload btn" onclick="triggerUpload(this)">
+            @{
+              var resolvedImage = Url.Content(!string.IsNullOrWhiteSpace(Model?.Image)
+                ? Model.Image
+                : "/images/profile-picture-placeholder.svg");
+            }
+          <img src="@resolvedImage" alt="Upload Preview" class="image-upload-border" id="upload-preview-edit" data-original="/images/profile-picture-placeholder.svg">
+          <img src="~/images/edit-icon-gradient.svg" alt="Edit Icon" class="edit-icon">
+        </button>
+        <input id="imageFileInputEdit" name="ImageFile" type="file" accept="image/*" style="display:none" data-preview-id="upload-preview-edit" onchange="previewImage(event)">
+      </div>
 
       <div class="flex">
         <div class="grid">

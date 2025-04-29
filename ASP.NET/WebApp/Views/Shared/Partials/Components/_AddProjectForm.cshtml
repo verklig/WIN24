@@ -2,7 +2,7 @@
 
 <div id="add-overlay" class="overlay hidden">
   <div class="surface">
-    <form class="project-form grid" method="post" asp-controller="Projects" asp-action="Add" novalidate>
+    <form class="project-form grid" method="post" asp-controller="Projects" asp-action="Add" enctype="multipart/form-data" novalidate>
 
       @Html.AntiForgeryToken()
 

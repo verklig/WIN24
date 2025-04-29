@@ -2,7 +2,7 @@
 
 <div id="add-overlay" class="overlay hidden">
   <div class="surface">
-    <form class="member-form grid" method="post" asp-controller="Admin" asp-action="Add" novalidate>
+    <form class="member-form grid" method="post" asp-controller="Admin" asp-action="Add" enctype="multipart/form-data" novalidate>
 
       @Html.AntiForgeryToken()
 
@@ -13,10 +13,13 @@
         </button>
       </div>
 
-      <button type="button" class="image-upload btn">
-        <img src="~/images/upload-icon-border-round.svg" alt="Border" class="image-upload-border">
-        <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
-      </button>
+      <div class="upload-wrapper">
+        <button type="button" class="image-upload btn" onclick="triggerUpload(this)">
+          <img src="~/images/upload-icon-border-round.svg" alt="Upload Preview" class="image-upload-border" id="upload-preview-add" data-original="/images/upload-icon-border-round.svg">
+          <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
+        </button>
+        <input id="imageFileInputAdd" name="ImageFile" type="file" accept="image/*" style="display:none" data-preview-id="upload-preview-add" onchange="previewImage(event)">
+      </div>
 
       <div class="flex">
         <div class="grid">
