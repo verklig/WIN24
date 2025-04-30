@@ -2,6 +2,7 @@ using Data.Contexts;
 using Data.Entities;
 using Data.Repositories;
 using Infrastructure.Services;
+using Infrastructure.Seeders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ builder.Services.AddIdentity<UserEntity, IdentityRole>(x =>
 {
   x.User.RequireUniqueEmail = true;
   x.Password.RequiredLength = 8;
-}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+}).AddRoles<IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 builder.Services.ConfigureApplicationCookie(x =>
 {
   x.LoginPath = "/auth/login";
@@ -25,6 +26,14 @@ builder.Services.ConfigureApplicationCookie(x =>
   x.Cookie.IsEssential = true;
   x.ExpireTimeSpan = TimeSpan.FromHours(1);
   x.SlidingExpiration = true;
+});
+builder.Services.Configure<IdentityOptions>(options =>
+{
+  options.Password.RequireNonAlphanumeric = false;
+  options.Password.RequireDigit = true;
+  options.Password.RequireUppercase = true;
+  options.Password.RequireLowercase = true;
+  options.Password.RequiredLength = 8;
 });
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();
@@ -40,9 +49,15 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+  var services = scope.ServiceProvider;
+  await AdminSeeder.SeedAdminUser(services);
+}
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllerRoute(

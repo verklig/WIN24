@@ -3,9 +3,11 @@ using Domain.Dtos;
 using Domain.Extensions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Webapp.Controllers;
 
+[Authorize]
 [Route("projects")]
 public class ProjectsController(IProjectService projectService) : Controller
 {

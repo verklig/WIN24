@@ -1,11 +1,13 @@
 using Domain.Dtos;
 using Domain.Extensions;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Models;
 
 namespace Webapp.Controllers;
 
+[Authorize(Roles = "Admin")]
 [Route("admin")]
 public class AdminController(IUserService userService, IImageService imageService) : Controller
 {
@@ -114,7 +116,7 @@ public class AdminController(IUserService userService, IImageService imageServic
 
       if (!string.IsNullOrWhiteSpace(user.Result?.Image))
       {
-        _imageService.Delete(user.Result.Image);
+        // _imageService.Delete(user.Result.Image);
       }
 
       model.Image = await _imageService.UploadAsync(model.ImageFile, "members");

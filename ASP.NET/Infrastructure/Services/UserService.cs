@@ -41,8 +41,14 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
 
     try
     {
+      string[] nameParts = (formData.FullName ?? "").Trim().Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+      var firstName = nameParts.Length > 0 ? nameParts[0] : "";
+      var lastName = nameParts.Length > 1 ? nameParts[1] : "";
+
       var userEntity = formData.MapTo<UserEntity>();
 
+      userEntity.FirstName = firstName;
+      userEntity.LastName = lastName;
       userEntity.Email = formData.Email;
       userEntity.UserName = formData.Email;
       userEntity.NormalizedUserName = formData.Email?.ToUpperInvariant();
@@ -53,7 +59,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
         userEntity.Image = "/images/profile-picture-placeholder.svg";
       }
 
-      var result = await _userManager.CreateAsync(userEntity);
+      var result = await _userManager.CreateAsync(userEntity, formData.Password);
       if (result.Succeeded)
       {
         var addToRoleResult = await AddUserToRoleAsync(userEntity.Id, roleName);
@@ -253,7 +259,7 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
     var user = await _userManager.FindByIdAsync(userId);
     if (user == null)
     {
-      return new UserResult { Succeeded = false, StatusCode = 404, Error = "Role does not exist." };
+      return new UserResult { Succeeded = false, StatusCode = 404, Error = "User does not exist." };
     }
 
     var result = await _userManager.AddToRoleAsync(user, roleName);

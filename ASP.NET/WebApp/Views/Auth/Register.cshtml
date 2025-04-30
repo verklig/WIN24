@@ -8,6 +8,8 @@
   <div class="surface">
     <form class="grid" method="post" asp-controller="Auth" asp-action="HandleRegister" novalidate>
 
+      @Html.AntiForgeryToken()
+
       <h1 class="title flex">
         @ViewData["Title"]
       </h1>
@@ -50,18 +52,24 @@
         </button>
       </div>
       <span asp-validation-for="ConfirmPassword"></span>
-      
-      <input type="hidden" name="TOS">
+
       <div class="terms-and-conditions flex">
-        <label class="flex">
-          <input type="checkbox" name="TOS" value="true" @(Model.TOS == true ? "checked" : "")>
+        <label asp-for="TOS" class="flex">
+          <input asp-for="TOS" type="checkbox" />
           <i class="fa-solid fa-check checkmark"></i>
           <span>I accept the <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Terms and Conditions</a></span>
         </label>
       </div>
-      <span asp-validation-for="TOS"></span>
+      <span asp-validation-for="TOS" class="validation-error"></span>
 
       <button class="btn btn-blue" type="submit">Create Account</button>
+
+      @if (ViewBag.ErrorMessage != null)
+      {
+        <div class="validation-summary-errors">
+          <span class="field-validation-error">@ViewBag.ErrorMessage</span>
+        </div>
+      }
 
       <div class="sign-up flex">
         <label>Already have an account?</label>
