@@ -816,10 +816,12 @@ a {
     padding: .8rem;
     margin-bottom: 10px;
 
-    img {
-      width: auto;
-      height: auto;
+    .profile-picture {
+      width: 40px;
+      height: 40px;
       border: 2px solid var(--color-border-btn-blue);
+      object-fit: cover;
+      object-position: center;
       border-radius: 50%;
     }
 
@@ -840,6 +842,7 @@ a {
 
   .btn {
     height: 50px;
+    width: 100%;
   }
 
   .btn:hover {
@@ -1218,6 +1221,14 @@ a {
       display: flex;
       align-items: center;
       gap: .5rem;
+
+      .profile-picture {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 50%;
+      }
     }
 
     .search-bar {
@@ -1459,7 +1470,7 @@ a {
       padding: 1.6rem;
       position: relative;
 
-      img {
+      .profile-picture {
         width: 100%;
         height: 100%;
         object-fit: cover;

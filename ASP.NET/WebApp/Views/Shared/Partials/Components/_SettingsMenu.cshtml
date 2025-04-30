@@ -1,7 +1,20 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<UserEntity> SignInManager
+@inject UserManager<UserEntity> UserManager
+
+@{
+  var user = await UserManager.GetUserAsync(User);
+  var imagePath = !string.IsNullOrWhiteSpace(user?.Image)
+    ? Url.Content(user.Image)
+    : Url.Content("~/images/profile-picture-placeholder.svg");
+
+  var fullName = $"{user?.FirstName} {user?.LastName}".Trim();
+}
+
 <div class="settings-menu menu hidden" id="settings-menu">
   <div class="settings-profile flex">
-    <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
-    <span>Tommy Mattin-Lassei</span>
+    <img src="@imagePath" alt="Profile Picture" class="profile-picture">
+    <span>@(string.IsNullOrWhiteSpace(fullName) ? user?.Email : fullName)</span>
   </div>
 
   <button class="btn flex" id="dark-mode-toggle">
@@ -15,8 +28,10 @@
 
   <div class="horizontal-divider"></div>
 
-  <button class="btn flex">
-    <img src="~/images/logout-icon.svg" alt="Logout Icon" class="invert-when-dark">
-    <span>Logout</span>
-  </button>
+  <form method="post" asp-controller="Auth" asp-action="Logout">
+    <button class="btn flex" type="submit">
+      <img src="~/images/logout-icon.svg" alt="Logout Icon" class="invert-when-dark">
+      <span>Logout</span>
+    </button>
+  </form>
 </div>

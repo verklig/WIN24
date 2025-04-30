@@ -1,3 +1,14 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<UserEntity> SignInManager
+@inject UserManager<UserEntity> UserManager
+
+@{
+  var user = await UserManager.GetUserAsync(User);
+  var imagePath = !string.IsNullOrWhiteSpace(user?.Image)
+    ? Url.Content(user.Image)
+    : Url.Content("~/images/profile-picture-placeholder.svg");
+}
+
 <div class="nav-bar">
   <img src="~/images/search-icon.svg" alt="Search Icon" class="invert-when-dark">
 
@@ -14,7 +25,7 @@
 
   <div class="vertical-divider"></div>
 
-  <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+  <img src="@imagePath" alt="Profile Picture" class="profile-picture">
 
   @await Html.PartialAsync("Partials/Components/_NotificationMenu")
   @await Html.PartialAsync("Partials/Components/_SettingsMenu")
