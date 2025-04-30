@@ -45,8 +45,8 @@ public class AuthController(IAuthService authService) : Controller
   [HttpGet("register")]
   public IActionResult Register()
   {
-      var model = new RegisterViewModel();
-      return View(model);
+    var model = new RegisterViewModel();
+    return View(model);
   }
 
   [HttpPost("register")]

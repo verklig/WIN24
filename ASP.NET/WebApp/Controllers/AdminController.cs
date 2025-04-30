@@ -7,9 +7,10 @@ using WebApp.Models;
 namespace Webapp.Controllers;
 
 [Route("admin")]
-public class AdminController(IUserService userService) : Controller
+public class AdminController(IUserService userService, IImageService imageService) : Controller
 {
   private readonly IUserService _userService = userService;
+  private readonly IImageService _imageService = imageService;
 
   [HttpGet("members")]
   public async Task<IActionResult> Members()
@@ -51,20 +52,9 @@ public class AdminController(IUserService userService) : Controller
       return View("Members", viewModel);
     }
 
-    if (model.ImageFile != null && model.ImageFile.Length > 0)
+    if (model.ImageFile != null)
     {
-      var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/members");
-      Directory.CreateDirectory(uploadsFolder);
-
-      var fileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ImageFile.FileName)}";
-      var filePath = Path.Combine(uploadsFolder, fileName);
-
-      using (var stream = new FileStream(filePath, FileMode.Create))
-      {
-        await model.ImageFile.CopyToAsync(stream);
-      }
-
-      model.Image = $"/uploads/members/{fileName}";
+      model.Image = await _imageService.UploadAsync(model.ImageFile, "members");
     }
 
     var formData = model.MapTo<AddMemberFormData>();
@@ -120,18 +110,14 @@ public class AdminController(IUserService userService) : Controller
 
     if (model.ImageFile != null && model.ImageFile.Length > 0)
     {
-      var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads/members");
-      Directory.CreateDirectory(uploadsFolder);
+      var user = await _userService.GetUserAsync(model.Id);
 
-      var fileName = $"{Guid.NewGuid()}{Path.GetExtension(model.ImageFile.FileName)}";
-      var filePath = Path.Combine(uploadsFolder, fileName);
-
-      using (var stream = new FileStream(filePath, FileMode.Create))
+      if (!string.IsNullOrWhiteSpace(user.Result?.Image))
       {
-        await model.ImageFile.CopyToAsync(stream);
+        _imageService.Delete(user.Result.Image);
       }
 
-      model.Image = $"/uploads/members/{fileName}";
+      model.Image = await _imageService.UploadAsync(model.ImageFile, "members");
     }
 
     var formData = model.MapTo<EditMemberFormData>();
