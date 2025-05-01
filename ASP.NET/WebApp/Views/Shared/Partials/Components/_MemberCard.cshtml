@@ -17,19 +17,19 @@
 
   <div class="card-title">
     <div class="flex">
-      <h2>@($"{Model?.FirstName ?? "[No First Name]"} {Model?.LastName ?? "[No Last Name]"}")</h2>
+      <h2>@($"{Model?.FirstName ?? "No First Name"} {Model?.LastName ?? "No Last Name"}")</h2>
     </div>
     <div class="flex">
-      <span>@(Model?.JobTitle ?? "[No Job Title]")</span>
+      <span>@(Model?.JobTitle ?? "No Job Title")</span>
     </div>
   </div>
 
   <div class="contact-info flex">
-    <span class="email">@(Model?.Email ?? "[No Email]")</span>
-    <span class="phone">@(Model?.PhoneNumber ?? "[No Phone Number]")</span>
+    <span class="email">@(Model?.Email ?? "No Email")</span>
+    <span class="phone">@(Model?.PhoneNumber ?? "No Phone Number")</span>
   </div>
 
   <button class="btn btn-white">Message</button>
 
-  @await Html.PartialAsync("Partials/Components/_MemberCardMenu")
+  @await Html.PartialAsync("Partials/Components/_MemberCardMenu", Model)
 </div>

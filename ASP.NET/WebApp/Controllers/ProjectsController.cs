@@ -13,6 +13,7 @@ public class ProjectsController(IProjectService projectService) : Controller
 {
   private readonly IProjectService _projectService = projectService;
 
+  #region Get Projects
   [HttpGet("")]
   public async Task<IActionResult> Projects()
   {
@@ -32,7 +33,9 @@ public class ProjectsController(IProjectService projectService) : Controller
 
     return View(model);
   }
+  #endregion
 
+  #region Post Add Project
   [HttpPost("add")]
   public async Task<IActionResult> Add(AddProjectViewModel model)
   {
@@ -70,7 +73,9 @@ public class ProjectsController(IProjectService projectService) : Controller
 
     return View("Projects", errorViewModel);
   }
+  #endregion
 
+  #region Post Edit Project
   [HttpPost("edit")]
   public async Task<IActionResult> Edit(EditProjectViewModel model)
   {
@@ -87,7 +92,9 @@ public class ProjectsController(IProjectService projectService) : Controller
 
     return View();
   }
-  
+  #endregion
+
+  #region Post Delete Project
   [HttpPost("delete/{id}")]
   public async Task<IActionResult> Delete(string id)
   {
@@ -104,4 +111,5 @@ public class ProjectsController(IProjectService projectService) : Controller
 
     return View();
   }
+  #endregion
 }

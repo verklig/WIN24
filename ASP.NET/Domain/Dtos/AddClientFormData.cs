@@ -1,8 +1,7 @@
-namespace Domain.Models;
+namespace Domain.Dtos;
 
-public class Client
+public class AddClientFormData
 {
-  public string Id { get; set; } = null!;
   public string? Image { get; set; }
   public string ClientName { get; set; } = null!;
   public string Email { get; set; } = null!;

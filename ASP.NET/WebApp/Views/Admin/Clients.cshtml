@@ -1,0 +1,45 @@
+@model ClientsViewModel
+@using WebApp.Models
+@{
+  ViewData["Title"] = "Clients";
+}
+
+<div class="title-div flex">
+  <h2>
+    @ViewData["Title"]
+  </h2>
+  <button class="btn btn-blue" data-toggle="add-overlay">
+    <i class="fa-regular fa-plus"></i>
+    Add Client
+  </button>
+</div>
+
+<ul class="client-list">
+  @foreach(var client in Model.Clients)
+  {
+    if (client != null)
+    {
+      @await Html.PartialAsync("Partials/Components/_ClientItem", client)
+    }
+  }
+</ul>
+
+@await Html.PartialAsync("Partials/Components/_AddClientForm", Model.AddClientViewModel)
+@await Html.PartialAsync("Partials/Components/_EditClientForm", Model.EditClientViewModel)
+
+@section Scripts {
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const shouldShowAdd = '@ViewData["ShowAddForm"]' === 'true';
+      const shouldShowEdit = '@ViewData["ShowEditForm"]' === 'true';
+
+      if (shouldShowAdd) {
+        document.getElementById('add-overlay').classList.remove('hidden');
+      }
+
+      if (shouldShowEdit) {
+        document.getElementById('edit-overlay').classList.remove('hidden');
+      }
+    });
+  </script>
+}

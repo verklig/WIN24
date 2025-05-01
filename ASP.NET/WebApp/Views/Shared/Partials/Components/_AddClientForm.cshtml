@@ -1,0 +1,46 @@
+@model AddClientViewModel
+
+<div id="add-overlay" class="overlay hidden">
+  <div class="surface">
+    <form class="member-form grid" method="post" asp-controller="Admin" asp-action="AddClient" enctype="multipart/form-data" novalidate>
+
+      @Html.AntiForgeryToken()
+
+      <div class="title flex">
+        <h2>Add Client</h2>
+        <button class="btn" type="button" onclick="closeOverlay('add-overlay', '/admin/clients')">
+          <i class="fa-regular fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="upload-wrapper">
+        <button type="button" class="image-upload btn" onclick="triggerUpload(this)">
+          <img src="~/images/upload-icon-border-round.svg" alt="Upload Preview" class="image-upload-border" id="upload-preview-add" data-original="/images/upload-icon-border-round.svg">
+          <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
+        </button>
+        <input id="imageFileInputAdd" name="ImageFile" type="file" accept="image/*" style="display:none" data-preview-id="upload-preview-add" onchange="previewImage(event)">
+      </div>
+
+      <div class="grid">
+        <label asp-for="ClientName" class="input-label"></label>
+        <input asp-for="ClientName" value="@Model.ClientName">
+        <span asp-validation-for="ClientName"></span>
+      </div>
+
+      <div class="grid">
+        <label asp-for="Email" class="input-label"></label>
+        <input asp-for="Email" value="@Model.Email">
+        <span asp-validation-for="Email"></span>
+      </div>
+
+      <div class="grid">
+        <label asp-for="PhoneNumber" class="input-label"></label>
+        <input asp-for="PhoneNumber" value="@Model.PhoneNumber">
+        <span asp-validation-for="PhoneNumber"></span>
+      </div>    
+
+      <button type="submit" class="btn btn-blue">Add</button>
+
+    </form>
+  </div>
+</div>

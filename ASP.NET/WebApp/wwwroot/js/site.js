@@ -31,8 +31,15 @@ function closeOverlay(overlayId, resetUrlTo = null) {
       form.reset();
 
       // Resets the image when closing the add form and opening it again
-      document.getElementById('upload-preview').src = '/images/upload-icon-border-round.svg';
-      document.getElementById('imageFileInput').value = "";
+      const previewImage = document.getElementById('upload-preview');
+      if (previewImage) {
+        previewImage.src = previewImage.dataset.original || '/images/upload-icon-border-round.svg';
+      }
+
+      const fileInput = document.getElementById('imageFileInput');
+      if (fileInput) {
+        fileInput.value = '';
+      }
 
       // Clear the validation errors
       const validationMessages = form.querySelectorAll('.field-validation-error, .input-validation-error');

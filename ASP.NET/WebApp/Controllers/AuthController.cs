@@ -13,13 +13,16 @@ public class AuthController(IAuthService authService) : Controller
 {
   private readonly IAuthService _authService = authService;
 
+  #region Get Login Page
   [HttpGet("login")]
   public IActionResult Login()
   {
     var model = new LoginViewModel();
     return View(model);
   }
+  #endregion
 
+  #region Post Login
   [HttpPost("login")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> HandleLogin(LoginViewModel model, string returnUrl = "~/")
@@ -42,14 +45,18 @@ public class AuthController(IAuthService authService) : Controller
     ViewBag.ErrorMessage = result.Error;
     return View("Login", model);
   }
+  #endregion
 
+  #region Get Register Page
   [HttpGet("register")]
   public IActionResult Register()
   {
     var model = new RegisterViewModel();
     return View(model);
   }
+  #endregion
 
+  #region Post Register
   [HttpPost("register")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> HandleRegister(RegisterViewModel model, string returnUrl = "~/")
@@ -84,7 +91,9 @@ public class AuthController(IAuthService authService) : Controller
     ViewBag.ErrorMessage = result.Error;
     return View("Register", model);
   }
+  #endregion
 
+  #region Post Logout
   [HttpPost("logout")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> Logout()
@@ -92,10 +101,13 @@ public class AuthController(IAuthService authService) : Controller
     await _authService.SignOutAsync();
     return RedirectToAction("Login");
   }
-  
+  #endregion
+
+  #region Get Denied Page
   [HttpGet("denied")]
   public IActionResult Denied()
   {
     return RedirectToAction("Projects", "Projects");
   }
+  #endregion
 }

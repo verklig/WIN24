@@ -35,7 +35,7 @@
 
       <label asp-for="Password" class="input-label"></label>
       <div class="password-input">
-        <input asp-for="Password" value="@Model.Password" type="password">
+        <input asp-for="Password" type="password">
         <button type="button" class="btn flex" onclick="togglePassword(this)">
           <i class="fa-duotone fa-solid fa-eye flex show-icon hidden"></i>
           <i class="fa-duotone fa-solid fa-eye-low-vision flex hide-icon"></i>
@@ -45,7 +45,7 @@
 
       <label asp-for="ConfirmPassword" class="input-label"></label>
       <div class="password-input">
-        <input asp-for="ConfirmPassword" value="@Model.ConfirmPassword" type="password">
+        <input asp-for="ConfirmPassword" type="password">
         <button type="button" class="btn flex" onclick="togglePassword(this)">
           <i class="fa-duotone fa-solid fa-eye flex show-icon hidden"></i>
           <i class="fa-duotone fa-solid fa-eye-low-vision flex hide-icon"></i>

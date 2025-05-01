@@ -2,7 +2,9 @@ using Domain.Models;
 
 namespace Infrastructure.Models;
 
-public class ClientResult : BaseResult
+public class ClientResult<T> : BaseResult
 {
-  public IEnumerable<Client>? Result { get; set; }
+  public T? Result { get; set; }
 }
+
+public class ClientResult : BaseResult { }

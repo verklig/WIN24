@@ -72,7 +72,6 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
     }
     catch (Exception ex)
     {
-      Debug.WriteLine(ex.Message);
       return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
     }
   }
@@ -118,7 +117,6 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
     }
     catch (Exception ex)
     {
-      Debug.WriteLine(ex.Message);
       return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
     }
   }
@@ -171,7 +169,6 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
     }
     catch (Exception ex)
     {
-      Debug.WriteLine(ex.Message);
       return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
     }
   }
@@ -199,7 +196,6 @@ public class UserService(IUserRepository userRepository, UserManager<UserEntity>
     }
     catch (Exception ex)
     {
-      Debug.WriteLine(ex.Message);
       return new UserResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
     }
   }

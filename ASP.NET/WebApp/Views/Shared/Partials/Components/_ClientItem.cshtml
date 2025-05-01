@@ -1,0 +1,20 @@
+@model Domain.Models.Client
+
+<li class="client-item">
+  @{
+    var resolvedImage = Url.Content(!string.IsNullOrWhiteSpace(Model?.Image)
+      ? Model.Image
+      : "/images/profile-picture-placeholder.svg");
+  }
+  <img src="@resolvedImage" alt="Profile Picture" class="profile-picture">
+  <span class="client-name">@($"{Model?.ClientName ?? "No Client Name"}")</span>
+  <span class="client-email">@($"{Model?.Email ?? "No Email"}")</span>
+  <span class="client-phone">@($"{Model?.PhoneNumber ?? "No Phone Number"}")</span>
+  <button class="btn btn-white">Message</button>
+  <button class="btn" data-toggle="card-menu-@Model?.Id">
+    <i class="fa-solid fa-circle"></i>
+    <i class="fa-solid fa-circle"></i>
+  </button>
+
+  @await Html.PartialAsync("Partials/Components/_ClientItemMenu", Model)
+</li>

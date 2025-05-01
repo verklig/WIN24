@@ -1,4 +1,4 @@
-@model Domain.Models.User
+@model Domain.Models.Client
 
 <div class="card-menu menu hidden" id="card-menu-@Model.Id">
   <button class="btn flex" onclick="navigateToEdit('@Model.Id')">
@@ -8,10 +8,10 @@
 
   <div class="horizontal-divider"></div>
 
-  <form asp-controller="Admin" asp-action="DeleteMember" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this member?');">
+  <form asp-controller="Admin" asp-action="DeleteClient" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this client?');">
     <button class="btn flex" type="submit">
       <img src="~/images/delete-icon.svg" alt="Delete Icon">
-      <span id="delete-text">Delete Member</span>
+      <span id="delete-text">Delete Client</span>
     </button>
   </form>
 </div>
@@ -19,6 +19,6 @@
 <script>
   function navigateToEdit(id) {
     if (!id) return;
-    window.location.href = `/admin/members/edit/${id}`;
+    window.location.href = `/admin/clients/edit/${id}`;
   }
 </script>

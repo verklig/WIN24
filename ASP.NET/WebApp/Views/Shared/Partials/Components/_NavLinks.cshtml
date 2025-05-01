@@ -11,4 +11,10 @@
     <img src="~/images/members-icon-hover-dark.svg" alt="Members Icon" class="hover-dark">
     <span>Team Members</span>
   </a>
+  <a class="nav-link @(Context.Request.Path == "/admin/clients" ? "active" : "")" asp-controller="Admin" asp-action="Clients">
+    <img src="~/images/members-icon.svg" alt="Members Icon" class="default invert-when-dark">
+    <img src="~/images/members-icon-hover.svg" alt="Members Icon" class="hover">
+    <img src="~/images/members-icon-hover-dark.svg" alt="Members Icon" class="hover-dark">
+    <span>Clients</span>
+  </a>
 </nav>
