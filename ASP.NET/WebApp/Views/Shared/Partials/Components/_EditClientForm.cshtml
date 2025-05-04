@@ -8,24 +8,25 @@
 
       <div class="title flex">
         <h2>Edit Client</h2>
-        <button class="btn" type="button" onclick="closeOverlay('edit-overlay', '/admin/clients')">
+        <button class="btn" type="button" onclick="resetBasePath()">
           <i class="fa-regular fa-xmark"></i>
         </button>
       </div>
 
-      <input type="hidden" asp-for="Id" />
+      <input type="hidden" asp-for="Id">
 
       <div class="upload-wrapper">
         <button type="button" class="image-upload btn" onclick="triggerUpload(this)">
-            @{
-              var resolvedImage = Url.Content(!string.IsNullOrWhiteSpace(Model?.Image)
-                ? Model.Image
-                : "/images/profile-picture-placeholder.svg");
-            }
-          <img src="@resolvedImage" alt="Upload Preview" class="image-upload-border" id="upload-preview-edit" data-original="/images/profile-picture-placeholder.svg">
-          <img src="~/images/edit-icon-gradient.svg" alt="Edit Icon" class="edit-icon">
+          @{
+            var imagePreviewPath = !string.IsNullOrWhiteSpace(Model.Image)
+              ? Url.Content(Model.Image)
+              : Url.Content("~/images/profile-picture-placeholder.svg");
+          }
+          <img src="@imagePreviewPath" alt="Upload Preview" class="image-upload-border" id="upload-preview-add" data-original="/images/profile-picture-placeholder.svg">
+          <img src="~/images/upload-icon.svg" alt="Upload Icon" class="image-upload-icon">
         </button>
-        <input id="imageFileInputEdit" name="ImageFile" type="file" accept="image/*" style="display:none" data-preview-id="upload-preview-edit" onchange="previewImage(event)">
+        <input id="imageFileInputAdd" class="hidden" name="ImageFile" type="file" accept="image/*" data-preview-id="upload-preview-add" onchange="previewImage(event)">
+        <input type="hidden" name="Image" id="Image" value="@Model.Image">
       </div>
 
       <div class="grid">

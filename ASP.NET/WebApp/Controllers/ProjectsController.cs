@@ -4,31 +4,80 @@ using Domain.Extensions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Domain.Models;
 
 namespace Webapp.Controllers;
 
 [Authorize]
 [Route("projects")]
-public class ProjectsController(IProjectService projectService) : Controller
+public class ProjectsController(IProjectService projectService, IStatusService statusService, IClientService clientService, IUserService userService, IImageService imageService) : Controller
 {
   private readonly IProjectService _projectService = projectService;
+  private readonly IStatusService _statusService = statusService;
+  private readonly IClientService _clientService = clientService;
+  private readonly IUserService _userService = userService;
+  private readonly IImageService _imageService = imageService;
 
   #region Get Projects
   [HttpGet("")]
   public async Task<IActionResult> Projects()
   {
-    var result = await _projectService.GetAllProjectsAsync();
+    var projectResult = await _projectService.GetAllProjectsAsync();
+    var statusResult = await _statusService.GetAllStatusesAsync();
+    var clientResult = await _clientService.GetAllClientsAsync();
+    var userResult = await _userService.GetAllUsersAsync();
 
-    if (!result.Succeeded)
+    if (!projectResult.Succeeded || !statusResult.Succeeded || !clientResult.Succeeded || !userResult.Succeeded)
     {
       return View();
     }
 
     var model = new ProjectsViewModel
     {
-      Projects = result.Succeeded && result.Result != null ? result.Result : [],
-      AddProjectViewModel = new(),
-      EditProjectViewModel = new()
+      Projects = projectResult.Result!,
+      AddProjectViewModel = new AddProjectViewModel
+      {
+        Statuses = statusResult.Result?.Select(s => new SelectListItem
+        {
+          Value = s.Id.ToString(),
+          Text = s.StatusName
+        }),
+        Clients = clientResult.Result?.Select(s => new SelectListItem
+        {
+          Value = s.Id.ToString(),
+          Text = s.ClientName
+        }),
+        Users = userResult.Result?.Select(s => new User
+        {
+          Id = s.Id,
+          FirstName = s.FirstName,
+          LastName = s.LastName,
+          Email = s.Email,
+          Image = s.Image
+        })
+      },
+      EditProjectViewModel = new EditProjectViewModel
+      {
+        Statuses = statusResult.Result?.Select(s => new SelectListItem
+        {
+          Value = s.Id.ToString(),
+          Text = s.StatusName
+        }),
+        Clients = clientResult.Result?.Select(s => new SelectListItem
+        {
+          Value = s.Id.ToString(),
+          Text = s.ClientName
+        }),
+        Users = userResult.Result?.Select(s => new User
+        {
+          Id = s.Id,
+          FirstName = s.FirstName,
+          LastName = s.LastName,
+          Email = s.Email,
+          Image = s.Image
+        })
+      },
     };
 
     return View(model);
@@ -39,8 +88,23 @@ public class ProjectsController(IProjectService projectService) : Controller
   [HttpPost("add")]
   public async Task<IActionResult> Add(AddProjectViewModel model)
   {
+    if (string.IsNullOrWhiteSpace(model.SelectedUserIds))
+    {
+      ModelState.AddModelError(nameof(model.SelectedUserIds), "You must select at least one member.");
+    }
+
+    if (model.ImageFile != null && model.ImageFile.Length > 0)
+    {
+      model.Image = await _imageService.UploadAsync(model.ImageFile, "projects");
+    }
+
+    var selectedUserIds = model.SelectedUserIds?.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(id => id.Trim()).ToList() ?? [];
+
     if (!ModelState.IsValid)
     {
+      await PopulateDropdownsAsync(model);
+      model.SelectedUserIds = string.Join(",", selectedUserIds);
+
       var projects = await _projectService.GetAllProjectsAsync();
 
       var viewModel = new ProjectsViewModel
@@ -54,12 +118,18 @@ public class ProjectsController(IProjectService projectService) : Controller
       return View("Projects", viewModel);
     }
 
-    var result = await _projectService.CreateProjectAsync(model.MapTo<AddProjectFormData>());
+    var formData = model.MapTo<AddProjectFormData>();
+    formData.UserIds = selectedUserIds;
+
+    var result = await _projectService.CreateProjectAsync(formData);
 
     if (result.Succeeded)
     {
       return RedirectToAction(nameof(Projects));
     }
+
+    await PopulateDropdownsAsync(model);
+    model.SelectedUserIds = string.Join(",", selectedUserIds);
 
     var fallbackProjects = await _projectService.GetAllProjectsAsync();
 
@@ -79,18 +149,60 @@ public class ProjectsController(IProjectService projectService) : Controller
   [HttpPost("edit")]
   public async Task<IActionResult> Edit(EditProjectViewModel model)
   {
-    if (!ModelState.IsValid)
+    if (string.IsNullOrWhiteSpace(model.SelectedUserIds))
     {
-      return View(ModelState);
+      ModelState.AddModelError(nameof(model.SelectedUserIds), "You must select at least one member.");
     }
 
-    var result = await _projectService.UpdateProjectAsync(model.MapTo<EditProjectFormData>());
+    if (model.ImageFile != null)
+    {
+      model.Image = await _imageService.UploadAsync(model.ImageFile, "projects");
+    }
+
+    var selectedUserIds = model.SelectedUserIds?.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(id => id.Trim()).ToList() ?? [];
+
+    if (!ModelState.IsValid)
+    {
+      await PopulateDropdownsAsync(model);
+      model.SelectedUserIds = string.Join(",", selectedUserIds);
+
+      var projects = await _projectService.GetAllProjectsAsync();
+
+      var viewModel = new ProjectsViewModel
+      {
+        Projects = projects.Result!,
+        EditProjectViewModel = model
+      };
+
+      ViewData["ShowEditForm"] = "true";
+
+      return View("Projects", viewModel);
+    }
+
+    var formData = model.MapTo<EditProjectFormData>();
+    formData.UserIds = selectedUserIds;
+
+    var result = await _projectService.UpdateProjectAsync(formData);
+
     if (result.Succeeded)
     {
       return RedirectToAction(nameof(Projects));
     }
 
-    return View();
+    await PopulateDropdownsAsync(model);
+    model.SelectedUserIds = string.Join(",", selectedUserIds);
+
+    var fallbackProjects = await _projectService.GetAllProjectsAsync();
+
+    var errorViewModel = new ProjectsViewModel
+    {
+      Projects = fallbackProjects.Result!,
+      EditProjectViewModel = model
+    };
+
+    ViewData["ShowEditForm"] = "true";
+
+    return View("Projects", errorViewModel);
   }
   #endregion
 
@@ -110,6 +222,66 @@ public class ProjectsController(IProjectService projectService) : Controller
     }
 
     return View();
+  }
+  #endregion
+
+  #region Populate Dropdowns Helper Add
+  private async Task PopulateDropdownsAsync(AddProjectViewModel model)
+  {
+    var fallbackStatuses = await _statusService.GetAllStatusesAsync();
+    var fallbackClients = await _clientService.GetAllClientsAsync();
+    var fallbackUsers = await _userService.GetAllUsersAsync();
+
+    model.Statuses = fallbackStatuses.Result?.Select(s => new SelectListItem
+    {
+      Value = s.Id.ToString(),
+      Text = s.StatusName
+    });
+
+    model.Clients = fallbackClients.Result?.Select(s => new SelectListItem
+    {
+      Value = s.Id.ToString(),
+      Text = s.ClientName
+    });
+
+    model.Users = fallbackUsers.Result?.Select(s => new User
+    {
+      Id = s.Id,
+      FirstName = s.FirstName,
+      LastName = s.LastName,
+      Email = s.Email,
+      Image = s.Image
+    });
+  }
+  #endregion
+  
+  #region Populate Dropdowns Helper Edit
+  private async Task PopulateDropdownsAsync(EditProjectViewModel model)
+  {
+    var fallbackStatuses = await _statusService.GetAllStatusesAsync();
+    var fallbackClients = await _clientService.GetAllClientsAsync();
+    var fallbackUsers = await _userService.GetAllUsersAsync();
+
+    model.Statuses = fallbackStatuses.Result?.Select(s => new SelectListItem
+    {
+      Value = s.Id.ToString(),
+      Text = s.StatusName
+    });
+
+    model.Clients = fallbackClients.Result?.Select(s => new SelectListItem
+    {
+      Value = s.Id.ToString(),
+      Text = s.ClientName
+    });
+
+    model.Users = fallbackUsers.Result?.Select(s => new User
+    {
+      Id = s.Id,
+      FirstName = s.FirstName,
+      LastName = s.LastName,
+      Email = s.Email,
+      Image = s.Image
+    });
   }
   #endregion
 }

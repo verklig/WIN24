@@ -26,20 +26,3 @@
 
 @await Html.PartialAsync("Partials/Components/_AddClientForm", Model.AddClientViewModel)
 @await Html.PartialAsync("Partials/Components/_EditClientForm", Model.EditClientViewModel)
-
-@section Scripts {
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const shouldShowAdd = '@ViewData["ShowAddForm"]' === 'true';
-      const shouldShowEdit = '@ViewData["ShowEditForm"]' === 'true';
-
-      if (shouldShowAdd) {
-        document.getElementById('add-overlay').classList.remove('hidden');
-      }
-
-      if (shouldShowEdit) {
-        document.getElementById('edit-overlay').classList.remove('hidden');
-      }
-    });
-  </script>
-}

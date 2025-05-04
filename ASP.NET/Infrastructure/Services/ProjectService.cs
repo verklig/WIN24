@@ -28,22 +28,34 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
       return new ProjectResult { Succeeded = false, StatusCode = 400, Error = "Not all required fields have a valid input." };
     }
 
-    var projectEntity = formData.MapTo<ProjectEntity>();
-    var statusResult = await _statusService.GetStatusByIdAsync(1);
-    var status = statusResult.Result;
-
-    projectEntity.StatusId = status!.Id;
-
-    if (string.IsNullOrEmpty(projectEntity.Image))
+    try
     {
-      projectEntity.Image = "/images/profile-picture-placeholder.svg";
+      var projectEntity = new ProjectEntity
+      {
+        ProjectName = formData.ProjectName,
+        Description = formData.Description,
+        StartDate = formData.StartDate ?? DateTime.Today,
+        EndDate = formData.EndDate,
+        Budget = formData.Budget,
+        ClientId = formData.ClientId,
+        StatusId = formData.StatusId,
+        Image = string.IsNullOrEmpty(formData.Image) ? "/images/alpha-logotype.svg" : formData.Image,
+        ProjectUsers = [.. formData.UserIds.Select(userId => new UserProjectEntity
+        {
+          UserId = userId
+        })]
+      };
+
+      var result = await _projectRepository.AddAsync(projectEntity);
+
+      return result.Succeeded
+        ? new ProjectResult { Succeeded = true, StatusCode = 201 }
+        : new ProjectResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };
     }
-
-    var result = await _projectRepository.AddAsync(projectEntity);
-
-    return result.Succeeded
-      ? new ProjectResult { Succeeded = true, StatusCode = 201 }
-      : new ProjectResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };
+    catch (Exception ex)
+    {
+      return new ProjectResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
+    }
   }
 
   public async Task<ProjectResult> UpdateProjectAsync(EditProjectFormData formData)
@@ -54,26 +66,31 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
     }
 
     var projectResult = await _projectRepository.GetAsync(x => x.Id == formData.Id);
-    if (!projectResult.Succeeded)
+    if (!projectResult.Succeeded || projectResult.Result == null)
     {
       return new ProjectResult { Succeeded = false, StatusCode = projectResult.StatusCode, Error = "Project not found." };
     }
 
-    var existingProjectEntity = projectResult.Result!.MapTo<ProjectEntity>();
+    var projectEntity = projectResult.Result!.MapTo<ProjectEntity>();
 
-    existingProjectEntity.Image = formData.Image;
-    existingProjectEntity.ProjectName = formData.ProjectName;
-    existingProjectEntity.Description = formData.Description;
-    existingProjectEntity.StartDate = formData.StartDate;
-    existingProjectEntity.EndDate = formData.EndDate;
-    existingProjectEntity.Budget = formData.Budget;
-    existingProjectEntity.ClientId = formData.ClientId;
-    existingProjectEntity.UserId = formData.UserId;
+    projectEntity.ProjectName = formData.ProjectName;
+    projectEntity.Description = formData.Description;
+    projectEntity.StartDate = formData.StartDate ?? DateTime.Today;
+    projectEntity.EndDate = formData.EndDate;
+    projectEntity.Budget = formData.Budget;
+    projectEntity.ClientId = formData.ClientId;
+    projectEntity.StatusId = formData.StatusId;
+    projectEntity.Image = string.IsNullOrEmpty(formData.Image)
+      ? "/images/alpha-logotype.svg"
+      : formData.Image;
 
-    var statusResult = await _statusService.GetStatusByIdAsync(1);
-    existingProjectEntity.StatusId = statusResult.Result!.Id;
+    projectEntity.ProjectUsers = [.. formData.UserIds.Select(userId => new UserProjectEntity
+    {
+      UserId = userId,
+      ProjectId = projectEntity.Id
+    })];
 
-    var result = await _projectRepository.UpdateAsync(existingProjectEntity);
+    var result = await _projectRepository.UpdateAsync(projectEntity);
 
     return result.Succeeded
       ? new ProjectResult { Succeeded = true, StatusCode = 200 }
@@ -103,31 +120,84 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
 
   public async Task<ProjectResult<IEnumerable<Project>>> GetAllProjectsAsync()
   {
-    var response = await _projectRepository.GetAllAsync
-    (
-      orderByDecending: true,
-      sortBy: s => s.Created,
-      where: null,
-      include => include.User,
-      include => include.Status,
-      include => include.Client
-    );
+    var entities = await _projectRepository.GetAllProjectsWithIncludesAsync();
 
-    return new ProjectResult<IEnumerable<Project>> { Succeeded = true, StatusCode = 200, Result = response.Result };
+    var projects = entities.Select(p => new Project
+    {
+      Id = p.Id,
+      ProjectName = p.ProjectName,
+      Description = p.Description,
+      StartDate = p.StartDate,
+      EndDate = p.EndDate,
+      Created = p.Created,
+      Budget = p.Budget,
+      Image = p.Image,
+      Client = new Client
+      {
+        Id = p.Client!.Id,
+        ClientName = p.Client.ClientName
+      },
+      Status = new Status
+      {
+        Id = p.Status!.Id,
+        StatusName = p.Status.StatusName
+      },
+      Users = [.. p.ProjectUsers
+        .Where(pu => pu.User != null)
+        .Select(pu => new User
+        {
+          Id = pu.User.Id,
+          FirstName = pu.User.FirstName!,
+          LastName = pu.User.LastName!,
+          Email = pu.User.Email!,
+          Image = pu.User.Image
+        })]
+    });
+
+    return new ProjectResult<IEnumerable<Project>> { Succeeded = true, StatusCode = 200, Result = projects };
   }
 
   public async Task<ProjectResult<Project>> GetProjectAsync(string id)
   {
-    var response = await _projectRepository.GetAsync
-    (
-      where: x => x.Id == id,
-      include => include.User,
-      include => include.Status,
-      include => include.Client
-    );
+    var entity = await _projectRepository.GetProjectWithIncludesAsync(id);
 
-    return response.Succeeded
-      ? new ProjectResult<Project> { Succeeded = true, StatusCode = 200, Result = response.Result }
-      : new ProjectResult<Project> { Succeeded = false, StatusCode = 404, Error = $"Project with id \"{id}\" was not found." };
+    if (entity == null)
+    {
+      return new ProjectResult<Project> { Succeeded = false, StatusCode = 404, Error = $"Project with id \"{id}\" was not found." };
+    }
+
+    var project = new Project
+    {
+      Id = entity.Id,
+      ProjectName = entity.ProjectName,
+      Description = entity.Description,
+      StartDate = entity.StartDate,
+      EndDate = entity.EndDate,
+      Created = entity.Created,
+      Budget = entity.Budget,
+      Image = entity.Image,
+      Client = new Client
+      {
+        Id = entity.Client!.Id,
+        ClientName = entity.Client.ClientName
+      },
+      Status = new Status
+      {
+        Id = entity.Status!.Id,
+        StatusName = entity.Status.StatusName
+      },
+      Users = [.. entity.ProjectUsers
+        .Where(pu => pu.User != null)
+        .Select(pu => new User
+        {
+          Id = pu.User.Id,
+          FirstName = pu.User.FirstName!,
+          LastName = pu.User.LastName!,
+          Email = pu.User.Email!,
+          Image = pu.User.Image
+        })]
+    };
+
+    return new ProjectResult<Project> { Succeeded = true, StatusCode = 200, Result = project };
   }
 }

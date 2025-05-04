@@ -18,41 +18,17 @@ function togglePassword(button) {
   hideIcon.classList.toggle('hidden', isPassword);
 }
 
-// Closes overlay and optionally resets url
-function closeOverlay(overlayId, resetUrlTo = null) {
-  const overlay = document.getElementById(overlayId);
+// Resets the path to force reload the page
+function resetBasePath() {
+  const path = window.location.pathname.split('/').filter(Boolean);
 
-  if (overlay) {
-    overlay.classList.add('hidden');
+  if (path.length > 0) {
+    const isAdmin = path[0].toLowerCase() === 'admin';
+    const basePath = isAdmin && path.length > 1
+      ? `/${path[0]}/${path[1]}`
+      : `/${path[0]}`;
 
-    // Reset the form inside the overlay
-    const form = overlay.querySelector('form');
-    if (form) {
-      form.reset();
-
-      // Resets the image when closing the add form and opening it again
-      const previewImage = document.getElementById('upload-preview');
-      if (previewImage) {
-        previewImage.src = previewImage.dataset.original || '/images/upload-icon-border-round.svg';
-      }
-
-      const fileInput = document.getElementById('imageFileInput');
-      if (fileInput) {
-        fileInput.value = '';
-      }
-
-      // Clear the validation errors
-      const validationMessages = form.querySelectorAll('.field-validation-error, .input-validation-error');
-      validationMessages.forEach(element => {
-        element.textContent = '';
-        element.classList.remove('field-validation-error');
-        element.classList.remove('input-validation-error');
-      });
-    }
-  }
-
-  if (resetUrlTo && window.location.pathname !== resetUrlTo) {
-    window.history.pushState({}, '', resetUrlTo);
+    window.location.href = basePath;
   }
 }
 
@@ -177,5 +153,151 @@ document.addEventListener('DOMContentLoaded', () => {
     const newTheme = current === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     switchSlider.classList.toggle('active');
+  });
+});
+
+// Handling the selecting of members (users) in the project form
+document.addEventListener('DOMContentLoaded', () => {
+  const selectedUserIds = new Set();
+
+  const dropdown = document.getElementById('UserDropdown');
+  const selectedUsersDiv = document.getElementById('SelectedUsers');
+  const hiddenInput = document.getElementById('SelectedUserIds');
+  const form = document.querySelector('.project-form');
+
+  // Enable horizontal scrolling in member wrapper
+  const memberWrapper = document.querySelector('.member-wrapper');
+  if (memberWrapper) {
+    memberWrapper.addEventListener('wheel', (evt) => {
+      evt.preventDefault();
+      evt.currentTarget.scrollLeft += evt.deltaY;
+    }, { passive: false });
+  }
+
+  // Show selected members when the page loads
+  if (hiddenInput?.value) {
+    const userIds = hiddenInput.value.split(',');
+    userIds.forEach(userId => {
+      const option = dropdown.querySelector(`option[value="${userId}"]`);
+      if (!option) return;
+
+      const name = option.getAttribute('data-name');
+      const image = option.getAttribute('data-image') || '/images/profile-picture-placeholder.svg';
+
+      const userHtml = `
+        <div class="member-item" data-id="${userId}">
+          <img src="${image}" class="profile-picture" alt="Profile Picture">
+          <span>${name}</span>
+          <button type="button" class="btn" onclick="removeSelectedUser('${userId}')">
+            <i class="fa-regular fa-xmark"></i>
+          </button>
+        </div>
+      `;
+
+      selectedUsersDiv.insertAdjacentHTML('beforeend', userHtml);
+      selectedUserIds.add(userId);
+      option.style.display = 'none';
+    });
+
+    updateHiddenInput();
+  }
+
+  if (form) {
+    form.addEventListener('submit', () => {
+      updateHiddenInput();
+    });
+  }
+
+  // Handles new selection of members
+  window.handleUserSelection = function () {
+    const selectedOption = dropdown.options[dropdown.selectedIndex];
+    const userId = dropdown.value;
+
+    if (!userId || selectedUserIds.has(userId)) return;
+
+    const name = selectedOption.getAttribute('data-name');
+    const image = selectedOption.getAttribute('data-image') || '/images/profile-picture-placeholder.svg';
+
+    const userHtml = `
+      <div class="member-item" data-id="${userId}">
+        <img src="${image}" class="profile-picture" alt="Profile Picture">
+        <span>${name}</span>
+        <button type="button" class="btn" onclick="removeSelectedUser('${userId}')">
+          <i class="fa-regular fa-xmark"></i>
+        </button>
+      </div>
+    `;
+
+    selectedUsersDiv.insertAdjacentHTML('beforeend', userHtml);
+    selectedUserIds.add(userId);
+    updateHiddenInput();
+
+    selectedOption.style.display = 'none';
+
+    dropdown.selectedIndex = 0;
+    const placeholderOption = dropdown.querySelector('option[value=""]');
+    if (placeholderOption) {
+      placeholderOption.textContent = "";
+    }
+  };
+
+  // Handles removal of members
+  window.removeSelectedUser = function (userId) {
+    document.querySelector(`#SelectedUsers .member-item[data-id="${userId}"]`)?.remove();
+    selectedUserIds.delete(userId);
+    updateHiddenInput();
+
+    const optionToRestore = dropdown.querySelector(`option[value="${userId}"]`);
+    if (optionToRestore) {
+      optionToRestore.style.display = 'block';
+    }
+
+    if (selectedUserIds.size === 0) {
+      const placeholderOption = dropdown.querySelector('option[value=""]');
+      if (placeholderOption) {
+        placeholderOption.textContent = "Select members";
+      }
+    }
+  };
+
+  function updateHiddenInput() {
+    hiddenInput.value = Array.from(selectedUserIds).join(',');
+  }
+});
+
+// Shows the form again after submitting goes wrong
+document.addEventListener("DOMContentLoaded", () => {
+  const body = document.body;
+  const shouldShowAdd = body.dataset.showAdd === "true";
+  const shouldShowEdit = body.dataset.showEdit === "true";
+
+  if (shouldShowAdd) {
+    document.getElementById('add-overlay')?.classList.remove('hidden');
+  }
+
+  if (shouldShowEdit) {
+    document.getElementById('edit-overlay')?.classList.remove('hidden');
+  }
+});
+
+// Error validation for the status id since it's and int instead of a string
+document.addEventListener("DOMContentLoaded", function () {
+  const showAddForm = document.getElementById('show-add-form')?.value === "true";
+  const statusValue = document.getElementById('status-id-value')?.value;
+  const error = document.getElementById('status-validation-error');
+
+  if (showAddForm && statusValue === "0" && error) {
+    error.classList.remove('hidden');
+  }
+
+  document.querySelector('.project-form')?.addEventListener('submit', function (e) {
+    const status = document.getElementById('status-id');
+    const error = document.getElementById('status-validation-error');
+  
+    if (status.value === "0") {
+      error.classList.remove('hidden');
+    } else {
+      error.classList.add('hidden');
+    }
   });
 });

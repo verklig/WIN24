@@ -1,15 +1,15 @@
 @model Domain.Models.Project
 
-<div class="card-menu menu hidden" id="card-menu">
+<div class="card-menu menu hidden" id="card-menu-@Model.Id">
   <button class="btn flex" onclick="navigateToEdit('@Model.Id')">
     <img src="~/images/edit-icon.svg" alt="Edit Icon" class="invert-when-dark">
     <span>Edit</span>
   </button>
 
-  <button class="btn flex">
+@*   <button class="btn flex">
     <img src="~/images/add-member-icon.svg" alt="Add Icon" class="invert-when-dark">
     <span>Add Member</span>
-  </button>
+  </button> *@
 
   <div class="horizontal-divider"></div>
 

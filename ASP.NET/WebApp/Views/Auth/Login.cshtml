@@ -25,9 +25,11 @@
         </div>
       </div>
 
-      <label asp-for="Email" class="input-label"></label>
-      <input asp-for="Email" value="@Model.Email" type="email">
-      <span asp-validation-for="Email"></span>
+      <div class="grid">
+        <label asp-for="Email" class="input-label"></label>
+        <input asp-for="Email" value="@Model.Email" type="email">
+        <span asp-validation-for="Email"></span>
+      </div>
 
       <label asp-for="Password" class="input-label"></label>
       <div class="password-input">

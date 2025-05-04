@@ -40,8 +40,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -60,8 +59,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -80,8 +78,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -123,8 +120,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<IEnumerable<T>> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<IEnumerable<T>> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -160,8 +156,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<IEnumerable<TSelect>> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<IEnumerable<TSelect>> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -191,10 +186,10 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<T> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<T> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
+  
   public virtual async Task<RepositoryResult<TEntity>> GetEntityAsync(Expression<Func<TEntity, bool>> where, params Expression<Func<TEntity, object>>[] includes)
   {
     try
@@ -219,8 +214,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<TEntity> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<TEntity> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -235,8 +229,7 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
     }
     catch (Exception ex)
     {
-      ShowError(ex);
-      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = ex.Message };
+      return new RepositoryResult<bool> { Succeeded = false, StatusCode = 500, Error = $"{ex.Message} -- Inner: {ex.GetBaseException()?.Message}" };
     }
   }
 
@@ -256,16 +249,6 @@ public abstract class BaseRepository<TEntity, T>(AppDbContext context) : IBaseRe
       await transaction.RollbackAsync();
       return false;
       throw;
-    }
-  }
-
-  private void ShowError(Exception ex)
-  {
-    Debug.WriteLine("\nERROR: Operation failed.");
-    Debug.WriteLine($"Details: {ex.Message}");
-    if (ex.InnerException != null)
-    {
-      Debug.WriteLine($"Inner exception: {ex.InnerException.Message}");
     }
   }
 }

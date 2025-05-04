@@ -15,7 +15,7 @@ public static class MapExtensions
 
     foreach (var destinationProperty in destinationProperties)
     {
-      var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name == destinationProperty.Name && x.PropertyType == destinationProperty.PropertyType);
+      var sourceProperty = sourceProperties.FirstOrDefault(x => x.Name == destinationProperty.Name && destinationProperty.PropertyType.IsAssignableFrom(x.PropertyType));
       if (sourceProperty != null && destinationProperty.CanWrite)
       {
         var value = sourceProperty.GetValue(source);

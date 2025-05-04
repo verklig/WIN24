@@ -12,5 +12,6 @@ public class UserEntity : IdentityUser
   public string? DateOfBirth { get; set; }
   public DateTime Created { get; set; } = DateTime.Now;
 
-  public virtual ICollection<ProjectEntity> Projects { get; set; } = [];
+  public ICollection<UserProjectEntity> UserProjects { get; set; } = [];
+
 }

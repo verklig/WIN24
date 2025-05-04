@@ -40,20 +40,3 @@
 
 @await Html.PartialAsync("Partials/Components/_AddProjectForm", Model.AddProjectViewModel)
 @await Html.PartialAsync("Partials/Components/_EditProjectForm", Model.EditProjectViewModel)
-
-@section Scripts {
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const shouldShowAdd = '@ViewData["ShowAddForm"]' === 'true';
-      const shouldShowEdit = '@ViewData["ShowEditForm"]' === 'true';
-
-      if (shouldShowAdd) {
-        document.getElementById('add-overlay').classList.remove('hidden');
-      }
-
-      if (shouldShowEdit) {
-        document.getElementById('edit-overlay').classList.remove('hidden');
-      }
-    });
-  </script>
-}

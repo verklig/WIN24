@@ -49,13 +49,13 @@ public class ClientService(IClientRepository clientRepository) : IClientService
       return new ClientResult { Succeeded = false, StatusCode = 400, Error = "Not all required fields have a valid input." };
     }
 
-    var result = await _clientRepository.GetEntityAsync(x => x.Id == formData.Id);
-    if (!result.Succeeded || result.Result == null)
+    var clientResult = await _clientRepository.GetEntityAsync(x => x.Id == formData.Id);
+    if (!clientResult.Succeeded || clientResult.Result == null)
     {
       return new ClientResult { Succeeded = false, StatusCode = 404, Error = "Client not found." };
     }
 
-    var clientEntity = result.Result;
+    var clientEntity = clientResult.Result;
 
     clientEntity.ClientName = formData.ClientName;
     clientEntity.Email = formData.Email;
@@ -64,9 +64,9 @@ public class ClientService(IClientRepository clientRepository) : IClientService
 
     try
     {
-      var updateResult = await _clientRepository.UpdateAsync(clientEntity);
+      var result = await _clientRepository.UpdateAsync(clientEntity);
 
-      return updateResult.Succeeded
+      return result.Succeeded
         ? new ClientResult { Succeeded = true, StatusCode = 200 }
         : new ClientResult { Succeeded = false, StatusCode = 500, Error = "Unable to update client." };
     }
@@ -83,14 +83,14 @@ public class ClientService(IClientRepository clientRepository) : IClientService
       return new ClientResult { Succeeded = false, StatusCode = 400, Error = "Client ID cannot be null or empty." };
     }
 
-    var result = await _clientRepository.GetEntityAsync(x => x.Id == clientId);
-    if (!result.Succeeded || result.Result == null)
+    var clientResult = await _clientRepository.GetEntityAsync(x => x.Id == clientId);
+    if (!clientResult.Succeeded || clientResult.Result == null)
     {
       return new ClientResult { Succeeded = false, StatusCode = 404, Error = "Client not found." };
     }
 
-    var deleteResult = await _clientRepository.RemoveAsync(result.Result);
-    return deleteResult.Succeeded
+    var result = await _clientRepository.RemoveAsync(clientResult.Result);
+    return result.Succeeded
       ? new ClientResult { Succeeded = true, StatusCode = 200 }
       : new ClientResult { Succeeded = false, StatusCode = 500, Error = "Unable to delete client." };
   }

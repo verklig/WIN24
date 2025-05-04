@@ -9,14 +9,9 @@ public interface IImageService
   Task<string> UploadAsync(IFormFile file, string folder);
 }
 
-public class ImageService : IImageService
+public class ImageService(IWebHostEnvironment env) : IImageService
 {
-  private readonly string _rootPath;
-
-  public ImageService(IWebHostEnvironment env)
-  {
-    _rootPath = env.WebRootPath;
-  }
+  private readonly string _rootPath = env.WebRootPath;
 
   public async Task<string> UploadAsync(IFormFile file, string folder)
   {
@@ -39,6 +34,7 @@ public class ImageService : IImageService
     return $"/uploads/{folder}/{fileName}";
   }
 
+  // Not using this yet
   public bool Delete(string relativePath)
   {
     if (string.IsNullOrWhiteSpace(relativePath))

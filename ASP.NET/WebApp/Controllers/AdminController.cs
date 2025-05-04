@@ -43,6 +43,11 @@ public class AdminController(IUserService userService, IImageService imageServic
   [HttpPost("members/add")]
   public async Task<IActionResult> AddMember(AddMemberViewModel model)
   {
+    if (model.ImageFile != null)
+    {
+      model.Image = await _imageService.UploadAsync(model.ImageFile, "members");
+    }
+    
     if (!ModelState.IsValid)
     {
       var users = await _userService.GetAllUsersAsync();
@@ -56,11 +61,6 @@ public class AdminController(IUserService userService, IImageService imageServic
       ViewData["ShowAddForm"] = "true";
 
       return View("Members", viewModel);
-    }
-
-    if (model.ImageFile != null)
-    {
-      model.Image = await _imageService.UploadAsync(model.ImageFile, "members");
     }
 
     var formData = model.MapTo<AddMemberFormData>();
@@ -169,13 +169,6 @@ public class AdminController(IUserService userService, IImageService imageServic
 
     if (model.ImageFile != null && model.ImageFile.Length > 0)
     {
-      var user = await _userService.GetUserAsync(model.Id);
-
-      if (!string.IsNullOrWhiteSpace(user.Result?.Image))
-      {
-        // _imageService.Delete(user.Result.Image);
-      }
-
       model.Image = await _imageService.UploadAsync(model.ImageFile, "members");
     }
 
@@ -368,13 +361,6 @@ public class AdminController(IUserService userService, IImageService imageServic
 
     if (model.ImageFile != null && model.ImageFile.Length > 0)
     {
-      var user = await _userService.GetUserAsync(model.Id);
-
-      if (!string.IsNullOrWhiteSpace(user.Result?.Image))
-      {
-        // _imageService.Delete(user.Result.Image);
-      }
-
       model.Image = await _imageService.UploadAsync(model.ImageFile, "clients");
     }
 

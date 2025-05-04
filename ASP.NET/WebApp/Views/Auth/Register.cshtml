@@ -25,13 +25,17 @@
         </div>
       </div>
 
-      <label asp-for="FullName" class="input-label"></label>
-      <input asp-for="FullName" value="@Model.FullName" type="text">
-      <span asp-validation-for="FullName"></span>
+      <div class="grid">
+        <label asp-for="FullName" class="input-label"></label>
+        <input asp-for="FullName" value="@Model.FullName" type="text">
+        <span asp-validation-for="FullName"></span>
+      </div>
 
-      <label asp-for="Email" class="input-label"></label>
-      <input asp-for="Email" value="@Model.Email" type="email">
-      <span asp-validation-for="Email"></span>
+      <div class="grid">
+        <label asp-for="Email" class="input-label"></label>
+        <input asp-for="Email" value="@Model.Email" type="email">
+        <span asp-validation-for="Email"></span>
+      </div>
 
       <label asp-for="Password" class="input-label"></label>
       <div class="password-input">
@@ -59,8 +63,8 @@
           <i class="fa-solid fa-check checkmark"></i>
           <span>I accept the <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Terms and Conditions</a></span>
         </label>
+        <span asp-validation-for="TOS" class="validation-error"></span>
       </div>
-      <span asp-validation-for="TOS" class="validation-error"></span>
 
       <button class="btn btn-blue" type="submit">Create Account</button>
 

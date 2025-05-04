@@ -1,5 +1,3 @@
-using Domain.Models;
-
 namespace Infrastructure.Models;
 
 public class ClientResult<T> : BaseResult

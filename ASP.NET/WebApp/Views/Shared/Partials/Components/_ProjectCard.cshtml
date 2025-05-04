@@ -23,14 +23,68 @@
   <p>@(Model?.Description ?? "No Description")</p>
 
   <div class="project-card-footer flex">
-    <div class="card-timer flex">
+    @{
+      string timeLeft = "Indefinite";
+      string backgroundClass = "";
+
+      if (Model?.EndDate is DateTime endDate)
+      {
+        var now = DateTime.Now.Date;
+        var totalDays = (endDate - now).Days;
+
+        if (totalDays > 0)
+        {
+          if (totalDays < 7)
+          {
+            backgroundClass = "timer-red";
+          }
+          else if (totalDays < 30)
+          {
+            backgroundClass = "timer-yellow";
+          }
+
+          int years = totalDays / 365;
+          int months = (totalDays % 365) / 30;
+          int weeks = ((totalDays % 365) % 30) / 7;
+          int days = ((totalDays % 365) % 30) % 7;
+
+          if (years > 0)
+          {
+            timeLeft = $"{years} {(years == 1 ? "year" : "years")}";
+          }
+          else if (months > 0)
+          {
+            timeLeft = $"{months} {(months == 1 ? "month" : "months")}";
+          }
+          else if (weeks > 0)
+          {
+            timeLeft = $"{weeks} {(weeks == 1 ? "week" : "weeks")}";
+          }
+          else if (days > 0)
+          {
+            timeLeft = $"{days} {(days == 1 ? "day" : "days")}";
+          }
+        }
+        else
+        {
+          timeLeft = "Due";
+          backgroundClass = "timer-red";
+        }
+      }
+    }
+    <div class="card-timer flex @backgroundClass">
       <i class="fa-duotone fa-solid fa-clock"></i>
-      <span>@(Model?.EndDate?.ToString("d") ?? "Indefinite")</span>
+      <span>@timeLeft</span>
     </div>
     <div class="flex">
-      <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
-      <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
-      <img src="~/images/temp/profile-picture.svg" alt="Profile Picture">
+      @foreach (var user in Model?.Users?.Take(3) ?? Enumerable.Empty<Domain.Models.User>())
+      {
+        var image = !string.IsNullOrWhiteSpace(user.Image)
+          ? Url.Content(user.Image)
+          : Url.Content("/images/profile-picture-placeholder.svg");
+
+        <img src="@image" alt="Profile Picture" class="profile-picture">
+      }
     </div>
   </div>
 

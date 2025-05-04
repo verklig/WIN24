@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Domain.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebApp.Models;
 
@@ -17,7 +19,7 @@ public class AddProjectViewModel
   [DataType(DataType.Date)]
   [Required(ErrorMessage = "You must enter a start date.")]
   [Display(Name = "Start Date")]
-  public DateTime StartDate { get; set; } = DateTime.Today;
+  public DateTime? StartDate { get; set; } = DateTime.Today;
 
   [DataType(DataType.Date)]
   [Display(Name = "End Date")]
@@ -26,15 +28,17 @@ public class AddProjectViewModel
   [Display(Name = "Budget", Prompt = "0")]
   public decimal? Budget { get; set; }
 
-  [Required(ErrorMessage = "You must choose a client.")]
-  [Display(Name = "Client Name", Prompt = "Choose a client")]
+  [Required(ErrorMessage = "You must select a client.")]
+  [Display(Name = "Client", Prompt = "Select a client")]
   public string ClientId { get; set; } = null!;
+  public IEnumerable<SelectListItem>? Clients { get; set; }
 
-  [Required(ErrorMessage = "You must assign a member.")]
-  [Display(Name = "Members", Prompt = "Search for members...")]
-  public string UserId { get; set; } = null!;
+  [Required(ErrorMessage = "You must select at least one member.")]
+  public string SelectedUserIds { get; set; } = null!;
+  public IEnumerable<User>? Users { get; set; }
 
-  [Required(ErrorMessage = "You must set a status.")]
-  [Display(Name = "Status", Prompt = "Set status")]
+  [Required(ErrorMessage = "You must select a status.")]
+  [Display(Name = "Status", Prompt = "Select a status")]
   public int StatusId { get; set; }
+  public IEnumerable<SelectListItem>? Statuses { get; set; }
 }
