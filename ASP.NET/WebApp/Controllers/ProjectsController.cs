@@ -21,7 +21,7 @@ public class ProjectsController(IProjectService projectService, IStatusService s
 
   #region Get Projects
   [HttpGet("")]
-  public async Task<IActionResult> Projects()
+  public async Task<IActionResult> Projects(string filter)
   {
     var projectResult = await _projectService.GetAllProjectsAsync();
     var statusResult = await _statusService.GetAllStatusesAsync();
@@ -33,9 +33,26 @@ public class ProjectsController(IProjectService projectService, IStatusService s
       return View();
     }
 
+    var allProjects = projectResult.Result!;
+
+    var allCount = allProjects.Count();
+    var startedCount = allProjects.Count(p => p.Status?.StatusName == "Started");
+    var completedCount = allProjects.Count(p => p.Status?.StatusName == "Completed");
+
+    var filteredProjects = allProjects;
+
+    if (filter == "started")
+    {
+      filteredProjects = [.. filteredProjects.Where(p => p.Status?.StatusName == "Started")];
+    }
+    else if (filter == "completed")
+    {
+      filteredProjects = [.. filteredProjects.Where(p => p.Status?.StatusName == "Completed")];
+    }
+
     var model = new ProjectsViewModel
     {
-      Projects = projectResult.Result!,
+      Projects = filteredProjects,
       AddProjectViewModel = new AddProjectViewModel
       {
         Statuses = statusResult.Result?.Select(s => new SelectListItem
@@ -78,6 +95,10 @@ public class ProjectsController(IProjectService projectService, IStatusService s
           Image = s.Image
         })
       },
+
+      AllCount = allCount,
+      StartedCount = startedCount,
+      CompletedCount = completedCount
     };
 
     return View(model);

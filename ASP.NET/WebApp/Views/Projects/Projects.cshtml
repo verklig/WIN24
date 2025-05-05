@@ -15,14 +15,14 @@
 </div>
 
 <div class="nav-main flex">
-  <a href="#">
-    <span>ALL [@Model.Projects.Count()]</span>
+  <a href="@Url.Action("Projects", "Projects", new { filter = "all" })">
+    <span class="@(string.IsNullOrEmpty(Context.Request.Query["filter"]) || Context.Request.Query["filter"] == "all" ? "active" : "")">ALL [@Model.AllCount]</span>
   </a>
-  <a href="#">
-    <span>STARTED [@Model.Projects.Count(p => p.Status?.StatusName == "Started")]</span>
+  <a href="@Url.Action("Projects", "Projects", new { filter = "started" })">
+    <span class="@(Context.Request.Query["filter"] == "started" ? "active" : "")">STARTED [@Model.StartedCount]</span>
   </a>
-  <a href="#">
-    <span>COMPLETED [@Model.Projects.Count(p => p.Status?.StatusName == "Completed")]</span>
+  <a href="@Url.Action("Projects", "Projects", new { filter = "completed" })">
+    <span class="@(Context.Request.Query["filter"] == "completed" ? "active" : "")">COMPLETED [@Model.CompletedCount]</span>
   </a>
 </div>
 
