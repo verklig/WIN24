@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@ViewData["Title"] - Alpha Portal</title>
-  <script type="importmap"></script>
   <link rel="stylesheet" href="https://kit.fontawesome.com/a576612222.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+  <script type="importmap"></script>
   <script defer src="~/js/site.js" asp-append-version="true"></script>
+  @await Html.PartialAsync("_Favicons")
 </head>
 <body data-show-add="@ViewData["ShowAddForm"]" data-show-edit="@ViewData["ShowEditForm"]">
 
