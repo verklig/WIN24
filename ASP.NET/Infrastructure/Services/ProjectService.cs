@@ -4,6 +4,7 @@ using Domain.Extensions;
 using Domain.Models;
 using Domain.Dtos;
 using Infrastructure.Models;
+using Data.Contexts;
 
 namespace Infrastructure.Services;
 
@@ -16,10 +17,10 @@ public interface IProjectService
   Task<ProjectResult> UpdateProjectAsync(EditProjectFormData formData);
 }
 
-public class ProjectService(IProjectRepository projectRepository, IStatusService statusService) : IProjectService
+public class ProjectService(IProjectRepository projectRepository, AppDbContext context) : IProjectService
 {
+  private readonly AppDbContext _context = context;
   private readonly IProjectRepository _projectRepository = projectRepository;
-  private readonly IStatusService _statusService = statusService;
 
   public async Task<ProjectResult> CreateProjectAsync(AddProjectFormData formData)
   {
@@ -39,7 +40,7 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
         Budget = formData.Budget,
         ClientId = formData.ClientId,
         StatusId = formData.StatusId,
-        Image = string.IsNullOrEmpty(formData.Image) ? "/images/alpha-logotype.svg" : formData.Image,
+        Image = string.IsNullOrEmpty(formData.Image) ? "/images/project-image-placeholder.svg" : formData.Image,
         ProjectUsers = [.. formData.UserIds.Select(userId => new UserProjectEntity
         {
           UserId = userId
@@ -65,36 +66,42 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
       return new ProjectResult { Succeeded = false, StatusCode = 400, Error = "Not all required fields have a valid input." };
     }
 
-    var projectResult = await _projectRepository.GetAsync(x => x.Id == formData.Id);
+    var projectResult = await _projectRepository.GetEntityAsync(x => x.Id == formData.Id);
     if (!projectResult.Succeeded || projectResult.Result == null)
     {
       return new ProjectResult { Succeeded = false, StatusCode = projectResult.StatusCode, Error = "Project not found." };
     }
 
-    var projectEntity = projectResult.Result!.MapTo<ProjectEntity>();
-
-    projectEntity.ProjectName = formData.ProjectName;
-    projectEntity.Description = formData.Description;
-    projectEntity.StartDate = formData.StartDate ?? DateTime.Today;
-    projectEntity.EndDate = formData.EndDate;
-    projectEntity.Budget = formData.Budget;
-    projectEntity.ClientId = formData.ClientId;
-    projectEntity.StatusId = formData.StatusId;
-    projectEntity.Image = string.IsNullOrEmpty(formData.Image)
-      ? "/images/alpha-logotype.svg"
-      : formData.Image;
-
-    projectEntity.ProjectUsers = [.. formData.UserIds.Select(userId => new UserProjectEntity
+    try
     {
-      UserId = userId,
-      ProjectId = projectEntity.Id
-    })];
+      var projectEntity = projectResult.Result!;
+      await _context.Entry(projectEntity).Collection(p => p.ProjectUsers).LoadAsync();
+      _context.UserProjects.RemoveRange(projectEntity.ProjectUsers);
 
-    var result = await _projectRepository.UpdateAsync(projectEntity);
+      projectEntity.ProjectName = formData.ProjectName;
+      projectEntity.Description = formData.Description;
+      projectEntity.StartDate = formData.StartDate ?? DateTime.Today;
+      projectEntity.EndDate = formData.EndDate;
+      projectEntity.Budget = formData.Budget;
+      projectEntity.ClientId = formData.ClientId;
+      projectEntity.StatusId = formData.StatusId;
+      projectEntity.Image = string.IsNullOrEmpty(formData.Image) ? "/images/project-image-placeholder.svg" : formData.Image;
+      projectEntity.ProjectUsers = [.. formData.UserIds.Select(userId => new UserProjectEntity
+      {
+        UserId = userId,
+        ProjectId = projectEntity.Id
+      })];
 
-    return result.Succeeded
-      ? new ProjectResult { Succeeded = true, StatusCode = 200 }
-      : new ProjectResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };
+      var result = await _projectRepository.UpdateAsync(projectEntity);
+
+      return result.Succeeded
+        ? new ProjectResult { Succeeded = true, StatusCode = 200 }
+        : new ProjectResult { Succeeded = false, StatusCode = result.StatusCode, Error = result.Error };
+    }
+    catch (Exception ex)
+    {
+      return new ProjectResult { Succeeded = false, StatusCode = 500, Error = ex.Message };
+    }
   }
 
   public async Task<ProjectResult> RemoveProjectAsync(string projectId)
@@ -104,13 +111,15 @@ public class ProjectService(IProjectRepository projectRepository, IStatusService
       return new ProjectResult { Succeeded = false, StatusCode = 400, Error = "Project ID cannot be null or empty." };
     }
 
-    var projectResult = await _projectRepository.GetAsync(x => x.Id == projectId);
-    if (!projectResult.Succeeded)
+    var projectResult = await _projectRepository.GetEntityAsync(x => x.Id == projectId);
+    if (!projectResult.Succeeded || projectResult.Result == null)
     {
-      return new ProjectResult { Succeeded = false, StatusCode = projectResult.StatusCode, Error = "Project could not found." };
+      return new ProjectResult { Succeeded = false, StatusCode = projectResult.StatusCode, Error = "Project not found." };
     }
 
-    var projectEntity = projectResult.Result!.MapTo<ProjectEntity>();
+    var projectEntity = projectResult.Result!;
+    await _context.Entry(projectEntity).Collection(p => p.ProjectUsers).LoadAsync();
+
     var result = await _projectRepository.RemoveAsync(projectEntity);
 
     return result.Succeeded

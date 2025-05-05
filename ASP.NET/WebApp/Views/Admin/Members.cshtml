@@ -24,5 +24,11 @@
   }
 </div>
 
-@await Html.PartialAsync("Partials/Components/_AddMemberForm", Model.AddMemberViewModel)
-@await Html.PartialAsync("Partials/Components/_EditMemberForm", Model.EditMemberViewModel)
+@if ((string?)ViewData["ShowEditForm"] == "true")
+{
+  @await Html.PartialAsync("Partials/Components/_EditMemberForm", Model.EditMemberViewModel)
+}
+else
+{
+  @await Html.PartialAsync("Partials/Components/_AddMemberForm", Model.AddMemberViewModel)
+}

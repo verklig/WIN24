@@ -38,5 +38,11 @@
   }
 </div>
 
-@await Html.PartialAsync("Partials/Components/_AddProjectForm", Model.AddProjectViewModel)
-@await Html.PartialAsync("Partials/Components/_EditProjectForm", Model.EditProjectViewModel)
+@if ((string?)ViewData["ShowEditForm"] == "true")
+{
+  @await Html.PartialAsync("Partials/Components/_EditProjectForm", Model.EditProjectViewModel)
+}
+else
+{
+  @await Html.PartialAsync("Partials/Components/_AddProjectForm", Model.AddProjectViewModel)
+}

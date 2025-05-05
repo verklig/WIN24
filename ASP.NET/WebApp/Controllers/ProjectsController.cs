@@ -84,8 +84,9 @@ public class ProjectsController(IProjectService projectService, IStatusService s
   }
   #endregion
 
-  #region Post Add Project
+  #region Post Project Add
   [HttpPost("add")]
+  [ValidateAntiForgeryToken]
   public async Task<IActionResult> Add(AddProjectViewModel model)
   {
     if (string.IsNullOrWhiteSpace(model.SelectedUserIds))
@@ -145,8 +146,76 @@ public class ProjectsController(IProjectService projectService, IStatusService s
   }
   #endregion
 
-  #region Post Edit Project
+  #region Get Project Edit
+  [HttpGet("edit/{id}")]
+  public async Task<IActionResult> Edit(string id)
+  {
+    if (string.IsNullOrEmpty(id))
+    {
+      return RedirectToAction(nameof(Projects));
+    }
+
+    var projectResult = await _projectService.GetProjectAsync(id);
+    if (!projectResult.Succeeded || projectResult.Result == null)
+    {
+      return RedirectToAction(nameof(Projects));
+    }
+
+    var project = projectResult.Result;
+
+    var statuses = await _statusService.GetAllStatusesAsync();
+    var clients = await _clientService.GetAllClientsAsync();
+    var users = await _userService.GetAllUsersAsync();
+
+    var editModel = new EditProjectViewModel
+    {
+      Id = project.Id,
+      ProjectName = project.ProjectName,
+      Description = project.Description,
+      StartDate = project.StartDate,
+      EndDate = project.EndDate,
+      Budget = project.Budget,
+      ClientId = project.Client?.Id ?? "",
+      Image = project.Image,
+      SelectedUserIds = string.Join(",", project.Users?.Select(u => u.Id) ?? []),
+      StatusId = project.Status?.Id ?? 0,
+      Statuses = statuses.Result?.Select(s => new SelectListItem
+      {
+        Value = s.Id.ToString(),
+        Text = s.StatusName
+      }),
+      Clients = clients.Result?.Select(c => new SelectListItem
+      {
+        Value = c.Id.ToString(),
+        Text = c.ClientName
+      }),
+      Users = users.Result?.Select(u => new User
+      {
+        Id = u.Id,
+        FirstName = u.FirstName,
+        LastName = u.LastName,
+        Email = u.Email,
+        Image = u.Image
+      })
+    };
+
+    var allProjects = await _projectService.GetAllProjectsAsync();
+
+    var viewModel = new ProjectsViewModel
+    {
+      Projects = allProjects.Result!,
+      EditProjectViewModel = editModel
+    };
+
+    ViewData["ShowEditForm"] = "true";
+
+    return View("Projects", viewModel);
+  }
+  #endregion
+
+  #region Post Project Edit
   [HttpPost("edit")]
+  [ValidateAntiForgeryToken]
   public async Task<IActionResult> Edit(EditProjectViewModel model)
   {
     if (string.IsNullOrWhiteSpace(model.SelectedUserIds))
@@ -206,13 +275,14 @@ public class ProjectsController(IProjectService projectService, IStatusService s
   }
   #endregion
 
-  #region Post Delete Project
+  #region Post Project Delete
   [HttpPost("delete/{id}")]
+  [ValidateAntiForgeryToken]
   public async Task<IActionResult> Delete(string id)
   {
-    if (!ModelState.IsValid)
+    if (string.IsNullOrEmpty(id))
     {
-      return View(ModelState);
+      return RedirectToAction(nameof(Projects));
     }
 
     var result = await _projectService.RemoveProjectAsync(id);
@@ -221,7 +291,13 @@ public class ProjectsController(IProjectService projectService, IStatusService s
       return RedirectToAction(nameof(Projects));
     }
 
-    return View();
+    var projects = await _projectService.GetAllProjectsAsync();
+    var viewModel = new ProjectsViewModel
+    {
+      Projects = projects.Result!
+    };
+
+    return View("Projects", viewModel);
   }
   #endregion
 

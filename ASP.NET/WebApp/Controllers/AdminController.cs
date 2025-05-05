@@ -41,13 +41,14 @@ public class AdminController(IUserService userService, IImageService imageServic
 
   #region Post Member Add
   [HttpPost("members/add")]
+  [ValidateAntiForgeryToken]
   public async Task<IActionResult> AddMember(AddMemberViewModel model)
   {
     if (model.ImageFile != null)
     {
       model.Image = await _imageService.UploadAsync(model.ImageFile, "members");
     }
-    
+
     if (!ModelState.IsValid)
     {
       var users = await _userService.GetAllUsersAsync();
@@ -224,7 +225,7 @@ public class AdminController(IUserService userService, IImageService imageServic
     var users = await _userService.GetAllUsersAsync();
     var viewModel = new MembersViewModel
     {
-      Users = users.Result!,
+      Users = users.Result!
     };
 
     return View("Members", viewModel);
@@ -257,6 +258,7 @@ public class AdminController(IUserService userService, IImageService imageServic
 
   #region Post Clients Add
   [HttpPost("clients/add")]
+  [ValidateAntiForgeryToken]
   public async Task<IActionResult> AddClient(AddClientViewModel model)
   {
     if (!ModelState.IsValid)
@@ -405,7 +407,7 @@ public class AdminController(IUserService userService, IImageService imageServic
     var clients = await _clientService.GetAllClientsAsync();
     var viewModel = new ClientsViewModel
     {
-      Clients = clients.Result!,
+      Clients = clients.Result!
     };
 
     return View("Clients", viewModel);

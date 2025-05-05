@@ -5,23 +5,30 @@
     <img src="~/images/edit-icon.svg" alt="Edit Icon" class="invert-when-dark">
     <span>Edit</span>
   </button>
-
-@*   <button class="btn flex">
+  
+  @*
+  <button class="btn flex">
     <img src="~/images/add-member-icon.svg" alt="Add Icon" class="invert-when-dark">
     <span>Add Member</span>
-  </button> *@
+  </button> 
+  *@
 
   <div class="horizontal-divider"></div>
 
-  <button class="btn flex">
-    <img src="~/images/delete-icon.svg" alt="Delete Icon">
-    <span id="delete-text">Delete Project</span>
-  </button>
+  <form asp-controller="Projects" asp-action="Delete" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this project?');">
+
+    @Html.AntiForgeryToken()
+    
+    <button class="btn flex" type="submit">
+      <img src="~/images/delete-icon.svg" alt="Delete Icon">
+      <span id="delete-text">Delete Project</span>
+    </button>
+  </form>
 </div>
 
 <script>
   function navigateToEdit(id) {
     if (!id) return;
-    window.location.href = `/project/edit/${id}`;
+    window.location.href = `/projects/edit/${id}`;
   }
 </script>
