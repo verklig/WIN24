@@ -1,7 +1,7 @@
 using Data.Entities;
 using Domain.Dtos;
-using Infrastructure.Interfaces;
 using Infrastructure.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Services;
@@ -9,8 +9,8 @@ namespace Infrastructure.Services;
 public interface IAuthService
 {
   Task<AuthResult> SignInAsync(SignInFormData formData);
-  Task<AuthResult> SignUpAsync(SignUpFormData formData);
   Task<AuthResult> SignOutAsync();
+  Task<AuthResult> SignUpAsync(SignUpFormData formData);
 }
 
 public class AuthService(IUserService userService, UserManager<UserEntity> userManager, SignInManager<UserEntity> signInManager, INotificationService notificationService) : IAuthService

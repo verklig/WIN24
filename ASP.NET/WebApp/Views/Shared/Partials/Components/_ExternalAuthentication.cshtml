@@ -1,0 +1,17 @@
+@{
+  var title = ViewData["Title"]?.ToString()?.ToLower();
+  string buttonText = title switch
+  {
+    "login" => "Login with Google",
+    "register" => "Register with Google",
+    _ => "Continue with Google"
+  };
+}
+
+<form asp-controller="Auth" asp-action="ExternalLogin" class="external-account" method="post" novalidate>
+  <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl">
+  <button class="btn btn-white btn-external-login" type="submit" name="provider" value="Google">
+    <img src="~/images/google-icon.svg" alt="Google Icon">
+    @buttonText
+  </button>
+</form>

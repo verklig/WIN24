@@ -10,6 +10,7 @@ using WebApp.Filters;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews(options =>
@@ -17,7 +18,18 @@ builder.Services.AddControllersWithViews(options =>
   options.Filters.Add<NotificationsFilter>();
 });
 builder.Services.AddSignalR();
-builder.WebHost.UseUrls("http://0.0.0.0:7777");
+builder.WebHost.ConfigureKestrel(options =>
+{
+  options.ListenAnyIP(7776);
+  options.ListenAnyIP(7777, listenOptions =>
+  {
+    listenOptions.UseHttps();
+  });
+});
+builder.Services.AddHttpsRedirection(options =>
+{
+  options.HttpsPort = 7777;
+});
 
 string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
@@ -42,8 +54,19 @@ builder.Services.ConfigureApplicationCookie(options =>
   options.AccessDeniedPath = "/auth/denied";
   options.Cookie.HttpOnly = true;
   options.Cookie.IsEssential = true;
+  options.Cookie.SameSite = SameSiteMode.None;
+  options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
   options.ExpireTimeSpan = TimeSpan.FromHours(1);
   options.SlidingExpiration = true;
+});
+builder.Services.AddAuthentication(options =>
+{
+  options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie().AddGoogle(options =>
+{
+  options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+  options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+  options.CallbackPath = "/signin-google";
 });
 
 builder.Services.AddScoped<IClientRepository, ClientRepository>();

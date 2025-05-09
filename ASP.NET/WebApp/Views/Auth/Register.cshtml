@@ -6,24 +6,22 @@
 
 <div class="center-screen">
   <div class="surface">
-    <form class="grid" method="post" asp-controller="Auth" asp-action="HandleRegister" novalidate>
 
-      @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-      <h1 class="title flex">
-        @ViewData["Title"]
-      </h1>
+    <h1 class="title flex">
+      @ViewData["Title"]
+    </h1>
 
-      <button class="btn btn-white">
-        <img src="~/images/google-icon.svg" alt="Google Icon">
-        Sign Up with Google
-      </button>
+    @await Html.PartialAsync("Partials/Components/_ExternalAuthentication")
 
-      <div class="or-divider flex">
-        <div class="flex">
-          <span>OR</span>
-        </div>
+    <div class="or-divider flex">
+      <div class="flex">
+        <span>OR</span>
       </div>
+    </div>
+
+    <form class="grid" method="post" asp-controller="Auth" asp-action="HandleRegister" novalidate>
 
       <div class="grid">
         <label asp-for="FullName" class="input-label"></label>

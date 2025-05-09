@@ -1434,6 +1434,10 @@ a {
   z-index: 2;
 }
 
+.btn-external-login {
+  width: 100%;
+}
+
 /* Sections */
 
 .portal {
