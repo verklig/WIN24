@@ -121,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       root.classList.remove('no-theme-transition');
     }, 0);
+
+    updateNotificationCount();
   }
 
   // Read cookie

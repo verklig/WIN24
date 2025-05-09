@@ -7,7 +7,9 @@
   <link rel="stylesheet" href="https://kit.fontawesome.com/a576612222.css" crossorigin="anonymous">
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
   <script type="importmap"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js" integrity="sha512-7SRCYIJtR6F8ocwW7UxW6wGKqbSyqREDbfCORCbGLatU0iugBLwyOXpzhkPyHIFdBO0K2VCu57fvP2Twgx1o2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script defer src="~/js/site.js" asp-append-version="true"></script>
+  <script defer src="~/js/notifications.js" asp-append-version="true"></script>
   @await Html.PartialAsync("_Favicons")
 </head>
 <body data-show-add="@ViewData["ShowAddForm"]" data-show-edit="@ViewData["ShowEditForm"]">

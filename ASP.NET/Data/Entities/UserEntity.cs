@@ -13,5 +13,5 @@ public class UserEntity : IdentityUser
   public DateTime Created { get; set; } = DateTime.Now;
 
   public ICollection<UserProjectEntity> UserProjects { get; set; } = [];
-
+  public ICollection<NotificationDismissedEntity> DismissedNotifications { get; set; } = [];
 }

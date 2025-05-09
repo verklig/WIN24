@@ -1,19 +1,35 @@
+@using System.Linq
+@using System.Security.Claims
+
+@{
+  var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? "anonymous";
+  var notifications = ViewBag.Notifications as List<Data.Entities.NotificationEntity> ?? new();
+  notifications = notifications.OrderByDescending(n => n.Created).ToList();
+}
+
 <div class="notification-menu menu hidden" id="notification-menu">
   <div class="flex">
     <h2>Notifications</h2>
-    <div class="notification-counter flex">
-      <span>1</span>
+    <div class="notification-dot flex">
+      <span class="notification-counter">@notifications.Count</span>
     </div>
   </div>
 
   <div class="horizontal-divider"></div>
 
-  <div class="card-div flex">
-    <img src="~/images/project-image-placeholder.svg" alt="">
-    <div>
-      <h3>ASP.NET Web App added</h3>
-      <span>1 min ago</span>
-    </div>
-    <button class="btn"><i class="fa-regular fa-xmark"></i></button>
+  <span class="no-notifications flex hidden">You have no notifications.</span>
+
+  <div class="notification-container">
+    @foreach (var notification in notifications)
+    {
+      <div class="notification-card" data-id="@notification.Id">
+        <img src="@notification.Image" alt="Notification Image" class="image">
+        <div>
+          <h3 class="message">@notification.Message</h3>
+          <span class="time" data-created="@notification.Created.ToString("o")">Just now</span>
+        </div>
+        <button class="btn" onclick="dismissNotification('@notification.Id')"><i class="fa-regular fa-xmark"></i></button>
+      </div>
+    }
   </div>
 </div>

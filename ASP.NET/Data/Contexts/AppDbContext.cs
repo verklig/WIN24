@@ -10,6 +10,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbCo
   public virtual DbSet<ProjectEntity> Projects { get; set; }
   public virtual DbSet<StatusEntity> Status { get; set; }
   public virtual DbSet<UserProjectEntity> UserProjects { get; set; }
+  public virtual DbSet<NotificationEntity> Notifications { get; set; }
+  public virtual DbSet<NotificationTypeEntity> NotificationType { get; set; }
+  public virtual DbSet<NotificationDismissedEntity> NotificationDismissed { get; set; }
+  public virtual DbSet<NotificationTargetGroupEntity> NotificationTargetGroup { get; set; }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

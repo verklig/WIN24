@@ -12,7 +12,7 @@ namespace Webapp.Controllers;
 public class AuthController(IAuthService authService) : Controller
 {
   private readonly IAuthService _authService = authService;
-
+  
   #region Get Login Page
   [HttpGet("login")]
   public IActionResult Login()
@@ -107,7 +107,7 @@ public class AuthController(IAuthService authService) : Controller
   [HttpGet("denied")]
   public IActionResult Denied()
   {
-    return RedirectToAction("Projects", "Projects");
+    return RedirectToAction("Home", "Index");
   }
   #endregion
 }
