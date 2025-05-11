@@ -8,12 +8,14 @@
   <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
   <script type="importmap"></script>
   <script defer src="~/js/site.js" asp-append-version="true"></script>
+  <script defer src="~/js/cookie-consent.js" asp-append-version="true"></script>
   @await Html.PartialAsync("_Favicons")
 </head>
 <body class="secondary-background">
 
   @RenderBody()
 
+  @await Html.PartialAsync("Partials/Components/_CookieConsent")
   @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

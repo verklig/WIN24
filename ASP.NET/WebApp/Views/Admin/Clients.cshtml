@@ -8,7 +8,7 @@
   <h2>
     @ViewData["Title"]
   </h2>
-  <button class="btn btn-blue" data-toggle="add-overlay">
+  <button class="btn btn-blue" onclick="navigateToAdd()">
     <i class="fa-regular fa-plus"></i>
     Add Client
   </button>
@@ -32,3 +32,9 @@ else
 {
   @await Html.PartialAsync("Partials/Components/_AddClientForm", Model.AddClientViewModel)
 }
+
+<script>
+  function navigateToAdd(id) {
+    window.location.href = `/admin/clients/add`;
+  }
+</script>

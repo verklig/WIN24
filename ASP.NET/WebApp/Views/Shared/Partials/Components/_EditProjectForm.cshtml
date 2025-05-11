@@ -101,7 +101,8 @@
         </div>
         <input type="hidden" id="show-add-form" value="@ViewData["ShowAddForm"]">
         <input type="hidden" id="status-id-value" value="@Model.StatusId">
-        <span id="status-validation-error" class="field-validation-error hidden">You must select a status.</span>
+        <input type="hidden" id="show-status-validation-error" class="field-validation-error" value="@((ViewData["ShowStatusValidationError"]?.ToString() == "true").ToString().ToLower())">
+        <span asp-validation-for="StatusId"></span>
       </div>
 
       <label asp-for="Budget" class="input-label"></label>

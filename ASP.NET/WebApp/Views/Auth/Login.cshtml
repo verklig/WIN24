@@ -59,6 +59,13 @@
         </div>
       }
 
+      @if (Context.Request.Query["consentRequired"] == "true")
+      {
+        <div class="validation-summary-errors">
+          <span class="field-validation-error">Please accept cookies before continuing.</span>
+        </div>
+      }
+
       <div class="sign-up flex">
         <label>Don't have an account?</label>
         <a asp-controller="Auth" asp-action="Register">Sign Up</a>

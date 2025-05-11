@@ -1,3 +1,4 @@
+using WebApp.Filters;
 using WebApp.Models;
 using Domain.Dtos;
 using Domain.Extensions;
@@ -31,6 +32,7 @@ public class AuthController(IAuthService authService, SignInManager<UserEntity> 
   #region Post Login
   [HttpPost("login")]
   [ValidateAntiForgeryToken]
+  [ServiceFilter(typeof(RequireCookieConsentFilter))]
   public async Task<IActionResult> HandleLogin(LoginViewModel model, string returnUrl = "~/")
   {
     ViewBag.ErrorMessage = null;
@@ -65,6 +67,7 @@ public class AuthController(IAuthService authService, SignInManager<UserEntity> 
   #region Post Register
   [HttpPost("register")]
   [ValidateAntiForgeryToken]
+  [ServiceFilter(typeof(RequireCookieConsentFilter))]
   public async Task<IActionResult> HandleRegister(RegisterViewModel model, string returnUrl = "~/")
   {
     ViewBag.ErrorMessage = null;
@@ -120,6 +123,7 @@ public class AuthController(IAuthService authService, SignInManager<UserEntity> 
   #region Post External Login
   [HttpPost]
   [ValidateAntiForgeryToken]
+  [ServiceFilter(typeof(RequireCookieConsentFilter))]
   public IActionResult ExternalLogin(string provider, string returnUrl = null!)
   {
     if (string.IsNullOrEmpty(provider))

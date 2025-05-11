@@ -1434,6 +1434,15 @@ a {
   z-index: 2;
 }
 
+.cookie-icon {
+  color: burlywood;
+  font-size: 30px;
+}
+
+.cookie-consent-text {
+  color: var(--color-text-card);
+}
+
 .btn-external-login {
   width: 100%;
 }

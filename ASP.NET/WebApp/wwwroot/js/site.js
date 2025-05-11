@@ -69,6 +69,14 @@ function previewImage(event) {
   reader.readAsDataURL(file);
 }
 
+// Locks the scroll on body if there is an overlay open, and removes it otherwise
+function updateScrollLock() {
+  const overlays = document.querySelectorAll('.overlay');
+  const anyVisible = Array.from(overlays).some(overlay => !overlay.classList.contains('hidden'));
+
+  document.body.classList.toggle('no-scroll', anyVisible);
+}
+
 // Opens menus when clicking their corresponding buttons using the data-toggle attribute
 document.addEventListener("DOMContentLoaded", () => {
   const toggleButtons = document.querySelectorAll("[data-toggle]");
@@ -280,26 +288,27 @@ document.addEventListener("DOMContentLoaded", () => {
   if (shouldShowEdit) {
     document.getElementById('edit-overlay')?.classList.remove('hidden');
   }
+
+  setTimeout(updateScrollLock, 0);
 });
 
 // Error validation for the status id since it's and int instead of a string
 document.addEventListener("DOMContentLoaded", function () {
-  const showAddForm = document.getElementById('show-add-form')?.value === "true";
-  const statusValue = document.getElementById('status-id-value')?.value;
-  const error = document.getElementById('status-validation-error');
+  const showStatusError = document.getElementById('show-status-validation-error')?.value === "true";
 
-  if (showAddForm && statusValue === "0" && error) {
-    error.classList.remove('hidden');
+  if (showStatusError) {
+    const error = document.getElementById('status-validation-error');
+    error?.classList.remove('hidden');
   }
 
-  document.querySelector('.project-form')?.addEventListener('submit', function (e) {
+  document.querySelector('.project-form')?.addEventListener('submit', function () {
     const status = document.getElementById('status-id');
     const error = document.getElementById('status-validation-error');
-  
+
     if (status.value === "0") {
-      error.classList.remove('hidden');
+      error?.classList.remove('hidden');
     } else {
-      error.classList.add('hidden');
+      error?.classList.add('hidden');
     }
   });
 });

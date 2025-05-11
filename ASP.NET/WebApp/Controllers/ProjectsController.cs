@@ -105,6 +105,26 @@ public class ProjectsController(IProjectService projectService, IStatusService s
   }
   #endregion
 
+  #region Get Project Add
+  [HttpGet("add")]
+  public async Task<IActionResult> Add()
+  {
+    var model = new AddProjectViewModel();
+    await PopulateDropdownsAsync(model);
+
+    var projects = await _projectService.GetAllProjectsAsync();
+
+    var viewModel = new ProjectsViewModel
+    {
+      Projects = projects.Result!,
+      AddProjectViewModel = model
+    };
+
+    ViewData["ShowAddForm"] = "true";
+    return View("Projects", viewModel);
+  }
+  #endregion
+
   #region Post Project Add
   [HttpPost("add")]
   [ValidateAntiForgeryToken]
@@ -113,6 +133,12 @@ public class ProjectsController(IProjectService projectService, IStatusService s
     if (string.IsNullOrWhiteSpace(model.SelectedUserIds))
     {
       ModelState.AddModelError(nameof(model.SelectedUserIds), "You must select at least one member.");
+    }
+
+    if (model.StatusId == 0)
+    {
+      ModelState.AddModelError("StatusId", "You must select a status.");
+      ViewData["ShowStatusValidationError"] = true;
     }
 
     if (model.ImageFile != null && model.ImageFile.Length > 0)
@@ -242,6 +268,12 @@ public class ProjectsController(IProjectService projectService, IStatusService s
     if (string.IsNullOrWhiteSpace(model.SelectedUserIds))
     {
       ModelState.AddModelError(nameof(model.SelectedUserIds), "You must select at least one member.");
+    }
+
+    if (model.StatusId == 0)
+    {
+      ModelState.AddModelError("StatusId", "You must select a status.");
+      ViewData["ShowStatusValidationError"] = true;
     }
 
     if (model.ImageFile != null)

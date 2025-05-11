@@ -13,6 +13,8 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddControllersWithViews(options =>
 {
   options.Filters.Add<NotificationsFilter>();
@@ -30,8 +32,6 @@ builder.Services.AddHttpsRedirection(options =>
 {
   options.HttpsPort = 7777;
 });
-
-string? connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddIdentity<UserEntity, IdentityRole>(options =>
@@ -56,8 +56,14 @@ builder.Services.ConfigureApplicationCookie(options =>
   options.Cookie.IsEssential = true;
   options.Cookie.SameSite = SameSiteMode.None;
   options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-  options.ExpireTimeSpan = TimeSpan.FromHours(1);
+  options.ExpireTimeSpan = TimeSpan.FromDays(14);
   options.SlidingExpiration = true;
+});
+builder.Services.Configure<CookiePolicyOptions>(options =>
+{
+  options.CheckConsentNeeded = context => !context.Request.Cookies.ContainsKey("cookieConsent");
+  options.MinimumSameSitePolicy = SameSiteMode.Lax;
+  options.Secure = CookieSecurePolicy.Always;
 });
 builder.Services.AddAuthentication(options =>
 {
@@ -85,6 +91,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<INotificationPusher, NotificationPusher>();
 
 builder.Services.AddScoped<NotificationsFilter>();
+builder.Services.AddScoped<RequireCookieConsentFilter>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -95,6 +102,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();

@@ -39,6 +39,25 @@ public class AdminController(IUserService userService, IImageService imageServic
   }
   #endregion
 
+  #region Get Members Add
+  [HttpGet("members/add")]
+  public async Task<IActionResult> AddMember()
+  {
+    var model = new AddMemberViewModel();
+
+    var users = await _userService.GetAllUsersAsync();
+
+    var viewModel = new MembersViewModel
+    {
+      Users = users.Result!,
+      AddMemberViewModel = model
+    };
+
+    ViewData["ShowAddForm"] = "true";
+    return View("Members", viewModel);
+  }
+  #endregion
+
   #region Post Member Add
   [HttpPost("members/add")]
   [ValidateAntiForgeryToken]
@@ -253,6 +272,25 @@ public class AdminController(IUserService userService, IImageService imageServic
 
       return View(model);
     }
+  }
+  #endregion
+
+  #region Get Clients Add
+  [HttpGet("clients/add")]
+  public async Task<IActionResult> AddClient()
+  {
+    var model = new AddClientViewModel();
+
+    var clients = await _clientService.GetAllClientsAsync();
+
+    var viewModel = new ClientsViewModel
+    {
+      Clients = clients.Result!,
+      AddClientViewModel = model
+    };
+
+    ViewData["ShowAddForm"] = "true";
+    return View("Clients", viewModel);
   }
   #endregion
 
