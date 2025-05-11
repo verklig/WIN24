@@ -1,17 +1,17 @@
 <nav class="nav-links">
-  <a class="nav-link @(Context.Request.Path == "/projects" ? "active" : "")" asp-controller="Projects" asp-action="Projects">
+  <a class="nav-link @(Context.Request.Path.StartsWithSegments("/projects") ? "active" : "")" asp-controller="Projects" asp-action="Projects">
     <img src="~/images/projects-icon.svg" alt="Projects Icon" class="default invert-when-dark">
     <img src="~/images/projects-icon-hover.svg" alt="Projects Icon" class="hover">
     <img src="~/images/projects-icon-hover-dark.svg" alt="Projects Icon" class="hover-dark">
     <span>Projects</span>
   </a>
-  <a class="nav-link @(Context.Request.Path == "/admin/members" ? "active" : "")" asp-controller="Admin" asp-action="Members">
+  <a class="nav-link @(Context.Request.Path.StartsWithSegments("/admin/members") ? "active" : "")" asp-controller="Admin" asp-action="Members">
     <img src="~/images/members-icon.svg" alt="Members Icon" class="default invert-when-dark">
     <img src="~/images/members-icon-hover.svg" alt="Members Icon" class="hover">
     <img src="~/images/members-icon-hover-dark.svg" alt="Members Icon" class="hover-dark">
     <span>Team Members</span>
   </a>
-  <a class="nav-link @(Context.Request.Path == "/admin/clients" ? "active" : "")" asp-controller="Admin" asp-action="Clients">
+  <a class="nav-link @(Context.Request.Path.StartsWithSegments("/admin/clients") ? "active" : "")" asp-controller="Admin" asp-action="Clients">
     <img src="~/images/clients-icon.svg" alt="Clients Icon" class="clients-icon default invert-when-dark">
     <img src="~/images/clients-icon-hover.svg" alt="Clients Icon" class="clients-icon hover">
     <img src="~/images/clients-icon-hover-dark.svg" alt="Clients Icon" class="clients-icon hover-dark">

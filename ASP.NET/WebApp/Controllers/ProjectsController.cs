@@ -107,26 +107,33 @@ public class ProjectsController(IProjectService projectService, IStatusService s
 
   #region Get Project Add
   [HttpGet("add")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> Add()
   {
     var model = new AddProjectViewModel();
     await PopulateDropdownsAsync(model);
 
     var projects = await _projectService.GetAllProjectsAsync();
+    var allProjects = projects.Result!;
 
     var viewModel = new ProjectsViewModel
     {
-      Projects = projects.Result!,
-      AddProjectViewModel = model
+      Projects = allProjects,
+      AddProjectViewModel = model,
+      AllCount = allProjects.Count(),
+      StartedCount = allProjects.Count(p => p.Status?.StatusName == "Started"),
+      CompletedCount = allProjects.Count(p => p.Status?.StatusName == "Completed")
     };
 
     ViewData["ShowAddForm"] = "true";
+
     return View("Projects", viewModel);
   }
   #endregion
 
   #region Post Project Add
   [HttpPost("add")]
+  [Authorize(Roles = "Admin")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> Add(AddProjectViewModel model)
   {
@@ -195,6 +202,7 @@ public class ProjectsController(IProjectService projectService, IStatusService s
 
   #region Get Project Edit
   [HttpGet("edit/{id}")]
+  [Authorize(Roles = "Admin")]
   public async Task<IActionResult> Edit(string id)
   {
     if (string.IsNullOrEmpty(id))
@@ -246,12 +254,16 @@ public class ProjectsController(IProjectService projectService, IStatusService s
       })
     };
 
-    var allProjects = await _projectService.GetAllProjectsAsync();
+    var projects = await _projectService.GetAllProjectsAsync();
+    var allProjects = projects.Result!;
 
     var viewModel = new ProjectsViewModel
     {
-      Projects = allProjects.Result!,
-      EditProjectViewModel = editModel
+      Projects = allProjects,
+      EditProjectViewModel = editModel,
+      AllCount = allProjects.Count(),
+      StartedCount = allProjects.Count(p => p.Status?.StatusName == "Started"),
+      CompletedCount = allProjects.Count(p => p.Status?.StatusName == "Completed")
     };
 
     ViewData["ShowEditForm"] = "true";
@@ -262,6 +274,7 @@ public class ProjectsController(IProjectService projectService, IStatusService s
 
   #region Post Project Edit
   [HttpPost("edit")]
+  [Authorize(Roles = "Admin")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> Edit(EditProjectViewModel model)
   {
@@ -330,6 +343,7 @@ public class ProjectsController(IProjectService projectService, IStatusService s
 
   #region Post Project Delete
   [HttpPost("delete/{id}")]
+  [Authorize(Roles = "Admin")]
   [ValidateAntiForgeryToken]
   public async Task<IActionResult> Delete(string id)
   {
