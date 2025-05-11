@@ -1289,7 +1289,7 @@ a {
     background-color: var(--color-surface);
     box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.1);
     display: grid;
-    grid-template-columns: auto minmax(150px, 300px) minmax(150px, 300px) minmax(150px, 1fr) auto auto;
+    grid-template-columns: auto minmax(130px, 200px) minmax(130px, 200px) minmax(130px, 1fr) auto auto;
     align-items: center;
     gap: 1rem;
     border-radius: 12px;
